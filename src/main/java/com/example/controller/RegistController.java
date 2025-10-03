@@ -77,15 +77,34 @@ public class RegistController {
 	}
 	
 	//이메일 중복검사
-	@ResponseBody
-	@RequestMapping("/emailDupleCheck")
-	public String emailDupleCheck(String email) {
-		//유저 정보 가져오기
-		UserVO user = userservice.getUser(email);
-		if(user == null) 
-			return "success";
-		else return "fail";
-	}
+    @ResponseBody
+    @RequestMapping("/emailDupleCheck")
+    public String emailDupleCheck(String email) {
+        System.out.println("=== 이메일 중복 확인 디버깅 ===");
+
+        try {
+            // 1. 서비스 자체가 null인지 확인
+            if (userservice == null) {
+                System.out.println("ERROR: UserService is null");
+                return "error";
+            }
+
+            // 2. getUser 메서드 호출 시도
+            System.out.println("Calling getUser with email: " + email);
+            UserVO user = userservice.getUser(email);
+            System.out.println("getUser result: " + user);
+
+            if(user == null) {
+                return "success";
+            } else {
+                return "fail";
+            }
+        } catch (Exception e) {
+            System.err.println("EXCEPTION in emailDupleCheck:");
+            e.printStackTrace();
+            return "error";
+        }
+    }
 	
 	//회원가입
 	@Transactional

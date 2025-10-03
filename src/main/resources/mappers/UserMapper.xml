@@ -16,12 +16,26 @@
 	</select>
 	
 	<!--  유저정보 -->
-	<select id="getUser" resultType="UserVO">
-		SELECT * FROM users
-		WHERE EMAIL = #{email}
-	</select>
-	
-	<!--  로그인체크 -->
+    <select id="getUser" resultType="UserVO">
+        SELECT
+        email,
+        username,
+        password,
+        joindate,
+        goal,
+        goalsuccess,
+        height,
+        age,
+        gender,
+        activity,
+        photoid,
+        successdate
+        FROM users
+        WHERE email = #{email}
+    </select>
+
+
+    <!--  로그인체크 -->
 	<select id="loginCheck" resultType="UserVO">
 		SELECT * FROM users
 		WHERE EMAIL = #{email} and PASSWORD = #{password}
@@ -35,20 +49,24 @@
 	</update>
 	
 	<!-- 유저 회원가입 -->
-	<insert id="insertUser" parameterType="UserVO">
-		INSERT INTO users
-		VALUES(#{email}, #{username}, #{password}, sysdate()
-		, #{goal}, 'N', #{height}, #{age}, #{gender}, #{activity}, null, null)
-	</insert>
-	
-	<!-- 비밀번호 변경 -->
+    <insert id="insertUser" parameterType="com.example.domain.UserVO">
+        INSERT INTO users (
+        email, username, password, joindate, goal, goalsuccess, height, age, gender, activity, photoid, successdate
+        ) VALUES (
+        #{email}, #{username}, #{password}, sysdate(),
+        #{goal}, #{goalsuccess}, #{height}, #{age}, #{gender}, #{activity}, null, null
+        )
+    </insert>
+
+
+    <!-- 비밀번호 변경 -->
 	<update id="passwordchange" parameterType="UserVO">
 		UPDATE users SET password = #{password}
 		WHERE email = #{email}
 	</update>
 	
 	<!--  회원정보 수정 -->
-	<update id="updateUserInfo" parameterType="userVO">
+	<update id="updateUserInfo" parameterType="UserVO">
 		UPDATE users 
  		SET height = #{height}, goal = #{goal}, activity = #{activity}
  		WHERE email = #{email}

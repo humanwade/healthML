@@ -302,35 +302,35 @@
 		document.getElementById('passwordCheck').addEventListener('keyup', validateForm);
 
 		function checkDuplicateEmail() {
-		    const email = document.getElementById('email').value;
-		    const emailError = document.getElementById('emailError').style.display;
-		    if (email) {
-		        // 여기에 중복 이메일 확인 로직을 추가하세요.
-		        if (emailError == 'none') {
-		            $.ajax({
-		                url: 'emailDupleCheck?email=' + email,
-		                type: 'get',
-		                success: function(result) {
-		                    if (result == 'success') {
-		                        emailDupleCheck = true;
-		                        alert("사용가능한 이메일입니다.");
-		                    } else {
-		                        emailDupleCheck = false;
-		                        alert("중복된 이메일입니다.");
-		                    }
-		                },
-		                error: function(a, b, c) {
-		                    alert('실패');
-		                    console.log(a)
-		                    console.log(b)
-		                    console.log(c)
-		                }
-		            });
-		        } else return;
-		    } else {
-		        alert('이메일을 입력해주세요.');
-		    }
-		}
+            const email = document.getElementById('email').value;
+            const emailError = document.getElementById('emailError').style.display;
+
+            if (email) {
+                if (emailError == 'none') {
+                    $.ajax({
+                        url: '/regist/emailDupleCheck?email=' + encodeURIComponent(email),
+                        type: 'get',
+                        success: function(result) {
+                            if (result === 'success') {
+                                emailDupleCheck = true;
+                                alert("사용가능한 이메일입니다.");
+                            } else {
+                                emailDupleCheck = false;
+                                alert("중복된 이메일입니다.");
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            alert('AJAX 요청 실패: ' + xhr.status);
+                            console.log("status:", status);
+                            console.log("error:", error);
+                        }
+                    });
+                } else return;
+            } else {
+                alert('이메일을 입력해주세요.');
+            }
+        }
+
 
 		$('#profile-goal-form').keyup(function(evt) {
 		    console.log(evt.target.id);
