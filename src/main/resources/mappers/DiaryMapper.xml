@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.dao.DiaryDAO">
+
+	<insert id="insertDiary" parameterType='DiaryVO' useGeneratedKeys="true" keyProperty="datano">
+		INSERT INTO diary(diarydate, history, photoid, email, foodname)
+		VALUES(#{diarydate}, #{history}, #{photoid}, #{email}, #{foodname})
+	</insert>
+	<select id="getDiary" resultType="hashmap">
+		SELECT * FROM diary d 
+		LEFT JOIN photos p 
+		ON d.PHOTOID = p.PHOTOID
+		INNER JOIN foodinfo f
+		ON d.FOODNAME = f.FOODNAME
+		WHERE email = #{email} 
+			AND diarydate = #{seldate}
+		ORDER BY d.datano DESC
+	</select>
+	<select id="getFoodInfo" resultType="FoodInfoVO">
+		SELECT * FROM foodinfo
+	</select>
+	
+	<!-- 다이어리차트 칼로리, 탄단지 합계 -->
+	<select id="getDiaryChartSum" resultType="hashmap">
+		SELECT * FROM
+		(	SELECT d.DIARYDATE diarydate, round(sum(f.CALORIES)) calsum,
+			round(sum(f.CARBOHYDRATES)) carbsum,
+			round(sum(f.PROTEINS)) proteinsum,
+			round(sum(f.FATS)) fatsum
+			FROM diary d 
+			INNER JOIN foodinfo f 
+			ON f.FOODNAME = d.FOODNAME
+			WHERE d.EMAIL = #{email}
+			AND d.diarydate &lt;= #{seldate}
+			GROUP BY d.DIARYDATE
+			ORDER BY d.DIARYDATE DESC
+			LIMIT 5
+		)as sub
+		ORDER BY diarydate
+	</select>
+	
+	<!-- 리포트페이지 차트데이터 -->
+	<select id="getReportChart" resultType="hashmap">
+		SELECT 
+		YEAR(d.DIARYDATE) AS year,
+		MONTH(d.DIARYDATE) AS month,
+		WEEK(d.DIARYDATE, 0) - WEEK(DATE_SUB(d.DIARYDATE, 
+			INTERVAL DAYOFMONTH(d.DIARYDATE) - 1 DAY), 0)+ 1
+		AS week,
+		round(avg(f.CALORIES)) AS calsum,
+		round(avg(f.CARBOHYDRATES)) carbsum,
+		round(avg(f.PROTEINS)) proteinsum,
+	    round(avg(f.FATS)) fatsum
+		FROM diary d
+		INNER JOIN foodinfo f 
+		ON d.FOODNAME = f.FOODNAME
+		WHERE d.EMAIL = #{email}
+		GROUP BY 
+		YEAR(d.DIARYDATE), 
+		MONTH(d.DIARYDATE), 
+		week
+		HAVING month = #{month} AND year = #{year}
+		ORDER BY year, month, week;
+	</select>
+	
+	<!-- 다이어리 이미지 삭제 -->
+	<!-- 사진 아이디 가져오기 -->
+	<select id='getDeleteDiary'>
+		SELECT * FROM diary
+		WHERE datano = #{datano}
+	</select>
+	<!-- 다이어리 삭제 -->
+	<delete id='deleteDiary'>
+		DELETE FROM diary
+		WHERE datano = #{datano};
+	</delete>
+	<!-- 이미지 삭제 -->
+	<delete id='deletePhoto'>
+		DELETE FROM photos
+		WHERE photoid = #{photoid};
+	</delete>
+</mapper>

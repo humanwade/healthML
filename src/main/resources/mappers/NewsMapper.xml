@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.dao.NewsDAO">
+
+	<select id="getNewsList" resultType="NewsVO">
+	
+		SELECT * FROM news
+		<if test='search != null and search != ""'>
+			WHERE title LIKE '%${search}%'
+		</if>
+		ORDER BY rand()
+		LIMIT #{start}, 8
+	</select>
+	
+</mapper>

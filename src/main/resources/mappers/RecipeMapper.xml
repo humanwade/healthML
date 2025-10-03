@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.dao.RecipeDAO">
+
+	<select id="getRecipeList" resultType="RecipeVO">
+	
+		SELECT * FROM recipe
+		<where>
+			<if test="category != null and category!=''">
+				and category = #{category}
+			</if>
+			<if test="search != null">
+				and menuname LIKE '%${search}%'
+			</if>
+		</where>
+		ORDER BY recipeno
+		LIMIT #{start}, 9
+		
+	</select>
+	
+	<select id="getRecipe" resultType="RecipeVO">
+	
+		SELECT * FROM recipe
+		WHERE recipeno = #{recipeno}
+		
+	</select>
+	
+	<!-- 레시피 토탈페이지 수 -->
+	<select id="getTotalPage" resultType='int'>
+		SELECT CEIL(count(*)/9) FROM recipe
+		<where>
+			<if test="category != null and category != ''">
+				and category = #{category}
+			</if>
+			<if test="search != null">
+				and menuname LIKE '%${search}%'
+			</if>
+		</where>
+	</select>
+
+	<!--  메인페이지 레시피 -->
+	<select id='mainPageRecipe' resultType='RecipeVO'>
+		SELECT * FROM recipe
+		WHERE category = '건강식'
+		ORDER BY rand()
+		LIMIT 1;
+	</select>
+	
+	<!-- 메인페이지 레시피 차트 -->
+	<select id="mainPageChart" resultType='hashmap'>
+	SELECT count(*) count, '당근' ingredient FROM recipe
+	WHERE ingredient LIKE '%당근%'
+	UNION ALL 
+	SELECT count(*), '양파' FROM recipe
+	WHERE ingredient LIKE '%양파%'
+	UNION ALL
+	SELECT count(*), '마늘' FROM recipe
+	WHERE ingredient LIKE '%마늘%'
+	UNION ALL
+	SELECT count(*), '토마토' FROM recipe
+	WHERE ingredient LIKE '%토마토%'
+	UNION ALL
+	SELECT count(*), '호박' FROM recipe
+	WHERE ingredient LIKE '%호박%'
+	UNION ALL
+	SELECT count(*), '계란' FROM recipe
+	WHERE ingredient LIKE '%계란%'
+	UNION ALL
+	SELECT count(*), '아보카도' FROM recipe
+	WHERE ingredient LIKE '%아보카도%'
+	UNION ALL
+	SELECT count(*), '브로콜리' FROM recipe
+	WHERE ingredient LIKE '%브로콜리%'
+	UNION ALL
+	SELECT count(*), '시금치' FROM recipe
+	WHERE ingredient LIKE '%시금치%'
+	UNION ALL
+	SELECT count(*), '피망' FROM recipe
+	WHERE ingredient LIKE '%피망%'
+	order by count desc
+	</select>
+	
+	<!-- 메인페이지 레시피 출력 -->
+	<select id="getRecipeMain" resultType="RecipeVO">
+		SELECT * FROM recipe
+		ORDER BY rand()
+		LIMIT 1
+	</select>
+	
+</mapper>

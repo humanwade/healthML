@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.dao.AdminExerciseDAO">
+	
+	<!-- 관리자 운동리스트 등록하기 -->
+	<insert id="insertexercise" parameterType="WorkoutVO">
+		INSERT INTO WORKOUT (workvideoid,workname,workcategory,description)
+		VALUES( #{workvideoid},#{workname},#{workcategory},#{description})
+	</insert>
+	
+	<!-- 관리자 운동리스트 불러오기 -->
+	<select id='getWorkoutList' resultType='WorkoutVO'>
+		SELECT * FROM WORKOUT
+	</select>
+	
+	<!-- 관리자 운동리스트 삭제 -->
+	<delete id="deleteExercise">
+    DELETE FROM WORKOUT
+    WHERE workid = #{workid}
+	</delete>
+	
+	<!-- 관리자 운동리스트 수정 -->
+	<update id="exerciseupdate" parameterType="WorkoutVO" >
+		UPDATE WORKOUT
+			SET	workname = #{workname},
+				workcategory = #{workcategory},
+				workvideoid = #{workvideoid},
+				description = #{description}
+			WHERE workid = #{workid}
+	</update>
+	
+	
+</mapper>

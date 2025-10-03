@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.dao.AdminNewsDAO">
+	
+	<!-- 관리자 뉴스리스트 불러오기 -->	
+	<select id="getNewsList" resultType="NewsVO">
+		SELECT *
+		FROM NEWS
+	</select>
+
+	<!-- 관리자 뉴스리스트 삭제 -->
+	<delete id="deleteNews">
+		DELETE FROM NEWS
+		WHERE newsid IN (${newsid})
+	</delete>
+	
+</mapper>

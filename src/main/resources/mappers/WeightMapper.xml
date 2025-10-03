@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.dao.WeightDAO">
+
+	<insert id="insertWeight" parameterType="WeightVO">
+		INSERT INTO weight(weight, weightdate, email)
+		VALUES (#{weight}, 
+		<if test="weightdate != null">#{weightdate},</if>
+		<if test="weightdate == null">curdate(),</if>
+		#{email})
+	</insert>
+	
+	<select id="seldayWeight" parameterType="WeightVO" resultType="WeightVO">
+		SELECT * FROM weight
+		WHERE email = #{email}
+		AND weightdate = #{weightdate}
+		ORDER BY weightdate desc
+		LIMIT 1;
+	</select>
+	
+	<update id="updateWeight" parameterType="weightVO">
+		UPDATE weight
+		SET weight= #{weight}
+		WHERE email = #{email} and weightdate=#{weightdate}
+	</update>
+	
+	<!--  다이어리 페이지 몸무게 차트 -->
+	<select id="getWeights" resultType="WeightVO">
+		SELECT * FROM
+		(	SELECT * from weight
+			WHERE email=#{email}
+			<if test="seldate!=null">AND weightdate &lt;= #{seldate}</if>
+			<if test="seldate==null">AND weightdate &lt;= curdate()</if>
+			ORDER BY weightdate DESC
+			LIMIT 5
+		) as sub
+		ORDER BY weightdate
+	</select>
+</mapper>

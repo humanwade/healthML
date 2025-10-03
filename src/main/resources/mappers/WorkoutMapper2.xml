@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.dao.WorkoutDAO">
+
+	<select id="getWorkoutList" resultType="WorkoutVO">
+	
+		SELECT * FROM workout
+		ORDER BY workid
+		LIMIT 0, 12
+	</select>
+	
+	<!-- 레시피 토탈페이지 수 -->
+	<select id="getTotalPage" resultType='int'>
+		SELECT CEIL(count(*)/9) FROM recipe
+	</select>
+	
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.dao.WorkoutDAO">
+
+	<select id="getWorkoutList" resultType="WorkoutVO">
+	
+		SELECT * FROM workout
+		WHERE workname like '%${search}%'
+		OR workcategory like '%${search}%'
+		ORDER BY workid
+	</select>
+	
+	<!-- 레시피 토탈페이지 수 -->
+	<select id="getTotalPage" resultType='int'>
+		SELECT CEIL(count(*)/9) FROM recipe
+	</select>
+	
+	<select id="mainworkout" resultType="WorkoutVO">
+		SELECT * FROM workout
+		ORDER BY rand()
+		LIMIT 1;
+	</select>
+	
+	<!-- 유튜브 동영상 제거 -->
+	<delete id="workVideoDelete">
+		DELETE FROM workout
+		WHERE workvideoid = #{videoid}
+	</delete>
+
+	<!-- 운동카테고리 불러오기 -->
+	<select id="workcate" resultType="WorkcateVO">
+		SELECT * FROM workcate;
+	</select>
+	
+	<!-- 메인페이지 운동시간 입력 -->
+	<insert id="insertWorkDiary" parameterType="WorkDiaryVO">
+		INSERT workdiary(workcatename, email, worktime, workdiarydate)
+		VALUES (#{workcatename}, #{email}, #{worktime}, curdate())
+	</insert>
+	
+	<!-- 운동 칼로리 소모량 -->
+	<select id="workcal" resultType="hashmap">
+		SELECT w.email , wd.workdiarydate, 
+		round(sum(w.WEIGHT * wc.mets * wd.worktime),1) workcal, 
+		sum(wd.worktime) worktime
+		FROM weight w
+		JOIN workdiary wd ON wd.email = w.EMAIL
+		JOIN workcate wc ON wc.workcatename = wd.workcatename
+		WHERE w.email = #{email} and wd.workdiarydate = #{seldate}
+		AND w.WEIGHTDATE  = (
+		    SELECT MAX(w2.WEIGHTDATE)
+		    FROM weight w2
+		    WHERE w2.email = w.email
+		)
+		AND wd.workdiarydate = curdate()
+		GROUP BY w.email, wd.workdiarydate
+	</select>
+	
+	<!--   운동 상세페이지 운동불러오기  -->
+	<select id="getWorkout" resultType="WorkoutVO"> 
+		SELECT * FROM workout WHERE workid = #{exerciseno} 
+	</select>
+	
+</mapper>
