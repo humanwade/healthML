@@ -34,7 +34,6 @@
 </head>
 
 <body>
-
 	<div style="" class="pages-wrapper">
 	    <section class="section authentication">
 	        <div class="container">
