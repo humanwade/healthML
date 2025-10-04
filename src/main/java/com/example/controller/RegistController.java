@@ -34,6 +34,7 @@ public class RegistController {
 	
 	@RequestMapping("/start")
 	public String home(HttpSession sess) {
+        System.out.println("🔥 /regist/start 진입");
 		sess.removeAttribute("user");
 		return "regist/regist_start";
 	}

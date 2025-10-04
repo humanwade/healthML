@@ -5,31 +5,32 @@
 <mapper namespace="com.example.dao.UserDAO">
 
 	<!-- 유저정보 몸무게 포함 -->
-	<select id="getUser_curWeight" resultType="hashmap">
-		SELECT * FROM users u LEFT JOIN 
-		weight w ON u.EMAIL  = w.EMAIL
-		LEFT JOIN userphoto up
-		ON u.PHOTOID  = up.PROFILEID 
-		WHERE u.EMAIL = #{email}
-		order by w.WEIGHTDATE desc 
-		limit 1;
-	</select>
+    <select id="getUser_curWeight" resultType="com.example.domain.UserVO">
+        SELECT
+        u.email AS email,
+        u.username AS username,
+        u.password AS password,
+        u.joindate AS joindate,
+        u.goal AS goal,
+        u.goalsuccess AS goalsuccess,
+        u.height AS height,
+        u.age AS age,
+        u.gender AS gender,
+        u.activity AS activity,
+        u.photoid AS photoid,
+        u.successdate AS successdate,
+        w.weight AS weight
+        FROM users u
+        LEFT JOIN weight w ON u.email = w.email
+        LEFT JOIN userphoto up ON u.photoid = up.profileid
+        WHERE u.email = #{email}
+        ORDER BY w.weightdate DESC
+        LIMIT 1
+    </select>
 	
 	<!--  유저정보 -->
     <select id="getUser" resultType="UserVO">
-        SELECT
-        email,
-        username,
-        password,
-        joindate,
-        goal,
-        goalsuccess,
-        height,
-        age,
-        gender,
-        activity,
-        photoid,
-        successdate
+        SELECT *
         FROM users
         WHERE email = #{email}
     </select>

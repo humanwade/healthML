@@ -9,5 +9,6 @@ public class WorkDiaryVO {
 	private String workcatename;
 	private String email;
 	private String worktime;
+    private String workdiarydate;
 	
 }

@@ -34,13 +34,14 @@
 </head>
 
 <body>
+
 	<div style="" class="pages-wrapper">
 	    <section class="section authentication">
 	        <div class="container">
 	            <div class="authentication-content">
 	                <div class="log-in">
 	                    <div class="sign-in-form-wrap w-form">
-	                        <form id="wf-form-Register-Email-Form" name="wf-form-Register-Email-Form" data-name="Register Email Form" method="post" class="sign-in-form" data-wf-page-id="6634a93befaafa41dc30c188" data-wf-element-id="d7edf9eb-6d83-af9a-64b5-f9fc971d2db7">
+	                        <form id="wf-form-Register-Email-Form" name="wf-form-Register-Email-Form" data-name="Register Email Form" action='#' method="post" class="sign-in-form" data-wf-page-id="6634a93befaafa41dc30c188" data-wf-element-id="d7edf9eb-6d83-af9a-64b5-f9fc971d2db7">
 	                            <div class="sign-in-form-content-wrap">
 	                                <h3 class="sign-in-title">CALORIES CUT 로그인</h3>
 	                            </div>
@@ -93,7 +94,7 @@
 	                    url: "loginCheck?email=" + email + "&password=" + pass,
 	                    type: "GET",
 	                    success: function(result) {
-	                        if (result == 'success')
+	                        if (result.trim() === 'success')
 	                            location = "/index";
 	                        else alert("이메일 또는 비밀번호가 올바르지 않습니다.");
 	                    },

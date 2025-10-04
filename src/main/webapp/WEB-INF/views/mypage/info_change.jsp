@@ -79,38 +79,38 @@
 	                                    <div class="info-group2-inline">
 	                                        <div class="info-group2">
 	                                            <label style="margin-bottom:20px;">이름</label>
-	                                            <span style="margin-bottom:20px;">${user.USERNAME}</span>
+	                                            <span style="margin-bottom:20px;">${user.username}</span>
 	                                        </div>
 	                                    </div>
 	                                    <div class="info-group2-inline">
 	                                        <div class="info-group2">
 	                                            <label style="margin-bottom:20px;">성별</label>
-	                                            <span style="margin-bottom:20px;">${user.GENDER}</span>
+	                                            <span style="margin-bottom:20px;">${user.gender}</span>
 	                                        </div>
 	                                        <div class="info-group2">
 	                                            <label style="margin-bottom:20px;">나이</label>
-	                                            <span style="margin-bottom:20px;">${user.AGE}세</span>
+	                                            <span style="margin-bottom:20px;">${user.age}세</span>
 	                                        </div>
 	                                    </div>
 	                                    <div class="info-group2-inline">
 	                                        <div class="info-group2">
 	                                            <label style="margin-bottom:20px;">이메일</label>
-	                                            <span style="margin-bottom:20px;">${user.EMAIL}</span>
+	                                            <span style="margin-bottom:20px;">${user.email}</span>
 	                                        </div>
 
 	                                        <div class="info-group2">
 	                                            <label style="margin-bottom:20px;">몸무게 (kg)</label>
-	                                            <span style="margin-bottom:20px;">${user.WEIGHT}</span>
+	                                            <span style="margin-bottom:20px;">${user.weight}</span>
 	                                        </div>
 	                                    </div>
 	                                    <div class="info-group2-inline">
 	                                        <div class="info-group2">
 	                                            <label style="margin-bottom:20px;">키 (cm)</label>
-	                                            <input class='mypage-height' type="text" placeholder="${user.HEIGHT}" style="margin-bottom:20px;">
+	                                            <input class='mypage-height' type="text" placeholder="${user.height}" style="margin-bottom:20px;">
 	                                        </div>
 	                                        <div class="info-group2">
 	                                            <label for="input-field">목표</label>
-	                                            <span class="mypage-goal">${user.GOAL}</span>
+	                                            <span class="mypage-goal">${user.goal}</span>
 	                                            <div class="input-with-dropdown">
 	                                                <select id="dropdown-menu-goal">
 	                                                    <option value="체중증량">체중증량</option>
@@ -121,7 +121,7 @@
 	                                        </div>
 	                                        <div class="info-group2">
 	                                            <label for="input-field">활동량</label>
-	                                            <span class="mypage-activity">${user.ACTIVITY}</span>
+	                                            <span class="mypage-activity">${user.activity}</span>
 	                                            <div class="input-with-dropdown">
 	                                                <select id="dropdown-menu-activity">
 	                                                    <option value="비활동적">비활동적</option>
@@ -152,8 +152,8 @@
     <script src="../js/webflow.js" type="text/javascript"></script>
    <script>
 
-	   let goal = "${user.GOAL}";
-	   let activity = "${user.ACTIVITY}"
+	   let goal = "${user.goal}";
+	   let activity = "${user.activity}"
 
 	   $('#dropdown-menu-goal').val(goal);
 	   $('#dropdown-menu-activity').val(activity);
@@ -169,7 +169,7 @@
 			let newgoal = $('#dropdown-menu-goal').val();
 			let newheight = $('.mypage-height').val();
 			let newactivity =$('#dropdown-menu-activity').val();
-			if(newheight=="") newheight=${user.HEIGHT};
+			if(newheight=="") newheight=${user.height};
 			window.location.href = "changeInfo?goal="+newgoal+"&height="+newheight+"&activity="+newactivity; 
 	   });
  

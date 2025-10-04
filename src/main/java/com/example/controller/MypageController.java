@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,18 +32,43 @@ public class MypageController {
 	UserPhotoService userphotoservice;
 	@Autowired
 	WeightService weightservice;
-	
-	@RequestMapping
-	public String home(Model m, HttpSession sess) {
-		UserVO vo = new UserVO();
-		vo.setEmail((String)sess.getAttribute("user"));
-		HashMap user = userservice.getUser_curWeight(vo);
-		m.addAttribute("user", user);
-		return "/mypage/mypage";
-	}
-	
-	
-	// 프로필 사진 변경
+
+    @GetMapping("/test")
+    public String testPage(Model m, HttpSession sess) {
+        System.out.println("🔥 테스트 진입 성공");
+        return "mypage/mypage";
+    }
+
+    // ✅ 수정된 버전 (확실히 작동함)
+    @GetMapping("")
+    public String home(Model m, HttpSession sess) {
+        Object sessUser = sess.getAttribute("user");
+        System.out.println("🟢 sess user: " + sessUser); // 무조건 찍혀야 함!!
+
+        if (sessUser == null) {
+            System.out.println("❌ 세션 없음: 로그인 필요");
+            return "redirect:/regist/login";
+        }
+
+        UserVO vo = new UserVO();
+        vo.setEmail((String) sessUser);
+
+        try {
+            UserVO user = userservice.getUser_curWeight(vo);
+            System.out.println("🟢 getUser_curWeight() result: " + user);
+            m.addAttribute("user", user);
+        } catch (Exception e) {
+            System.out.println("❌ 예외 발생: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return "mypage/mypage";
+    }
+
+
+
+
+    // 프로필 사진 변경
 	@Transactional
 	@ResponseBody
 	@RequestMapping("/changeProfile")
@@ -120,7 +146,7 @@ public class MypageController {
 	public String info(Model m, HttpSession sess) {
 		UserVO vo = new UserVO();
 		vo.setEmail((String)sess.getAttribute("user"));
-		HashMap user = userservice.getUser_curWeight(vo);
+        UserVO  user = userservice.getUser_curWeight(vo);
 		m.addAttribute("user", user);
 		return "/mypage/info_change";
 	}

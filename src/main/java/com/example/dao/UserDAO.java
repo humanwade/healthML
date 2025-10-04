@@ -8,7 +8,7 @@ import com.example.domain.UserVO;
 @Mapper
 public interface UserDAO {
 	
-	public HashMap getUser_curWeight(UserVO login);
+	public UserVO  getUser_curWeight(UserVO login);
 	public UserVO getUser(@Param("email") String email);
 	public UserVO loginCheck(UserVO user);
 	public void updateProfile(UserVO user);

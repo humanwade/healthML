@@ -50,7 +50,7 @@ public class DiaryController {
 		if(sess.getAttribute("user")==null)
 			return"redirect:/regist/login";
 		UserVO user = userservice.getUser((String)sess.getAttribute("user"));
-		HashMap userinfo = userservice.getUser_curWeight(user);
+        UserVO  userinfo = userservice.getUser_curWeight(user);
 		String email = (String)sess.getAttribute("user");
 		
 		//seldate가 null이면 오늘날짜입력

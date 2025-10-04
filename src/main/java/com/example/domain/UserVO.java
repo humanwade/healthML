@@ -23,6 +23,7 @@ public class UserVO {
 	private String activity;
 	private Integer photoid;
 	private Date successdate;
+    private Double weight;
 
 	// 관리자 차트 불러오는 변수
 	private int month;

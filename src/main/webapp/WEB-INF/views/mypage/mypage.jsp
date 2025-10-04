@@ -88,7 +88,7 @@
 	                                                </td>
 	                                            </tr>
 	                                            <tr>
-	                                                <td><span style="width: 45%; padding-bottom:50px margin-bottom:50px">${user.USERNAME}</span></td>
+	                                                <td><span style="width: 45%; padding-bottom:50px margin-bottom:50px">${user.username}</span></td>
 	                                            </tr>
 	                                            <tr>
 	                                                <td> &nbsp; </td>
@@ -99,35 +99,35 @@
 	                                    <div class="info-group2-inline">
 	                                        <div class="info-group2">
 	                                            <label style="margin-bottom:20px;">성별</label>
-	                                            <span style="margin-bottom:20px;">${user.GENDER}</span>
+	                                            <span style="margin-bottom:20px;">${user.gender}</span>
 	                                        </div>
 	                                        <div class="info-group2">
 	                                            <label style="margin-bottom:20px;">나이</label>
-	                                            <span style="margin-bottom:20px;">${user.AGE}</span>
+	                                            <span style="margin-bottom:20px;">${user.age}</span>
 	                                        </div>
 	                                    </div>
 	                                    <div class="info-group2-inline">
 	                                        <div class="info-group2">
 	                                            <label style="margin-bottom:20px;">이메일</label>
-	                                            <span style="margin-bottom:20px;">${user.EMAIL}</span>
+	                                            <span style="margin-bottom:20px;">${user.email}</span>
 	                                        </div>
 	                                        <div class="info-group2">
 	                                            <label style="margin-bottom:20px;">몸무게 </label>
-	                                            <span style="margin-bottom:20px;">${user.WEIGHT}(kg)</span>
+	                                            <span style="margin-bottom:20px;">${user.weight}(kg)</span>
 	                                        </div>
 	                                    </div>
 	                                    <div class="info-group2-inline">
 	                                        <div class="info-group2">
 	                                            <label style="margin-bottom:20px;">키 </label>
-	                                            <span style="margin-bottom:20px;">${user.HEIGHT} (cm)</span>
+	                                            <span style="margin-bottom:20px;">${user.height} (cm)</span>
 	                                        </div>
 	                                        <div class="info-group2">
 	                                            <label style="margin-bottom:20px;">목표</label>
-	                                            <span style="margin-bottom:20px;">${user.GOAL}</span>
+	                                            <span style="margin-bottom:20px;">${user.goal}</span>
 	                                        </div>
 	                                        <div class="info-group2">
 	                                            <label style="margin-bottom:20px;">활동량</label>
-	                                            <span style="margin-bottom:20px;">${user.ACTIVITY}</span>
+	                                            <span style="margin-bottom:20px;">${user.activity}</span>
 	                                        </div>
 	                                    </div>
 	                                    <div class="btn2">

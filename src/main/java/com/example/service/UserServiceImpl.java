@@ -10,12 +10,12 @@ import com.example.domain.UserVO;
 
 @Service
 public class UserServiceImpl implements UserService {
-	
+
 	@Autowired
 	private UserDAO dao;
 
 	@Override
-	public HashMap getUser_curWeight(UserVO login) {
+	public UserVO  getUser_curWeight(UserVO login) {
 		return dao.getUser_curWeight(login);
 	}
 
@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void insertUser(UserVO user) {
 		dao.insertUser(user);
-		
+
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 	public void updateUserInfo(UserVO user) {
 		dao.updateUserInfo(user);
 	}
-	
-	
+
+
 
 }
