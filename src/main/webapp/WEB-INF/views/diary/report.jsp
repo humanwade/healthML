@@ -242,11 +242,11 @@
 										        <c:forEach items="${diaries}" var="diary" end='2'>
 										            <div class="photo-box-report">
 														<span class="close">&times;</span>
-														<c:if test="${diary.UPLOADNAME!=null}">
-										                	<img src="/files/${diary.UPLOADNAME}" alt="${diary.DATANO}">
+														<c:if test="${diary.uploadname!=null}">
+										                	<img src="/files/${diary.uploadname}" alt="${diary.datano}">
 														</c:if>
-														<c:if test="${diary.UPLOADNAME==null}">
-										                	<img src="/images/CClogo.png" alt="${diary.DATANO}">
+														<c:if test="${diary.uploadname==null}">
+										                	<img src="/images/CClogo.png" alt="${diary.datano}">
 														</c:if>
 										            </div>
 										        </c:forEach>
@@ -555,7 +555,7 @@
 				let page = 1;
 
 				<c:forEach items="${diaries}" var="diary">
-				    item.push({"img":'${diary.UPLOADNAME}', "diaryno" : '${diary.DATANO}'});
+				    item.push({"img":'${diary.uploadname}', "diaryno" : '${diary.datano}'});
 				</c:forEach>
 
 				function updateSlides() {
