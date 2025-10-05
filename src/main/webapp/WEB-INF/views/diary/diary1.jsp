@@ -162,7 +162,6 @@
 </head>
 
 <body class="body">
-
     <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar-wrapper w-nav">
         <div class="main-container w-container">
             <div class="nav-wrapper">
@@ -236,9 +235,9 @@
 	                                <c:set var="fatsum" value="0" />
 	                                <c:forEach items="${result}" var="meals">
 	                                    <c:forEach items="${meals}" var="meal">
-	                                        <c:set var="carbsum" value="${carbsum+meal.CARBOHYDRATES}" />
-	                                        <c:set var="proteinsum" value="${proteinsum+meal.PROTEINS}" />
-	                                        <c:set var="fatsum" value="${fatsum+meal.FATS}" />
+	                                        <c:set var="carbsum" value="${carbsum+meal.carbohydrates}" />
+	                                        <c:set var="proteinsum" value="${proteinsum+meal.proteins}" />
+	                                        <c:set var="fatsum" value="${fatsum+meal.fats}" />
 	                                    </c:forEach>
 	                                </c:forEach>
 	                                <div class="nutrients">
@@ -339,7 +338,7 @@
 	                                    <p>아침</p>
 	                                    <c:set var="calsum1" value="0" />
 	                                    <c:forEach items="${result[0]}" var="breakfast">
-	                                        <c:set var="calsum1" value="${calsum1+breakfast.CALORIES}" />
+	                                        <c:set var="calsum1" value="${calsum1+breakfast.calories}" />
 	                                    </c:forEach>
 	                                    <p class="rmcal1"></p>
 	                                    <input type="file" id="profilePicInput1" accept="image/*" style="display: none;">
@@ -349,7 +348,7 @@
 	                                    <p>점심</p>
 	                                    <c:set var="calsum2" value="0" />
 	                                    <c:forEach items="${result[1]}" var="lunch">
-	                                        <c:set var="calsum2" value="${calsum2+lunch.CALORIES}" />
+	                                        <c:set var="calsum2" value="${calsum2+lunch.calories}" />
 	                                    </c:forEach>
 	                                    <p class='rmcal2'></p>
 	                                    <input type="file" id="profilePicInput2" accept="image/*" style="display: none;">
@@ -359,7 +358,7 @@
 	                                    <p>저녁</p>
 	                                    <c:set var="calsum3" value="0" />
 	                                    <c:forEach items="${result[2]}" var="dinner">
-	                                        <c:set var="calsum3" value="${calsum3+dinner.CALORIES}" />
+	                                        <c:set var="calsum3" value="${calsum3+dinner.calories}" />
 	                                    </c:forEach>
 	                                    <p class='rmcal3'></p>
 	                                    <input type="file" id="profilePicInput3" accept="image/*" style="display: none;">
@@ -369,7 +368,7 @@
 	                                    <p>간식</p>
 	                                    <c:set var="calsum4" value="0" />
 	                                    <c:forEach items="${result[3]}" var="snack">
-	                                        <c:set var="calsum4" value="${calsum4+snack.CALORIES}" />
+	                                        <c:set var="calsum4" value="${calsum4+snack.calories}" />
 	                                    </c:forEach>
 	                                    <p class="rmcal4"></p>
 	                                    <input type="file" id="profilePicInput4" accept="image/*" style="display: none;">
@@ -380,14 +379,14 @@
 	                                <div class="photos">
 	                                    <div class="photo-box" id="photoBox1">
 	                                        <c:forEach items="${result[0]}" var="photo" varStatus="stat">
-												<c:if test="${photo.PHOTOID!=null}">
-		                                            <a href="/files/${photo.UPLOADNAME}" data-fancybox="gallery1">
+												<c:if test="${photo.photoid!=null}">
+		                                            <a href="/files/${photo.uploadname}" data-fancybox="gallery1">
 		                                                <c:if test="${stat.index==0}">
-		                                                    <img src="/files/${photo.UPLOADNAME}" id="profilePicPreview1" alt="식사기록 사진" class="responsive-img" style="display: block;">
+		                                                    <img src="/files/${photo.uploadname}" id="profilePicPreview1" alt="식사기록 사진" class="responsive-img" style="display: block;">
 		                                                </c:if>
 		                                            </a>
 												</c:if>
-												<c:if test="${photo.PHOTOID==null}">
+												<c:if test="${photo.photoid==null}">
 		                                            <a href="/images/CClogo.png" data-fancybox="gallery1">
 		                                                <c:if test="${stat.index==0}">
 		                                                    <img src="/images/CClogo.png" id="profilePicPreview1" alt="식사기록 사진" class="responsive-img" style="display: block;">
@@ -398,14 +397,14 @@
 	                                    </div>
 	                                    <div class="photo-box" id="photoBox2">
 	                                        <c:forEach items="${result[1]}" var="photo" varStatus="stat">
-												<c:if test="${photo.PHOTOID!=null}">
-		                                            <a href="/files/${photo.UPLOADNAME}" data-fancybox="gallery2">
+												<c:if test="${photo.photoid!=null}">
+		                                            <a href="/files/${photo.uploadname}" data-fancybox="gallery2">
 		                                                <c:if test="${stat.index==0}">
-		                                                    <img src="/files/${photo.UPLOADNAME}" id="profilePicPreview2" alt="식사기록 사진" class="responsive-img" style="display: block;">
+		                                                    <img src="/files/${photo.uploadname}" id="profilePicPreview2" alt="식사기록 사진" class="responsive-img" style="display: block;">
 		                                                </c:if>
 		                                            </a>
 												</c:if>
-												<c:if test="${photo.PHOTOID==null}">
+												<c:if test="${photo.photoid==null}">
 		                                            <a href="/images/CClogo.png" data-fancybox="gallery2">
 		                                                <c:if test="${stat.index==0}">
 		                                                    <img src="/images/CClogo.png" id="profilePicPreview2" alt="식사기록 사진" class="responsive-img" style="display: block;">
@@ -416,14 +415,14 @@
 	                                    </div>
 	                                    <div class="photo-box" id="photoBox3">
 	                                        <c:forEach items="${result[2]}" var="photo" varStatus="stat">
-												<c:if test="${photo.PHOTOID!=null}">
-		                                            <a href="/files/${photo.UPLOADNAME}" data-fancybox="gallery3">
+												<c:if test="${photo.photoid!=null}">
+		                                            <a href="/files/${photo.uploadname}" data-fancybox="gallery3">
 		                                                <c:if test="${stat.index==0}">
-		                                                    <img src="/files/${photo.UPLOADNAME}" id="profilePicPreview3" alt="식사기록 사진" class="responsive-img" style="display: block;">
+		                                                    <img src="/files/${photo.uploadname}" id="profilePicPreview3" alt="식사기록 사진" class="responsive-img" style="display: block;">
 		                                                </c:if>
 		                                            </a>
 												</c:if>
-												<c:if test="${photo.PHOTOID==null}">
+												<c:if test="${photo.photoid==null}">
 		                                            <a href="/images/CClogo.png" data-fancybox="gallery3">
 		                                                <c:if test="${stat.index==0}">
 		                                                    <img src="/images/CClogo.png" id="profilePicPreview3" alt="식사기록 사진" class="responsive-img" style="display: block;">
@@ -434,14 +433,14 @@
 	                                    </div>
 	                                    <div class="photo-box" id="photoBox4">
 	                                        <c:forEach items="${result[3]}" var="photo" varStatus="stat">
-												<c:if test="${photo.PHOTOID!=null}">
-		                                            <a href="/files/${photo.UPLOADNAME}" data-fancybox="gallery4">
+												<c:if test="${photo.photoid!=null}">
+		                                            <a href="/files/${photo.uploadname}" data-fancybox="gallery4">
 		                                                <c:if test="${stat.index==0}">
-		                                                    <img src="/files/${photo.UPLOADNAME}" id="profilePicPreview4" alt="식사기록 사진" class="responsive-img" style="display: block;">
+		                                                    <img src="/files/${photo.uploadname}" id="profilePicPreview4" alt="식사기록 사진" class="responsive-img" style="display: block;">
 		                                                </c:if>
 		                                            </a>
 												</c:if>
-												<c:if test="${photo.PHOTOID==null}">
+												<c:if test="${photo.photoid==null}">
 		                                            <a href="/images/CClogo.png" data-fancybox="gallery4">
 		                                                <c:if test="${stat.index==0}">
 		                                                    <img src="/images/CClogo.png" id="profilePicPreview4" alt="식사기록 사진" class="responsive-img" style="display: block;">
@@ -496,6 +495,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     <script src="js/webflow.js" type="text/javascript"></script>
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const seldate = "${seldate}"; // ← 서버에서 받은 seldate
+
+            console.log("seldate:", seldate);
+
+            if (seldate) {
+                const parts = seldate.split("-");
+                document.getElementById("year").innerText = parts[0];
+                document.getElementById("month").innerText = parts[1];
+                document.getElementById("day").innerText = parts[2];
+
+            }
+        });
+
 		var formData = new FormData();
 		let foodinfo = {};
 		let history = {1 : '아침', 2:"점심", 3:'저녁', 4:'간식'};
@@ -678,18 +691,18 @@
 		
 				
 		// 일일권장량 수정
-		if ("${userinfo.GENDER}" == "남자") {
+		if ("${userinfo.gender}" == "남자") {
 		    //기초대사량(BMR)
-		    var bmr = 88.362 + (13.397 * Number(${userinfo.WEIGHT})) + (4.799 * Number(${userinfo.HEIGHT})) - (5.677 * Number(${userinfo.AGE}));
+		    var bmr = 88.362 + (13.397 * Number(${userinfo.weight})) + (4.799 * Number(${userinfo.height})) - (5.677 * Number(${userinfo.age}));
 		} else {
-		    var bmr = 447.563 + (9.247 * Number(${userinfo.WEIGHT})) + (3.098 * Number(${userinfo.HEIGHT})) - (4.33 * Number(${userinfo.AGE}));
+		    var bmr = 447.563 + (9.247 * Number(${userinfo.weight})) + (3.098 * Number(${userinfo.height})) - (4.33 * Number(${userinfo.age}));
 		}
 		//목표에 따른 계산
 		const goalvalue = {
 		    '체중감량': 0.75,
 		    '근육증량': 1.1,
 		    '체중유지': 1
-		} ["${userinfo.GOAL}"] || 1;
+		} ["${userinfo.goal}"] || 1;
 						   
 		//일일에너지소비(TDEE)
 		const actvalue = {
@@ -697,7 +710,7 @@
 		    '저활동적': 1.375,
 		    '활동적': 1.55,
 		    '매우활동적': 1.725
-		} ["${userinfo.ACTIVITY}"] || 1.2;
+		} ["${userinfo.activity}"] || 1.2;
 		let tdee = bmr * actvalue;
 		let goal = tdee * goalvalue;
 
@@ -873,7 +886,7 @@
 		const myChart1 = new Chart(ctx1, {
 		    type: 'line',
 		    data: {
-		        labels: chartdays[currentChartType], //['Redㅇㅇ', 'Blue', 'Yellow', 'Green', 'Purple'],
+		        labels: chartdays[currentChartType], //['Red', 'Blue', 'Yellow', 'Green', 'Purple'],
 		        datasets: [chartDataSets[currentChartType]]
 		    },
 		    options: {
