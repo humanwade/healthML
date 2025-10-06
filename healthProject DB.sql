@@ -144,6 +144,9 @@ CREATE TABLE recipe (
     imgurl VARCHAR(500),
     cooking TEXT,
     rcalorie INT,
+    rcarbs FLOAT,
+    rproteins FLOAT,
+    rfats FLOAT,
     category VARCHAR(100)
 );
 
@@ -153,6 +156,8 @@ CREATE TABLE workcate (
     catename VARCHAR(100) PRIMARY KEY,
     mets DECIMAL(5,2) NOT NULL
 );
+
+select * from workout;
 
 
 -- 📌 운동 (Workout)
@@ -190,6 +195,8 @@ CREATE TABLE workdiary (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
+select * from workdiary;
 
 
 -- 📌 음식 영양 정보
