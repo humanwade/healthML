@@ -65,83 +65,70 @@ public class MypageController {
         return "mypage/mypage";
     }
 
-
-
-
     // 프로필 사진 변경
 	@Transactional
-	@ResponseBody
-	@RequestMapping("/changeProfile")
-	public String changeProfile(
-		@RequestParam("file") MultipartFile files,
-		HttpSession sess) {
-		
-		if(sess.getAttribute("user")==null) {
-			return null;
-		} 
-		UserVO user = userservice.getUser((String)sess.getAttribute("user"));
-		
-		try {
-			// 파일의 원래이름
-			String originFilename = files.getOriginalFilename();
-			System.out.println("원래파일명 :" + originFilename);
-			// 파일첨부를 한 경우라면
-			if( originFilename != null && !originFilename.equals("")) {
-				String[] accept = {".jpg", ".jpeg", ".png"};
-				String extension = originFilename.substring(originFilename.lastIndexOf("."));
-				boolean valid=false;
-				for(String apt : accept) {
-					if(apt.equals(extension)) valid=true;
-				}
-				if(!valid) return "fail";
-				String filename= new MD5Generator(originFilename).toString()+extension;
+    @ResponseBody
+    @RequestMapping("/changeProfile")
+    public String changeProfile(@RequestParam("file") MultipartFile files, HttpSession sess) {
+        System.out.println("✅ changeProfile 호출됨");
+        String originFilename = files.getOriginalFilename();
+        System.out.println("📸 originFilename = " + originFilename);
+        System.out.println("✅ files.isEmpty? " + (files == null || files.isEmpty()));
 
-				String savepath = System.getProperty("user.dir") 
-						+ "\\src\\main\\resources\\static\\userphotos";
-			
-				if( ! new File(savepath).exists()) {
-					new File(savepath).mkdir();
-				}
-				
-				String filepath = savepath + "\\" + filename;
-				files.transferTo(new File(filepath));
-				
-				// 디비저장
-				PhotosVO fileVO = new PhotosVO();
-				fileVO.setOriginFilename(originFilename);
-				fileVO.setFilename(filename);
-				fileVO.setFilepath(filepath);	
-				System.out.println("파일첨부 저장 완료");
-				
-				//DB - 유저가 프로필이 있으면 수정, 없으면 입력
-				if(user.getPhotoid() == null) {
-					// DB 유저포토테이블 사진 추가
-					userphotoservice.insertUserPhoto(fileVO);
-					user.setPhotoid(fileVO.getFileid());
-					// DB 유저프로필사진 변경
-					userservice.updateProfile(user);
-					
-				}else {
-					fileVO.setFileid(user.getPhotoid());
-					userphotoservice.updateUserPhoto(fileVO);
-				}
-				sess.setAttribute("profile", fileVO.getFilename());
-					
-			} // end of if
-			else {
-				// 파일을 첨부하지 않은 경우
-				System.out.println("파일첨부 없음");
-				return "fail";
-			}
-				
-		}catch(Exception ex) {
-			ex.getMessage();
-		}
+        if(sess.getAttribute("user")==null) {
+            return null;
+        }
+        UserVO user = userservice.getUser((String)sess.getAttribute("user"));
 
-		return "success";
-	}
-	
-	//회원정보 수정 페이지
+        try {
+            originFilename = files.getOriginalFilename();
+            if(originFilename != null && !originFilename.equals("")) {
+                String[] accept = {".jpg", ".jpeg", ".png"};
+                String extension = originFilename.substring(originFilename.lastIndexOf("."));
+                boolean valid=false;
+                for(String apt : accept) {
+                    if(apt.equalsIgnoreCase(extension)) valid=true;
+                }
+                if(!valid) return "fail";
+
+                String filename = new MD5Generator(originFilename).toString() + extension;
+                String savepath = "C:/Users/wadeJung/IdeaProjects/healthProject/finalproject/src/main/resources/static/userphotos";
+
+
+                if(!new File(savepath).exists()) new File(savepath).mkdir();
+
+                String filepath = savepath + "\\" + filename;
+                files.transferTo(new File(filepath));
+
+                PhotosVO fileVO = new PhotosVO();
+                fileVO.setOriginFilename(originFilename);
+                fileVO.setFilename(filename);
+                fileVO.setFilepath(filepath);
+
+                // DB 업데이트
+                if(user.getPhotoid() == null) {
+                    userphotoservice.insertUserPhoto(fileVO);
+                    user.setPhotoid(fileVO.getFileid());
+                    userservice.updateProfile(user);
+                } else {
+                    fileVO.setFileid(user.getPhotoid());
+                    userphotoservice.updateUserPhoto(fileVO);
+                }
+
+                sess.setAttribute("profile", fileVO.getFilename());
+                return fileVO.getFilename();  // ✅ 업로드된 파일명 리턴
+            } else {
+                return "fail";
+            }
+
+        } catch(Exception ex) {
+            ex.printStackTrace();
+            return "fail";
+        }
+    }
+
+
+    //회원정보 수정 페이지
 	@RequestMapping("/info")
 	public String info(Model m, HttpSession sess) {
 		UserVO vo = new UserVO();

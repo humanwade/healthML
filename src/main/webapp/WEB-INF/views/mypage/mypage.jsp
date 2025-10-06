@@ -84,7 +84,7 @@
 	                                                    <label style="width: 45%;">이름</label>
 	                                                </td>
 	                                                <td rowspan=3 style="width: 10%; "><input type="file" id="profilePicInput" accept="image/*" style="display: none;" enctype="multipart/form-data">
-	                                                    <div class="profile-img2" onclick="openFileUploader()"><img id="profilePicPreview" src="userphotos/${sessionScope.profile}" alt="프로필 사진 미리보기"></div>
+	                                                    <div class="profile-img2" onclick="openFileUploader()"><img id="profilePicPreview" src="/userphotos/${user.profile}" alt="프로필 사진 미리보기"></div>
 	                                                </td>
 	                                            </tr>
 	                                            <tr>
@@ -170,21 +170,27 @@
 	   	var reader = new FileReader(); // 파일을 읽기 위한 FileReader 객체 생성
 	  	formData.append("file", file);
 	  	$.ajax({
-	   	type : 'POST',
-	   	url : 'mypage/changeProfile',
-	   	data : formData,
-	   	async: false,
-	   	contentType : false,
-		processData : false,
-	   	success : function(result){
-			if(result=="fail") alert("이미지 파일을 선택하세요.");
-	 		},
-	
-			error : function(err){
-	  		alert('실패');
-	  		console.log(err);
-	   		}
-		});
+          type: 'POST',
+          url: 'mypage/changeProfile',
+          data: formData,
+          contentType: false,
+          processData: false,
+          success: function(result){
+            console.log('server says:', result);
+            if (result === 'fail') {
+              alert('이미지 파일을 선택하세요.');
+              return;
+            }
+            // 파일명 넘어오면 즉시 화면 갱신
+            $('#profilePicPreview').attr('src', '/userphotos/' + result);
+            $('.profile-img').attr('src', '/userphotos/' + result);
+          },
+          error: function(err){
+            alert('업로드 실패');
+            console.log(err);
+          }
+        });
+
 	          
 	  	reader.onload = function(e) {
 	    document.getElementById('profilePicPreview').setAttribute('src', e.target.result); // 이미지 미리보기 설정

@@ -19,7 +19,8 @@
         u.activity AS activity,
         u.photoid AS photoid,
         u.successdate AS successdate,
-        w.weight AS weight
+        w.weight AS weight,
+        up.uploadname AS profile   <!-- ✅ 추가된 부분 -->
         FROM users u
         LEFT JOIN weight w ON u.email = w.email
         LEFT JOIN userphoto up ON u.photoid = up.profileid
@@ -27,8 +28,9 @@
         ORDER BY w.weightdate DESC
         LIMIT 1
     </select>
-	
-	<!--  유저정보 -->
+
+
+    <!--  유저정보 -->
     <select id="getUser" resultType="UserVO">
         SELECT *
         FROM users

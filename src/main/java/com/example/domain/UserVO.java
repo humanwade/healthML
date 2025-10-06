@@ -24,6 +24,7 @@ public class UserVO {
 	private Integer photoid;
 	private Date successdate;
     private Double weight;
+    private String profile;
 
 	// 관리자 차트 불러오는 변수
 	private int month;
