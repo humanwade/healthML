@@ -614,14 +614,13 @@
 		        // 선택한 이미지 파이썬flask로 전송
 		        await $.ajax({
 		            type: 'POST',
-		            url: 'http://192.168.0.225:5000/upload',
+		            url: 'http://192.168.2.23:5000/upload',
 		            data: formData,
 		            processData: false,
 		            contentType: false,
 		            success: function(result) {
 		                if (result.foodname == "Error") {
 		                    alert('사진이 올바르지 않습니다');
-
 		                } else {
 		                    //alert('이미지분석완료');
 		                    $('#food-name').text(result.foodname);
@@ -629,6 +628,10 @@
 		                    $('#options').val(result.foodname);
 		                    $('#photo-cal-no').text($('#options option:selected').attr('cal'));
 		                    //formData.append("foodname", data.foodname);
+		                    formData.delete('photoid');             // 혹시 기존 값 있으면 제거
+                            formData.append('photoid', result.photoid); // Flask 응답의 photoid 추가
+
+                            console.log("📸 Flask photoid:", result.photoid);
 
 		                    //음식사진 이름확인 모달 열기
 		                    modal2.style.display = "block";

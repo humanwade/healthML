@@ -243,7 +243,7 @@
 										            <div class="photo-box-report">
 														<span class="close">&times;</span>
 														<c:if test="${diary.uploadname!=null}">
-										                	<img src="/files/${diary.uploadname}" alt="${diary.datano}">
+										                	<img src="${pageContext.request.contextPath}/uploads/${diary.uploadname}" alt="${diary.datano}">
 														</c:if>
 														<c:if test="${diary.uploadname==null}">
 										                	<img src="/images/CClogo.png" alt="${diary.datano}">
@@ -256,11 +256,7 @@
 												<button class="prev">이전</button>
 												<button class="next">다음</button>	
 										    </div>
-										    									
-										
-										
-										
-                                    </div>
+                                        </div>
                                 </div>
                                 <div class="blog-item-div">
                                     <div class="content-container">
@@ -559,32 +555,40 @@
 				</c:forEach>
 
 				function updateSlides() {
-				    if (itemtotal === 0) {
-				        // 이미지가 없을 때 처리
-				        $('.photos-report').html('<div class="photo-box-report no-images">이미지 업로드시 확인 가능</div>');
-				    } else {
-				        // 이미지가 있을 때의 처리
-				        let start = (page - 1) * 3;
-				        let end = start + 3;
-				        if (item.length < end) end = item.length;
+                    if (itemtotal === 0) {
+                        // 이미지가 없을 때 처리
+                        $('.photos-report').html('<div class="photo-box-report no-images">이미지 업로드시 확인 가능</div>');
+                    } else {
+                        // 이미지가 있을 때의 처리
+                        let start = (page - 1) * 3;
+                        let end = start + 3;
+                        if (item.length < end) end = item.length;
 
-				        let aa = "";
-				        for (let i = start; i < end; i++) {
-				            aa += '<div class="photo-box-report">'
-				                + '<span class="close">&times;</span>' // X 버튼 추가
-							if(item[i].img!='') aa += '<img src="/files/' + item[i].img;
-							else aa += '<img src="/images/CClogo.png';
-				            aa += '" alt="'+item[i].diaryno+'"></div>';
-				        }
+                        let aa = "";
+                        // ✅ JSP 내에서 contextPath를 JS 변수로 전달
+                        let contextPath = '${pageContext.request.contextPath}';
 
-				        aa += `<button class="prev">이전</button>
-				               <button class="next">다음</button>`;
+                        for (let i = start; i < end; i++) {
+                            aa += '<div class="photo-box-report">'
+                                + '<span class="close">&times;</span>'; // X 버튼 추가
 
-				        $('.photos-report').fadeOut(300, function () { // 페이드 아웃 효과
-				            $(this).empty().append(aa).fadeIn(300);  // 새로운 내용을 추가하고 페이드 인 효과
-				        });
-				    }
-				}
+                            if (item[i].img != '')
+                                aa += '<img src="' + contextPath + '/uploads/' + item[i].img + '" alt="' + item[i].diaryno + '">';
+                            else
+                                aa += '<img src="' + contextPath + '/images/CClogo.png" alt="' + item[i].diaryno + '">';
+
+                            aa += '</div>';
+                        }
+
+                        aa += `<button class="prev">이전</button>
+                               <button class="next">다음</button>`;
+
+                        $('.photos-report').fadeOut(300, function () { // 페이드 아웃 효과
+                            $(this).empty().append(aa).fadeIn(300);  // 새로운 내용을 추가하고 페이드 인 효과
+                        });
+                    }
+                }
+
 
 				// X 버튼 클릭 이벤트 추가
 		        $('.photos-report').on('click','.close', function() {

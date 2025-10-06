@@ -323,8 +323,10 @@
 				url : 'recipeChange',
 				success : function(result){
 					$('.recipeChange').empty();
-					var a = '<img src="'+result.imgurl+'" class="blog-img">'
-					        +'<h3 class="main-title">'+result.menuname+'</h3>';
+					var a = '<a href="recipe/detail?recipeno=' + result.recipeno + '" class="blog-block">'
+                                 + '<img src="'+result.imgurl+'" class="blog-img">'
+                                 + '<h3 class="main-title">'+result.menuname+'</h3>'
+                                 + '</a>';
 					$('.recipeChange').append(a);
 				},
 				error : function(stat, err, c){

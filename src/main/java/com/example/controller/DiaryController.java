@@ -62,13 +62,24 @@ public class DiaryController {
 			else m.addAttribute("seldate", seldate);
 		
 		//다이어리 리스트 가져오기
+        System.out.println("📩 email = " + email);
+        System.out.println("📅 seldate = " + seldate);
+
+        if (email == null || seldate == null) {
+            System.out.println("⚠️ email 또는 seldate가 null입니다.");
+            return "redirect:/login";
+        }
+
 		List<HashMap> diarylist = diaryservice.getDiary(email, seldate);
 		List[] result= new List[4];
 		for(int i=0; i<result.length; i++) {
 			result[i] = new ArrayList();
 		}
 		for(HashMap vo : diarylist) {
-			switch((String)vo.get("HISTORY")) {
+            String history = (String) vo.get("HISTORY");
+            if (history == null) continue; // ⚠️ null이면 스킵 (또는 기본값 지정)
+			switch(history) {
+
 			case "아침" : result[0].add(vo); break;
 			case "점심" : result[1].add(vo); break;
 			case "저녁" : result[2].add(vo); break;
@@ -138,55 +149,41 @@ public class DiaryController {
 	}
 	
 	// 사진저장
-	@ResponseBody
-	@RequestMapping("savePhotoDiary")
-	public String savePhotoDiary(
-			@RequestParam(value = "file", required = false) MultipartFile files,
-			HttpSession sess,
-			DiaryVO diary) {
-		// 유저정보
-		UserVO user = userservice.getUser((String)sess.getAttribute("user"));
-		try {
-			// 파일의 원래이름
-			String originFilename = files.getOriginalFilename();
-			// 파일첨부를 한 경우라면
-			if( originFilename != null && !originFilename.equals("")) {
-				String filename= new MD5Generator(originFilename).toString();
-				// 정해진 폴더를 지정
-				String savepath = System.getProperty("user.dir") 
-						+ "\\src\\main\\resources\\static\\files";
-				// 폴더 없으면 폴더 생성
-				if( ! new File(savepath).exists()) {
-					new File(savepath).mkdir();
-				}
-				
-				// 실제 저장되는 파일
-				String filepath = savepath + "\\" + filename;
-				files.transferTo(new File(filepath));
-				// 디비저장
-				PhotosVO fileVO = new PhotosVO();
-				fileVO.setOriginFilename(originFilename);
-				fileVO.setFilename(filename);
-				fileVO.setFilepath(filepath);	
-				// 음식 사진 정보 DB저장
-				photoservice.insertPhoto(fileVO);
-				diary.setPhotoid(fileVO.getFileid());
-				diary.setEmail(user.getEmail());
-				// 다이어리 DB 입력
-				diaryservice.insertDiary(diary);
-			} // end of if
-			else {
-				System.out.println("파일첨부 없음");
-			}
-				
-		}catch(Exception ex) {
-			ex.getMessage();
-		}
+    // Flask 분석 결과를 받아 diary에 저장
+    @ResponseBody
+    @RequestMapping("savePhotoDiary")
+    public String savePhotoDiary(
+            @RequestParam("photoid") int photoid,
+            @RequestParam("foodname") String foodname,
+            @RequestParam("history") String history,
+            @RequestParam("diarydate") String diarydate,
+            HttpSession sess) {
 
-		return "finish";
-	}
-	
-	//다이어리 메뉴얼 입력
+        // 세션 유효성 검사
+        if (sess.getAttribute("user") == null) {
+            return "session_expired";
+        }
+
+        // 현재 로그인된 유저 이메일
+        String email = (String) sess.getAttribute("user");
+
+        // 다이어리 정보 세팅
+        DiaryVO diary = new DiaryVO();
+        diary.setDiarydate(diarydate);
+        diary.setHistory(history);
+        diary.setPhotoid(photoid);
+        diary.setEmail(email);
+        diary.setFoodname(foodname);
+
+        // DB 입력
+        diaryservice.insertDiary(diary);
+
+        System.out.println("✅ Diary Saved: " + diary);
+        return "success";
+    }
+
+
+    //다이어리 메뉴얼 입력
 	@ResponseBody
 	@RequestMapping("saveManualDiary")
 	public String saveMenualDiary(DiaryVO diary, HttpSession sess) {

@@ -315,14 +315,7 @@ blockquote {
   padding: 0;
 }
 
-.top-row-stack {
-  align-self: stretch;
-  padding: 0;
-}
 
-.about-row {
-  border: 0 solid #282931;
-}
 
 .bottom-row-stack {
   align-self: stretch;
@@ -362,55 +355,81 @@ blockquote {
   line-height: 19px;
 }
 
-.about-infos {
-  z-index: 1;
-  position: absolute;
-  top: auto;
-  left: 40px;
-  right: auto;
+.about-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
+
+.about-infos {
+  flex: 1.35; /* ✅ 기존 1.2 → 1.35로 살짝 넓힘 */
+  background-color: #17181d;
+  border: 2px solid #282931;
+  border-radius: 20px;
+  padding: 20px 25px; /* 살짝 여유 줌 */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  color: #d8d8d8;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 5;
+  pointer-events: auto;
+}
+
 
 .subtitle-block {
   align-items: center;
   display: flex;
 }
 
-/* ✅ 레시피 카드 영역 (왼쪽 블록 전용 최소 설정) */
+.blog-cell {
+  flex: 0 0 200px; /* 가로 크기 고정 느낌으로 */
+  max-width: 200px;
+}
+
 .blog-block {
   background-color: #17181d;
   border: 2px solid #282931;
   border-radius: 20px;
-  width: 200px !important;       /* 가로폭 고정 */
-  height: 100% !important;       /* 세로는 news(service-block)과 동일하게 늘림 */
-  padding: 0;                    /* 내부 여백 제거 */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-decoration: none;
+  transition: all .2s;
   overflow: hidden;
-  transition: border-color .3s ease;
 }
+
+.blog-img{
+	width: 100%; /* 박스의 너비에 맞춤 */
+  height: auto; /* 비율을 유지하며 높이 자동 조절 */
+  max-height: 200px; /* 원하는 최대 높이 설정 */
+  object-fit: cover;
+}
+
 
 .blog-block:hover {
   border-color: #0064d8;
 }
 
-/* ✅ 이미지 꽉 채우기 */
-.blog-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  border-radius: 15px;
-}
-
-/* ✅ 상단 "recipe" 타이틀 여백 제거 */
 .text-with-dot {
-  margin: 0 !important;
-  padding: 0 !important;
-  border: none;
-  background: none;
+  background-image: linear-gradient(#16171d, #14151c);
+  border: 1px solid #2f3034;
+  border-radius: 20px;
+  flex-flow: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 0;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  padding: 4px 13px 6px 10px;
+  display: inline-block;
 }
-
 
 .dot-text {
   color: #d8d8d8;
@@ -579,17 +598,16 @@ blockquote {
 }
 
 .about-bg-image {
-  
-  background-position: 0 0;
+  background-position: center;
   background-size: cover;
-  border-radius: 30px;
+  border-radius: 20px;     /* ✅ infos와 동일한 radius */
+  position: absolute;
+  inset: 0;                /* top, right, bottom, left 0과 동일 */
   width: 100%;
   height: 100%;
-  position: absolute;
-  top: 0%;
-  bottom: 0%;
-  left: 0%;
-  right: 0%;
+  clip-path: inset(0 round 20px); /* ✅ infos 범위에 정확히 맞춤 */
+  z-index: 0;              /* ✅ infos(텍스트 등)보다 아래로 */
+  pointer-events: none;    /* ✅ 클릭 방해 방지 */
 }
 
 .inner-pages-wrap {
@@ -1222,6 +1240,12 @@ blockquote {
     min-height: 618px;
   }
 
+  .about-title,
+  .about-subtitle {
+    display: inline;           /* block → inline */
+    vertical-align: baseline;
+  }
+
   .about-title {
     font-size: 42px;
     line-height: 42px;
@@ -1275,6 +1299,8 @@ blockquote {
   }
 
   .top-row-stack {
+    align-self: stretch;
+    padding: 0;
     width: 100%;
   }
 
@@ -1573,5 +1599,35 @@ blockquote {
 }
 
 
+/* ✅ top-row 전체 너비를 bottom-row와 동일하게 맞춤 */
+.top-row {
+  width: 100% !important;
+  max-width: none !important;
+  display: grid !important;
+  justify-content: stretch !important;
+}
 
+/* top-row-stack은 grid 그대로 두되, 컬럼 비율만 재정의 */
+.top-row-stack {
+  display: grid !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  grid-template-columns: 200px 1fr !important; /* 왼쪽 레시피 200px, 오른쪽 뉴스 자동 */
+  align-items: stretch !important; /* 높이 맞추기 */
+  column-gap: 20px; /* 칸 사이 간격 */
+}
+
+/* 내부 블록은 높이를 채우도록 */
+.blog-block,
+.service-block {
+  height: 100% !important;
+}
+
+/* 이미지 비율 고정 */
+.blog-img {
+  width: 100%;
+  height: 150px; /* 원하는 높이 */
+  object-fit: cover;
+  display: block;
+}
 
