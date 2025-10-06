@@ -45,23 +45,24 @@ public class DiaryController {
 	WorkoutService workoutservice;
 	
 	@RequestMapping
-	public String home(Model m, HttpSession sess, String seldate) {
-		//세션 로그인 검사
-		if(sess.getAttribute("user")==null)
-			return"redirect:/regist/login";
-		UserVO user = userservice.getUser((String)sess.getAttribute("user"));
-        UserVO  userinfo = userservice.getUser_curWeight(user);
-		String email = (String)sess.getAttribute("user");
-		
-		//seldate가 null이면 오늘날짜입력
-		LocalDate now = LocalDate.now();
-		if(seldate==null) {
-			m.addAttribute("seldate",now.toString());
-			seldate = now.toString();
-		}
-			else m.addAttribute("seldate", seldate);
-		
-		//다이어리 리스트 가져오기
+    public String home(Model m, HttpSession sess, String seldate) {
+        // 세션 로그인 검사
+        if (sess.getAttribute("user") == null)
+            return "redirect:/regist/login";
+        UserVO user = userservice.getUser((String) sess.getAttribute("user"));
+        UserVO userinfo = userservice.getUser_curWeight(user);
+        String email = (String) sess.getAttribute("user");
+
+        // seldate가 null이면 오늘 날짜 입력
+        LocalDate now = LocalDate.now();
+        if (seldate == null) {
+            m.addAttribute("seldate", now.toString());
+            seldate = now.toString();
+        } else {
+            m.addAttribute("seldate", seldate);
+        }
+
+        // 다이어리 리스트 가져오기
         System.out.println("📩 email = " + email);
         System.out.println("📅 seldate = " + seldate);
 
@@ -70,38 +71,75 @@ public class DiaryController {
             return "redirect:/login";
         }
 
-		List<HashMap> diarylist = diaryservice.getDiary(email, seldate);
-		List[] result= new List[4];
-		for(int i=0; i<result.length; i++) {
-			result[i] = new ArrayList();
-		}
-		for(HashMap vo : diarylist) {
-            String history = (String) vo.get("HISTORY");
-            if (history == null) continue; // ⚠️ null이면 스킵 (또는 기본값 지정)
-			switch(history) {
+        List<HashMap> diarylist = diaryservice.getDiary(email, seldate);
+        List[] result = new List[4];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = new ArrayList();
+        }
 
-			case "아침" : result[0].add(vo); break;
-			case "점심" : result[1].add(vo); break;
-			case "저녁" : result[2].add(vo); break;
-			case "간식" : result[3].add(vo); break;
-			}
-		}
-		m.addAttribute("result", result);
-		m.addAttribute("foodinfo", diaryservice.getFoodInfo());
-		m.addAttribute("userinfo",userinfo);
-		List<WeightVO> weights = weightservice.getWeights(email, seldate);
-		m.addAttribute("weights", weights);
-		List<HashMap> hm = diaryservice.getDiaryChartSum(email, seldate);
-		m.addAttribute("chartdatas", diaryservice.getDiaryChartSum(email, seldate));
-		
-		//운동칼로리소모량
-		HashMap workcal = workoutservice.workcal(email, seldate);
-		m.addAttribute("workcal", workcal);
-		
-		return "/diary/diary1";
-	}
-	
-	//리포트페이지
+        // 🔍 DB에서 가져온 전체 다이어리 데이터 콘솔 출력
+        System.out.println("📦 diarylist 내용 확인");
+        for (HashMap vo : diarylist) {
+            System.out.println(vo);
+
+            // ✅ MyBatis가 대문자로 반환하는 경우 소문자로 통일
+            if (vo.containsKey("UPLOADNAME")) vo.put("uploadname", vo.get("UPLOADNAME"));
+            if (vo.containsKey("PHOTOID")) vo.put("photoid", vo.get("PHOTOID"));
+            if (vo.containsKey("FOODNAME")) vo.put("foodname", vo.get("FOODNAME"));
+
+            System.out.println("➡️ uploadname = " + vo.get("uploadname"));
+
+            // ✅ HISTORY 기준으로 분류
+            String history = (String) (vo.containsKey("HISTORY") ? vo.get("HISTORY") : vo.get("history"));
+            if (history == null) {
+                System.out.println("⚠️ HISTORY가 null입니다. 스킵합니다.");
+                continue;
+            }
+
+            switch (history) {
+                case "아침": result[0].add(vo); break;
+                case "점심": result[1].add(vo); break;
+                case "저녁": result[2].add(vo); break;
+                case "간식": result[3].add(vo); break;
+                default: System.out.println("⚠️ 예외적인 history: " + history); break;
+            }
+        }
+
+        m.addAttribute("result", result);
+        m.addAttribute("foodinfo", diaryservice.getFoodInfo());
+        m.addAttribute("userinfo", userinfo);
+
+        List<WeightVO> weights = weightservice.getWeights(email, seldate);
+        m.addAttribute("weights", weights);
+
+        // ✅ 차트 데이터 가져오기
+        List<HashMap> chartdatas = diaryservice.getDiaryChartSum(email, seldate);
+        System.out.println("📊 getDiaryChartSum 결과: " + chartdatas);
+        m.addAttribute("chartdatas", chartdatas);
+
+        // ✅ JSP에서 직접 ${carbsum}, ${proteinsum}, ${fatsum}, ${calsum} 접근 가능하도록 별도 등록
+        if (chartdatas != null && !chartdatas.isEmpty()) {
+            HashMap<String, Object> sum = chartdatas.get(0);
+            m.addAttribute("calsum", sum.getOrDefault("Calsum", 0));
+            m.addAttribute("carbsum", sum.getOrDefault("Carbsum", 0));
+            m.addAttribute("proteinsum", sum.getOrDefault("Proteinsum", 0));
+            m.addAttribute("fatsum", sum.getOrDefault("Fatsum", 0));
+        } else {
+            m.addAttribute("calsum", 0);
+            m.addAttribute("carbsum", 0);
+            m.addAttribute("proteinsum", 0);
+            m.addAttribute("fatsum", 0);
+        }
+
+        // 운동 칼로리 소모량
+        HashMap workcal = workoutservice.workcal(email, seldate);
+        m.addAttribute("workcal", workcal);
+
+        return "/diary/diary1";
+    }
+
+
+    //리포트페이지
 	@RequestMapping("report")
 	public String report(
 			Model m,

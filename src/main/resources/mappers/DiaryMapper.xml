@@ -8,40 +8,51 @@
 		INSERT INTO diary(diarydate, history, photoid, email, foodname)
 		VALUES(#{diarydate}, #{history}, #{photoid}, #{email}, #{foodname})
 	</insert>
-	<select id="getDiary" resultType="hashmap">
-		SELECT * FROM diary d 
-		LEFT JOIN photos p 
-		ON d.PHOTOID = p.PHOTOID
-		INNER JOIN foodinfo f
-		ON d.FOODNAME = f.FOODNAME
-		WHERE email = #{email} 
-			AND diarydate = #{seldate}
-		ORDER BY d.datano DESC
-	</select>
-	<select id="getFoodInfo" resultType="FoodInfoVO">
+    <select id="getDiary" resultType="hashmap">
+        SELECT
+        d.datano,
+        d.email,
+        d.history,
+        d.foodname,
+        d.diarydate,
+        d.photoid,
+        f.calories,
+        p.photoid AS photoid,
+        p.photourl,
+        p.originname,
+        p.uploadname   <!-- ✅ 이 줄이 핵심 -->
+        FROM diary d
+        LEFT JOIN photos p
+        ON d.PHOTOID = p.PHOTOID
+        INNER JOIN foodinfo f
+        ON d.FOODNAME = f.FOODNAME
+        WHERE d.email = #{email}
+        AND d.diarydate = #{seldate}
+        ORDER BY d.datano DESC
+    </select>
+
+    <select id="getFoodInfo" resultType="FoodInfoVO">
 		SELECT * FROM foodinfo
 	</select>
 	
 	<!-- 다이어리차트 칼로리, 탄단지 합계 -->
-	<select id="getDiaryChartSum" resultType="hashmap">
-		SELECT * FROM
-		(	SELECT d.DIARYDATE diarydate, round(sum(f.CALORIES)) calsum,
-			round(sum(f.CARBOHYDRATES)) carbsum,
-			round(sum(f.PROTEINS)) proteinsum,
-			round(sum(f.FATS)) fatsum
-			FROM diary d 
-			INNER JOIN foodinfo f 
-			ON f.FOODNAME = d.FOODNAME
-			WHERE d.EMAIL = #{email}
-			AND d.diarydate &lt;= #{seldate}
-			GROUP BY d.DIARYDATE
-			ORDER BY d.DIARYDATE DESC
-			LIMIT 5
-		)as sub
-		ORDER BY diarydate
-	</select>
-	
-	<!-- 리포트페이지 차트데이터 -->
+    <select id="getDiaryChartSum" resultType="hashmap">
+        SELECT
+        ROUND(SUM(f.CALORIES)) AS calsum,
+        ROUND(SUM(f.CARBOHYDRATES)) AS carbsum,
+        ROUND(SUM(f.PROTEINS)) AS proteinsum,
+        ROUND(SUM(f.FATS)) AS fatsum,
+        d.DIARYDATE AS diarydate
+        FROM diary d
+        INNER JOIN foodinfo f
+        ON TRIM(LOWER(f.FOODNAME)) = TRIM(LOWER(d.FOODNAME))
+        WHERE d.EMAIL = #{email}
+        AND d.DIARYDATE = #{seldate}
+        GROUP BY d.DIARYDATE
+    </select>
+
+
+    <!-- 리포트페이지 차트데이터 -->
 	<select id="getReportChart" resultType="hashmap">
 		SELECT 
 		YEAR(d.DIARYDATE) AS year,
