@@ -142,39 +142,47 @@ public class RegistController {
 	}
 	
 	// 이메일 확인
-	@ResponseBody
-	@RequestMapping("/emailcheck")
-	public String emailcheck(String email, HttpSession sess) {
-		UserVO user = userservice.getUser(email);
-		
-		if(user != null) {
-			String subject = "비밀번호 변경시 필요한 인증번호입니다.";
-			// 인증번호 생성
-			String verify = emailservice.generateVerificationCode();
-			String text = "<h1>"+verify+"</h1>"
-							+ "<hr/> 잘 기억하세요.!!<br/> <h2>꼭</h2>";
-	        // 이메일 메시지 설정
-			
-			MimeMessage message = mailSender.createMimeMessage();
-			MimeMessageHelper helper;
-			try {
-				helper = new MimeMessageHelper(message, true, "utf-8");
-				helper.setTo(email);
-		        helper.setSubject(subject);
-		        helper.setText(verify, true);
-		        mailSender.send(message);
-			} catch (MessagingException e) {
-				e.printStackTrace();
-			}
-			sess.setAttribute("verificationCode", verify);
-			sess.setAttribute("email", email);
-			return "확인";
-		}
-			
-		else return "실패";
-	}
-	
-	@RequestMapping("/resetchk")
+    @RequestMapping("/emailcheck")
+    @ResponseBody
+    public String emailcheck(String email, HttpSession sess) {
+        try {
+            UserVO user = userservice.getUser(email);
+            System.out.println("이메일 확인 요청: " + email);
+            if (user != null) {
+                System.out.println("사용자 있음: " + user.getEmail());
+
+                String subject = "비밀번호 변경시 필요한 인증번호입니다.";
+                String verify = emailservice.generateVerificationCode();
+
+                MimeMessage message = mailSender.createMimeMessage();
+                MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+
+                helper.setTo(email);
+                helper.setFrom("dog8ayou@naver.com"); // ✅ 여기가 꼭 필요함!
+                helper.setSubject(subject);
+
+                String html = "<html><body>" +
+                        "<h1>" + verify + "</h1>" +
+                        "<p>위 인증번호를 정확히 입력해주세요.</p>" +
+                        "</body></html>";
+                helper.setText(html, true);
+
+                mailSender.send(message);
+                sess.setAttribute("verificationCode", verify);
+                sess.setAttribute("email", email);
+                return "확인";
+            } else {
+                System.out.println("사용자 없음");
+                return "실패";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "에러";
+        }
+    }
+
+
+    @RequestMapping("/resetchk")
 	public String resetchk(HttpSession sess) {
 		if(sess.getAttribute("email") == null)
 			return "redirect:/regist/login";
@@ -189,19 +197,28 @@ public class RegistController {
 	}
 	
 	// 비밀번호 변경
-	@ResponseBody
-	@RequestMapping("newpassword")
-	public String newpassword(UserVO user, HttpSession sess) {
-		if(sess.getAttribute("email") == null 
-				&& sess.getAttribute("user")==null)
-			return "세션만료";
-		String email = (String)sess.getAttribute("user");
-		user.setEmail(email);
-		userservice.passwordchange(user);
-		return "변경성공";
-	}
-	
-	// 마이페이지 비밀번호 체크
+    @ResponseBody
+    @RequestMapping("newpassword")
+    public String newpassword(UserVO user, HttpSession sess) {
+        // ✅ 세션에서 이메일 가져오기 (변경 필요!)
+        String email = (String) sess.getAttribute("email"); // ← 여기 주의!
+
+        if (email == null) return "세션만료";
+
+        // ✅ 사용자 이메일 세팅
+        user.setEmail(email);
+
+        // ❌ 비밀번호 암호화 제거 (평문 저장)
+        // user.setPassword(passwordEncoder.encode(user.getPassword())); ← 제거
+
+        // ✅ DB 업데이트 실행
+        userservice.passwordchange(user);
+
+        return "변경성공";
+    }
+
+
+    // 마이페이지 비밀번호 체크
 	@ResponseBody
 	@RequestMapping("passwordcheck")
 	public String passwordcheck(HttpSession sess, UserVO user) {

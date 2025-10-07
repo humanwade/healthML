@@ -638,7 +638,7 @@
 		        // 선택한 이미지 파이썬flask로 전송
 		        await $.ajax({
 		            type: 'POST',
-		            url: 'http://192.168.2.23:5000/upload',
+		            url: 'http://10.24.54.115:5000/upload',
 		            data: formData,
 		            processData: false,
 		            contentType: false,

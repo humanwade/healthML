@@ -241,59 +241,76 @@
 		}
 
 		function formSubmit() {
-		    if (!validateForm() || !emailDupleCheck) {
-		        alert('필수항목을 확인해주세요.');
-		        return false;
-		    }
-		}
+            console.log('formSubmit 실행됨');
+
+            const valid = validateForm();
+            console.log("validateForm():", valid);
+            console.log("emailDupleCheck:", emailDupleCheck);
+
+            if (!valid || !emailDupleCheck) {
+                alert('필수항목을 확인해주세요.');
+                return false;
+            }
+        }
 	  
 		function validateForm() {
-		    let isValid = true;
+            let isValid = true;
 
-		    // 입력값 가져오기
-		    const name = document.getElementById('name').value.trim();
-		    const email = document.getElementById('email').value;
-		    const password = document.getElementById('password').value;
-		    const passwordCheck = document.getElementById('passwordCheck').value;
+            // 입력값 가져오기
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const passwordCheck = document.getElementById('passwordCheck').value;
 
-		    // 모든 에러 메시지 숨기기
-		    document.getElementById('nameError').style.display = 'none';
-		    document.getElementById('emailError').style.display = 'none';
-		    document.getElementById('passwordError').style.display = 'none';
-		    document.getElementById('passwordCheckError').style.display = 'none';
+            // 에러 메시지 초기화
+            document.getElementById('nameError').style.display = 'none';
+            document.getElementById('emailError').style.display = 'none';
+            document.getElementById('passwordError').style.display = 'none';
+            document.getElementById('passwordCheckError').style.display = 'none';
 
+            // 이름
+            if (!name) {
+                document.getElementById('nameError').style.display = 'block';
+                isValid = false;
+            }
 
-		    if (!name) {
-		        document.getElementById('nameError').style.display = 'block';
-		        isValid = false;
-		    }
+            // 이메일
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById('emailError').style.display = 'block';
+                isValid = false;
+            }
 
+            // 비밀번호
+            const passwordPattern = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
+            if (!passwordPattern.test(password)) {
+                document.getElementById('passwordError').style.display = 'block';
+                isValid = false;
+            }
 
-		    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		    if (!emailPattern.test(email)) {
-		        document.getElementById('emailError').style.display = 'block';
-		        isValid = false;
-		    }
+            // 비밀번호 확인
+            if (password !== passwordCheck) {
+                document.getElementById('passwordCheckError').style.display = 'block';
+                isValid = false;
+            }
 
-		    const passwordPattern = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
-		    if (!passwordPattern.test(password)) {
-		        document.getElementById('passwordError').style.display = 'block';
-		        isValid = false;
-		    }
+            // 약관 체크박스 검증
+            const terms1 = document.querySelector('input[name="terms1"]');
+            const terms2 = document.querySelector('input[name="terms2"]');
+            const terms3 = document.querySelector('input[name="terms3"]');
 
+            if (!terms1.checked || !terms2.checked || !terms3.checked) {
+                console.warn("약관 체크 상태:", {
+                    terms1: terms1.checked,
+                    terms2: terms2.checked,
+                    terms3: terms3.checked
+                });
+                isValid = false;
+            }
 
-		    if (password !== passwordCheck) {
-		        document.getElementById('passwordCheckError').style.display = 'block';
-		        isValid = false;
-		    }
+            return isValid;
+        }
 
-		    $('input[type="checkbox"]').each(function() {
-		        if (!$(this).prop('checked')) isValid = false;
-		        console.log(isValid);
-		    });
-
-		    return isValid; // return false to prevent form submission if invalid
-		}
 
 		// 각 입력 필드에 이벤트 리스너 추가
 		document.getElementById('name').addEventListener('keyup', validateForm);
