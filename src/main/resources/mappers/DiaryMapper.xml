@@ -20,7 +20,7 @@
         p.photoid AS photoid,
         p.photourl,
         p.originname,
-        p.uploadname   <!-- ✅ 이 줄이 핵심 -->
+        p.uploadname
         FROM diary d
         LEFT JOIN photos p
         ON d.PHOTOID = p.PHOTOID

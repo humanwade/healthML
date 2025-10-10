@@ -198,7 +198,7 @@
 	                    <h4 class="sitemap-title">DIARY</h4>
 	                </div>
 	                <div class="sitemap-info"><img src="images/circle-blue_1circle-blue.png" loading="lazy" alt="" class="sitemap-dot">
-	                    <div class="sitemap-text">AI기반 칼로리계산</div>
+	                    <div class="sitemap-text">Calories Calculate on AI</div>
 	                </div>
 	            </div>
 
@@ -224,13 +224,13 @@
                                   <c:set var="calsum1" value="${chartdatas[0].calsum}" />
                                 </c:if>
 	                                <div class="daily-intake">
-	                                    <p>일일권장량</p>
+	                                    <p>Daily Value</p>
 	                                    <h2 class="recomandcal">3,000kcal</h2>
-	                                    <p>섭취량</p>
+	                                    <p>Intake</p>
 	                                    <h2 class="calsum">0kcal</h2>
 	                                </div>
 	                                <div class="daily-intake3">
-	                                    <p>칼로리소모량</p>
+	                                    <p>Calories burned</p>
 	                                    <h2 class="caloriesBurned">0kcal</h2>
 	                                </div>
 	                                <!-- 차트 추가 -->
@@ -238,7 +238,7 @@
 	                                    <canvas id="calorieChart"></canvas>
 	                                </div>
 	                                <div class="daily-intake1">
-	                                    <h2>잔여</h2>
+	                                    <h2>Left</h2>
 	                                    <h1 class="remainingcal">2,150 kcal</h1>
 	                                </div>
 	                                <c:forEach items="${result}" var="meals">
@@ -250,7 +250,7 @@
 	                                </c:forEach>
 	                                <div class="nutrients">
 	                                    <div class="nutrient">
-                                          <p>탄수화물</p>
+                                          <p>Carbs</p>
                                           <div class="progress-bar">
                                             <div class="progress progress-carb"></div>
                                           </div>
@@ -258,7 +258,7 @@
                                         </div>
 
                                         <div class="nutrient">
-                                          <p>단백질</p>
+                                          <p>Proteins</p>
                                           <div class="progress-bar">
                                             <div class="progress progress-protein"></div>
                                           </div>
@@ -266,7 +266,7 @@
                                         </div>
 
                                         <div class="nutrient">
-                                          <p>지방</p>
+                                          <p>Fats</p>
                                           <div class="progress-bar">
                                             <div class="progress progress-fat"></div>
                                           </div>
@@ -279,15 +279,15 @@
 	                                                <div class="photos-detail">
 	                                                    <div class="photo-box-detail">
 	                                                        <img src="../images/ani.jpg" alt="음식사진 1">
-	                                                        <div class="photo-name"> <span id="food-name">불고기</span> 입니다.
+	                                                        <div class="photo-name"> This is <span id="food-name">불고기</span>
 	                                                            <div class="photo-cal"><span id="photo-cal-no">1111</span> kcal</div>
 	                                                        </div>
 	                                                    </div>
 	                                                    <div class="photo-name-update">
-	                                                        <span id="selected-value">불고기</span> 사진의 정보가 틀리다면 <span id="edit-text">수정</span> 해주세요
+	                                                        <span id="selected-value">불고기</span> Incorrect food info ? <span id="edit-text">CLICK</span> to modify
 	                                                    </div>
 	                                                    <div id="dropdown-container" style="display:none;">
-	                                                        <label for="options" id="dropdown-label">옵션을 선택하세요:</label>
+	                                                        <label for="options" id="dropdown-label">Choose the option:</label>
 	                                                        <select id="options">
 	                                                            <c:forEach items="${foodinfo}" var="food">
 	                                                                <option value="${food.foodname}" cal=${food.calories}>${food.foodname}</option>
@@ -296,7 +296,7 @@
 	                                                    </div>
 	                                                </div>
 	                                                <div class="detail_photo_btn">
-	                                                    <button class="photo_submit_btn">확인</button>
+	                                                    <button class="photo_submit_btn">OK</button>
 	                                                </div>
 	                                            </div>
 	                                        </div>
@@ -310,8 +310,8 @@
 	                            <div class="modal-content">
 	                                <span class="close3">&times;</span>
 	                                <h2>${seldate}</h2>
-									<button id="foodselect" class="input-button">매뉴얼 입력</button>
-	                                <button id="foodimgupload" class="input-button">사진 업로드</button>
+									<button id="foodselect" class="input-button">Manual Upload</button>
+	                                <button id="foodimgupload" class="input-button">Picture Upload</button>
 	                            </div>
 	                        </div>
 							
@@ -322,17 +322,17 @@
 	                                <div class="photos-detail">
 	                                    <div class="photo-box-detail">
 	                                        <img src="../images/CClogo.png" alt="음식사진 1">
-	                                        <div class="photo-name"> <span id="search-food-name">음식을 입력해주세요.</span>
+	                                        <div class="photo-name"> <span id="search-food-name">Enter Food name</span>
 	                                            <div class="photo-cal"><span id="serach-food-cal">0</span> kcal</div>
 	                                        </div>
 	                                    </div>
 	                                    <div class="photo-name-update">
-	                                        <!--<span id="selected-value">불고기</span> 사진의 정보가 틀리다면 <span id="edit-text">수정</span> 해주세요 -->
-											<input type="text" class="search-food"/> <button type="button" class="search-food-insert">입력</button>
+	                                        <!--<span id="selected-value">불고기</span> Incorrect food info? <span id="edit-text">CLICK</span> to modify -->
+											<input type="text" class="search-food"/> <button type="button" class="search-food-insert">OK</button>
 	                                    </div>
 	                                </div>
 	                                <div class="detail_photo_btn">
-	                                    <button class="text_submit_btn">확인</button>
+	                                    <button class="text_submit_btn">ENTER</button>
 	                                </div>
 	                            </div>
 	                        </div>
@@ -340,10 +340,10 @@
 	                        <div data-w-id="896831f0-9c76-54de-eebe-d8914b48a114" role="listitem" class="blog-item w-dyn-item w-col w-col-6">
 	                            <div class="blog-item-div">
 	                                <div class="meal-records">
-	                                    <h2>식사기록</h2>
+	                                    <h2>HISTORY</h2>
 	                                </div>
 	                                <div class="meal">
-	                                    <p>아침</p>
+	                                    <p>Breakfast</p>
 	                                    <c:set var="calsum1" value="0" />
 	                                    <c:forEach items="${result[0]}" var="breakfast">
 	                                        <c:set var="calsum1" value="${calsum1+breakfast.calories}" />
@@ -353,7 +353,7 @@
 	                                    <button number='1'>+</button>
 	                                </div>
 	                                <div class="meal">
-	                                    <p>점심</p>
+	                                    <p>Lunch</p>
 	                                    <c:set var="calsum2" value="0" />
 	                                    <c:forEach items="${result[1]}" var="lunch">
 	                                        <c:set var="calsum2" value="${calsum2+lunch.calories}" />
@@ -363,7 +363,7 @@
 	                                    <button number='2'>+</button>
 	                                </div>
 	                                <div class="meal">
-	                                    <p>저녁</p>
+	                                    <p>Dinner</p>
 	                                    <c:set var="calsum3" value="0" />
 	                                    <c:forEach items="${result[2]}" var="dinner">
 	                                        <c:set var="calsum3" value="${calsum3+dinner.calories}" />
@@ -373,7 +373,7 @@
 	                                    <button number='3'>+</button>
 	                                </div>
 	                                <div class="meal">
-	                                    <p>간식</p>
+	                                    <p>Snacks</p>
 	                                    <c:set var="calsum4" value="0" />
 	                                    <c:forEach items="${result[3]}" var="snack">
 	                                        <c:set var="calsum4" value="${calsum4+snack.calories}" />
@@ -431,8 +431,6 @@
                                           </div>
 	                                    <div class="photo-box" id="photoBox3">
                                             <c:forEach items="${result[2]}" var="photo" varStatus="stat">
-                                            <c:out value="${photo.uploadname}" />
-
                                                 <c:if test="${photo.photoid!=null}">
                                                     <a href="<c:url value='/uploads/${photo.uploadname}'/>" data-fancybox="gallery3">
                                                         <c:if test="${stat.index==0}">
@@ -474,18 +472,18 @@
 	                        <div data-w-id="896831f0-9c76-54de-eebe-d8914b48a114" role="listitem" class="blog-item w-dyn-item w-col w-col-6">
 	                            <div class="blog-item-div">
 
-	                                <button id="myBtn" class="input-button1"><i class="fas fa-weight"></i> ‍몸무게입력 </button>
+	                                <button id="myBtn" class="input-button1"><i class="fas fa-weight"></i> Input Weight </button>
 
 	                                <!-- 모달 -->
 	                                <div id="myModal" class="modal">
 	                                    <div class="modal-content">
 	                                        <span class="close">&times;</span>
 	                                        <h2>2024년 07월 23일</h2>
-	                                        <label for="weightInput">몸무게:</label>
+	                                        <label for="weightInput">Weight:</label>
 	                                        <div class="weightupdown">
 	                                            <input type="number" id="weightInput" name="weightInput"><br><br>
 	                                        </div>
-	                                        <button id="submitWeight" class="input-button">제출</button>
+	                                        <button id="submitWeight" class="input-button">OK</button>
 	                                    </div>
 	                                </div>
 
@@ -573,10 +571,10 @@
 			let searchkey = $('.search-food').val();
 			let foodcal = foodinfo[searchkey];
 			if(foodcal){
-				$('#search-food-name').text(searchkey+" 입니다.");
+				$('#search-food-name').text("This is " + searchkey);
 				$('#serach-food-cal').text(foodcal);
 			} else {
-				$('#search-food-name').text("음식을 다시입력해주세요");
+				$('#search-food-name').text("Try once again");
 				$('#serach-food-cal').text(0);
 				$('.search-food').val('');
 			}
@@ -638,7 +636,7 @@
 		        // 선택한 이미지 파이썬flask로 전송
 		        await $.ajax({
 		            type: 'POST',
-		            url: 'http://10.24.54.115:5000/upload',
+		            url: 'http://192.168.2.23:5000/upload',
 		            data: formData,
 		            processData: false,
 		            contentType: false,
@@ -779,7 +777,7 @@
 			$('.caloriesBurned').text('${workcal.workcal}kcal');
 		
 		const data = {
-		    labels: ['섭취칼로리', '잔여칼로리'],
+		    labels: ['Calorie intake', 'Calories left'],
 		    datasets: [{
 		        data: [consumedCalories, remainingCalories],//<0?0:remainingCalories],	// 섭취칼로리 오버시 조정
 		        backgroundColor: ['#FF6384', '#36A2EB'],
@@ -1058,7 +1056,7 @@
 
 	  	// 여기서 label 문구를 동적으로 변경할 수 있습니다.
 	  	var dropdownLabel = document.getElementById('dropdown-label');
-	  	dropdownLabel.textContent = '새로운 옵션을 선택하세요:';
+	  	dropdownLabel.textContent = 'Choose the correct food:';
   		});
 
   		document.getElementById('options').addEventListener('change', function() {
@@ -1084,7 +1082,7 @@
         const newDay = String(currentDate.getDate()).padStart(2, '0');
 
 		// 몸무게 모달에 선택날짜 입력
-		$('#myModal h2').text(newYear+"년 "+newMonth+"월 "+newDay+"일");
+		$('#myModal h2').text(newYear+" - "+newMonth+" - "+newDay);
 		
         // 각 숫자 요소
         const yearElement = document.getElementById('year');

@@ -54,7 +54,7 @@ CREATE TABLE userphoto (
     originname VARCHAR(255),
     uploadname VARCHAR(255)
 );
-
+select * from userphoto;
 -- 📌 사용자 정보
 CREATE TABLE users (
     email VARCHAR(255) PRIMARY KEY,
@@ -75,6 +75,9 @@ CREATE TABLE users (
         ON UPDATE CASCADE
 );
 
+select * from users;
+delete from users where email = 'image@hanmail.net';
+
 
 
 -- 📌 사용자 체중 기록
@@ -89,7 +92,7 @@ CREATE TABLE weight (
         ON UPDATE CASCADE,
     UNIQUE (email, weightdate)
 );
-
+select * from weight;
 
 
 -- 📌 사진 (Photos)
@@ -100,6 +103,8 @@ CREATE TABLE photos (
     uploadname VARCHAR(255)
 );
 
+select * from photos;
+delete from photos where photoid = '10';
 
 
 -- 📌 일기 (Diary)
@@ -123,6 +128,9 @@ CREATE TABLE diary (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
+select * from diary;
+delete from diary where datano ='9';
 
 
 -- 📌 뉴스
@@ -157,7 +165,7 @@ CREATE TABLE workcate (
     mets DECIMAL(5,2) NOT NULL
 );
 
-select * from workout;
+select * from workcate;
 
 
 -- 📌 운동 (Workout)
@@ -195,7 +203,6 @@ CREATE TABLE workdiary (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
-
 select * from workdiary;
 
 
@@ -207,7 +214,13 @@ CREATE TABLE foodinfo (
     proteins DECIMAL(7,2) NOT NULL,
     fats DECIMAL(7,2) NOT NULL
 );
+ALTER TABLE foodinfo
+ADD COLUMN INGREDIENTNAME VARCHAR(255);
+select * from foodinfo;
 
+UPDATE foodinfo
+SET foodname = 'BAKEDFISH'
+WHERE foodname = 'BAKED FISH';
 
 
 -- =========================
