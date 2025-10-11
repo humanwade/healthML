@@ -42,24 +42,24 @@
 	                    <div class="sign-in-form-wrap w-form">
 	                        <form id="wf-form-Register-Email-Form" name="wf-form-Register-Email-Form" data-name="Register Email Form" action='#' method="post" class="sign-in-form" data-wf-page-id="6634a93befaafa41dc30c188" data-wf-element-id="d7edf9eb-6d83-af9a-64b5-f9fc971d2db7">
 	                            <div class="sign-in-form-content-wrap">
-	                                <h3 class="sign-in-title">CALORIES CUT 로그인</h3>
+	                                <h3 class="sign-in-title">CALORIES CUT Sign-in</h3>
 	                            </div>
 	                            <div class="sign-in-single-fields">
 	                                <div class="sign-in-single-field-wrap">
-	                                    <label for="your-email" class="sign-in-field-label">이메일</label>
+	                                    <label for="your-email" class="sign-in-field-label">Email</label>
 	                                    <input class="sign-in-field w-input" maxlength="256" name="userEmail" data-name="Your Email" type="email" id="your-email" required>
 	                                </div>
 	                                <div class="sign-in-single-field-wrap">
-	                                    <label for="your-password" class="sign-in-field-label">비밀번호</label>
+	                                    <label for="your-password" class="sign-in-field-label">Password</label>
 	                                    <input class="sign-in-field w-input" maxlength="256" name="userPassword" data-name="Your Password" type="password" id="your-password" pattern="^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$" required>
 	                                </div>
 	                                <div class="sign-in-single-field-wrap flex">
 	                                    <a class="sign-in-text-link"></a>
 	                                    <a class="sign-in-text-link"></a>
 	                                    <a class="sign-in-text-link"></a>
-	                                    <a href="reset" class="sign-in-text-link">비밀번호 찾기</a>
+	                                    <a href="reset" class="sign-in-text-link">Forgot password</a>
 	                                </div>
-	                                <input type="submit" data-wait="Please wait..." class="sign-in-submit-button2 w-button" value="로그인">
+	                                <input type="submit" data-wait="Please wait..." class="sign-in-submit-button2 w-button" value="Sign-in">
 	                            </div>
 	                        </form>
 	                        <div class="w-form-done">

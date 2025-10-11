@@ -40,18 +40,18 @@
 	                    <div class="sign-in-form-wrap w-form">
 	                        <form id="wf-form-Register-Email-Form" name="wf-form-Register-Email-Form" data-name="Register Email Form" method="post" action="../user-pages/login.do" class="sign-in-form" data-wf-page-id="6634a93befaafa41dc30c188" data-wf-element-id="d7edf9eb-6d83-af9a-64b5-f9fc971d2db7">
 	                            <div class="sign-in-form-content-wrap">
-	                                <h3 class="sign-in-title3">이메일로 전송된 코드를 입력해주세요</h3>
+	                                <h3 class="sign-in-title3">Please enter the code sent to your email</h3>
 	                            </div>
 	                            <div class="sign-in-field-label">
 	                                <div class="sign-in-single-field-wrap">
-	                                    <label for="your-email" class="sign-in-field-label">이메일</label>
+	                                    <label for="your-email" class="sign-in-field-label">Email</label>
 	                                    <input class="sign-in-field w-input" maxlength="256" name="userEmail" data-name="Your Email" type="email" id="your-email" required=""></div>
 	                            	</div>
 	                            <div class="sign-in-single-field-wrap">
-	                                <label for="your-email" class="sign-in-field-label">리셋코드</label>
+	                                <label for="your-email" class="sign-in-field-label">Reset Code</label>
 	                                <input class="sign-in-field w-input" maxlength="256" name="userEmail" data-name="Your Email" type="text" id="verifycode" required=""></div>
 	                            <div>
-	                                <input type="button" data-wait="Please wait..." class="verifycheck sign-in-submit-button3 w-button" value="다음">
+	                                <input type="button" data-wait="Please wait..." class="verifycheck sign-in-submit-button3 w-button" value="Next">
 	                            </div>
 	                        </form>
 	                        <div class="w-form-done">

@@ -71,14 +71,14 @@
 	                    <div class="sign-in-form-wrap w-form">
 	                        <form id="wf-form-Register-Email-Form" name="wf-form-Register-Email-Form" data-name="Register Email Form" method="post" action="../user-pages/login.do" class="sign-in-form" data-wf-page-id="6634a93befaafa41dc30c188" data-wf-element-id="d7edf9eb-6d83-af9a-64b5-f9fc971d2db7">
 	                            <div class="sign-in-form-content-wrap">
-	                                <h3 class="sign-in-title2">비밀번호 리셋코드를 전송합니다</h3>
+	                                <h3 class="sign-in-title2">Sending password reset code</h3>
 	                            </div>
 	                            <div class="sign-in-form-content-wrap">
-	                                <h5 class="sign-in-title1">회원가입시 입력한 이메일 주소를 입력해주세요</h5>
+	                                <h5 class="sign-in-title1">Please enter the email address you used to sign up</h5>
 	                            </div>
 	                            <div class="sign-in-field-label">
 	                                <div class="sign-in-single-field-wrap">
-	                                    <label for="your-email" class="sign-in-field-label">이메일</label>
+	                                    <label for="your-email" class="sign-in-field-label">Email</label>
 	                                    <input class="sign-in-field w-input" maxlength="256" name="userEmail" data-name="Your Email" type="email" id="your-email" required=""></div>
 	                                <div>
 	                                    <input type="button" data-wait="Please wait..." class="emailcheck-btn sign-in-submit-button3 w-button" value="다음">

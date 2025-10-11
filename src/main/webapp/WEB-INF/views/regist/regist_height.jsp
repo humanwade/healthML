@@ -50,11 +50,11 @@
 	                            <!-- Form Elements -->
 	                            <div class="centered">
 	                                <div class="input-group">
-	                                    <label for="goal-selection">키를 입력해주세요&nbsp;&nbsp;&nbsp;&nbsp;</label>
+	                                    <label for="goal-selection">Enter your Height&nbsp;&nbsp;&nbsp;&nbsp;</label>
 	                                    <input type="text" class="height-button" placeholder="200.5" /><span>cm</span>
 	                                </div>
 	                                <div class="input-group">
-	                                    <label for="goal-selection">몸무게를 입력해주세요</label>
+	                                    <label for="goal-selection">Enter your Weight</label>
 	                                    <input type="text" class="weight-button" placeholder="120" /><span>kg</span>
 	                                </div>
 	                            </div>

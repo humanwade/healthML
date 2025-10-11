@@ -160,6 +160,8 @@ CREATE TABLE recipe (
     rfats FLOAT,
     category VARCHAR(100)
 );
+select * from recipe;
+delete from recipe where category ='건강식';
 
 
 -- 📌 운동 카테고리
@@ -193,7 +195,9 @@ CREATE TABLE workout (
 );
 ALTER TABLE workout MODIFY workoutname VARCHAR(255);
 
-
+select * from workout;
+delete from workout where catename = 'Running';
+SELECT * FROM workout ORDER BY workoutid DESC LIMIT 10;
 -- 📌 운동 일지 (WorkDiary)
 CREATE TABLE workdiary (
     workdiaryid INT AUTO_INCREMENT PRIMARY KEY,
@@ -226,8 +230,8 @@ ADD COLUMN INGREDIENTNAME VARCHAR(255);
 select * from foodinfo;
 
 UPDATE foodinfo
-SET foodname = 'BAKEDFISH'
-WHERE foodname = 'BAKED FISH';
+SET foodname = 'KIMBAP'
+WHERE foodname = 'kimbob';
 
 
 -- =========================
@@ -241,6 +245,8 @@ CREATE TABLE adminuser (
     password     VARCHAR(255),
     regdate      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+select * from adminuser;
+
 
 -- 📌 관리자 레시피 관리
 CREATE TABLE adminrecipe (

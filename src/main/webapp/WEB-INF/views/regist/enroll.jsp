@@ -65,37 +65,37 @@
 	                <div class="sign-in-form-wrap w-form">
 	                    <form id="profile-goal-form" name="profile-goal-form" method="post" action="saveUser" class="profile-goal-form" onsubmit="return formSubmit()">
 	                        <div class="enrolltext">
-	                            <h2>회원가입</h2>
+	                            <h2>Sign-up</h2>
 	                        </div>
 	                        <div class="sign-in-single-fields">
 	                            <div class="input-group">
-	                                <label for="name">이름&emsp;&emsp;</label>
-	                                <input type="text" id="name" name="username" class="username w-input1" placeholder="이름을 입력해주세요" />
-	                                <div id="nameError" class="error">이름을 입력해주세요.</div>
+	                                <label for="name">Name&emsp;&emsp;</label>
+	                                <input type="text" id="name" name="username" class="username w-input1" placeholder="Enter your name" />
+	                                <div id="nameError" class="error">Enter your name</div>
 	                            </div>
 	                            <div class="input-group">
-	                                <label for="email">이메일&emsp;</label>
+	                                <label for="email">Email&emsp;</label>
 	                                <div class="input-wrapper">
-	                                    <input type="text" id="email" name="email" class="email w-input1" placeholder="이메일을 입력해주세요" />
-	                                    <button type="button" onclick="checkDuplicateEmail()">중복확인</button>
+	                                    <input type="text" id="email" name="email" class="email w-input1" placeholder="Enter your email" />
+	                                    <button type="button" onclick="checkDuplicateEmail()">Duplicate</button>
 	                                </div>
-	                                <div id="emailError" class="error1">올바른 이메일을 입력해주세요.</div>
+	                                <div id="emailError" class="error1">Enter the correct email</div>
 	                            </div>
 	                            <div class="input-group">
-	                                <label for="password">비밀번호</label>
-	                                <input type="password" id="password" name="password" class="pass w-input1" placeholder="비밀번호를 입력해주세요" />
-	                                <div id="passwordError" class="error">비밀번호 : 8-15자의 영문자, 숫자, 특자문자</div>
+	                                <label for="password">Password</label>
+	                                <input type="password" id="password" name="password" class="pass w-input1" placeholder="Enter password" />
+	                                <div id="passwordError" class="error">Password : 8-15 letter, number, Symbols</div>
 	                            </div>
 	                            <div class="input-group">
-	                                <label for="passwordCheck">비밀번호확인</label>
-	                                <input type="password" id="passwordCheck" class="passcheck w-input1" placeholder="비밀번호를 확인해주세요" />
-	                                <div id="passwordCheckError" class="error">비밀번호가 일치하지 않습니다.</div>
+	                                <label for="passwordCheck">Confirm password</label>
+	                                <input type="password" id="passwordCheck" class="passcheck w-input1" placeholder="Confirm Password" />
+	                                <div id="passwordCheckError" class="error">Passwords do not match</div>
 	                            </div>
 	                        </div>
 
 	                        <div class="checkbox-group">
 	                            <label>
-	                                <input type="checkbox" class="chb1" name="terms1"> 칼로리컷 이용약관
+	                                <input type="checkbox" class="chb1" name="terms1"> Terms of Use for CalorieCut
 	                                <div class="dropdown">
 	                                    <div class="dropdown-content">
 	                                        <h5>이용약관</h5>
@@ -208,7 +208,7 @@
 	                            </label>
 	                        </div>
 	                        <div class="sign-in-buttons">
-	                            <input type="submit" data-wait="Please wait..." class="sing-up-btn w-button" value="가입하기">
+	                            <input type="submit" data-wait="Please wait..." class="sing-up-btn w-button" value="submit">
 	                        </div>
 	                    </form>
 	                    <div class="w-form-done">
@@ -248,7 +248,7 @@
             console.log("emailDupleCheck:", emailDupleCheck);
 
             if (!valid || !emailDupleCheck) {
-                alert('필수항목을 확인해주세요.');
+                alert('Please fill in all required fields');
                 return false;
             }
         }
@@ -330,10 +330,10 @@
                         success: function(result) {
                             if (result === 'success') {
                                 emailDupleCheck = true;
-                                alert("사용가능한 이메일입니다.");
+                                alert("You can use this email");
                             } else {
                                 emailDupleCheck = false;
-                                alert("중복된 이메일입니다.");
+                                alert("This email is already in use");
                             }
                         },
                         error: function(xhr, status, error) {
@@ -344,7 +344,7 @@
                     });
                 } else return;
             } else {
-                alert('이메일을 입력해주세요.');
+                alert('Enter your email');
             }
         }
 
@@ -385,7 +385,7 @@
 			        dropdown.style.display = 'block';
 
 			        if (!scrolledToBottom[checkbox.getAttribute('name')]) {
-			            alert('약관을 끝까지 스크롤해야 동의할 수 있습니다.');
+			            alert('Scrolling to the end is required to enable the Agree button');
 			            checkbox.checked = false; // 스크롤 완료되지 않은 경우 체크 해제
 			        }
 			    });

@@ -174,10 +174,10 @@
 		location = "recipe?search=${param.search}";
 	});
 	$('.meal-healthy').click(function(){
-		location = "recipe?category=건강식&search=${param.search}";
+		location = "recipe?category=HealthyFood&search=${param.search}";
 	});
 	$('.meal-nomal').click(function(){
-		location = "recipe?category=일반식&search=${param.search}";
+		location = "recipe?category=NormalFood&search=${param.search}";
 	});
     
 	// 검색기능 함수
@@ -196,8 +196,8 @@
 	});
   	// 레시피 선택 카테고리 표시
 	switch("${param.category}"){
-      case "건강식" : $('.meal-healthy').addClass('active'); break;
-      case "일반식" : $('.meal-nomal').addClass('active'); break;
+      case "HealthyFood" : $('.meal-healthy').addClass('active'); break;
+      case "NormalFood" : $('.meal-nomal').addClass('active'); break;
       default : $('.meal-all').addClass('active'); break;
   	}	
 	</script>

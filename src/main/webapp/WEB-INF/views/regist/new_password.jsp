@@ -40,20 +40,20 @@
 	                    <div class="sign-in-form-wrap w-form">
 	                        <form id="wf-form-Register-Email-Form" name="wf-form-Register-Email-Form" data-name="Register Email Form" method="post" action="/regist/newpassword" class="sign-in-form" data-wf-page-id="6634a93befaafa41dc30c188" data-wf-element-id="d7edf9eb-6d83-af9a-64b5-f9fc971d2db7">
 	                            <div class="sign-in-form-content-wrap">
-	                                <h3 class="sign-in-title3">새로운 비밀번호를 입력해주세요</h3>
+	                                <h3 class="sign-in-title3">Enter new Password</h3>
 	                            </div>
 	                            <div class="sign-in-field-label">
 	                                <div class="sign-in-single-field-wrap">
-	                                    <label for="your-email" class="sign-in-field-label">비밀번호</label>
-	                                    <input class="sign-in-field w-input" maxlength="256" style="margin-bottom: 40px;" name="newpassword" data-name="Your Email" type="password" pattern="[A-Za-z1-9]{4,15}" id="newpassword" required="" placeholder="비밀번호를 입력해주세요">
+	                                    <label for="your-email" class="sign-in-field-label">Password</label>
+	                                    <input class="sign-in-field w-input" maxlength="256" style="margin-bottom: 40px;" name="newpassword" data-name="Your Email" type="password" pattern="[A-Za-z1-9]{4,15}" id="newpassword" required="" placeholder="Enter new Password">
 									</div>
                             	</div>
 	                            <div class="sign-in-single-field-wrap">
 	                                <label for="your-email" class="sign-in-field-label"></label>
-	                                <input class="sign-in-field w-input" maxlength="256" data-name="Your Email" type="password" id="passcheck" required="" placeholder="비밀번호를 확인해주세요">
+	                                <input class="sign-in-field w-input" maxlength="256" data-name="Your Email" type="password" id="passcheck" required="" placeholder="Confirm Password">
 								</div>
 	                    		<div>
-			                    	<input type="button" data-wait="Please wait..." class="newpass-btn sign-in-submit-button3 w-button" value="다음">
+			                    	<input type="button" data-wait="Please wait..." class="newpass-btn sign-in-submit-button3 w-button" value="Next">
 			               		</div>
 			                </form>
 		                <div class="w-form-done">
@@ -76,11 +76,11 @@
 		let password = $('#newpassword').val();
 		const passwordPattern = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9])(?!.*\s).{8,15}$/;
          if (!passwordPattern.test(password)) {
-             alert('비밀번호가 유효성에 맞지 않습니다.');
+             alert('Invalid password format');
 			 
          }
 		 else if(password != $('#passcheck').val())
-		 	alert('비밀번호 확인이 올바르지 않습니다.');
+		 	alert('Passwords do not match');
 		else {
 			$.ajax({
 				type : 'post',
@@ -88,7 +88,7 @@
 				data : {'password':password},
 				success : function(result){
 					if(result=="변경성공")
-						alert('비밀번호 변경완료');
+						alert('Successfully Changed');
 					else if (result=="세션만료")
 						alert('세션이 만료되었습니다. 다시 이용해주세요.')
 						location = '/regist/login';

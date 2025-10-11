@@ -49,9 +49,9 @@
 
 	                            <!-- Form Elements -->
 	                            <div class="centered">
-	                                <label for="goal-selection">당신의 성별은?</label>
-	                                <input type="button" class="goals-button" value="남자">
-	                                <input type="button" class="goals-button" value="여자">
+	                                <label for="goal-selection">Gender</label>
+	                                <input type="button" class="goals-button" value="Male">
+	                                <input type="button" class="goals-button" value="Female">
 	                            </div>
 
 	                            <!-- Navigation Buttons -->

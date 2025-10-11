@@ -42,8 +42,8 @@
 	                            <div class="sign-in-single-fields">
 	                                <img src="../images/loginlogo.png">
 	                                <div class="sign-in-buttons">
-	                                    <input type="submit" data-wait="Please wait..." class="sign-in-submit-button w-button" value="시작하기">
-	                                    <input type="button" data-wait="Please wait..." class="sign-in-submit-button w-button" value="로그인" onclick="redirectToOtherPage()">
+	                                    <input type="submit" data-wait="Please wait..." class="sign-in-submit-button w-button" value="Start">
+	                                    <input type="button" data-wait="Please wait..." class="sign-in-submit-button w-button" value="Sign-in" onclick="redirectToOtherPage()">
 	                                </div>
 	                            </div>
 	                        </form>

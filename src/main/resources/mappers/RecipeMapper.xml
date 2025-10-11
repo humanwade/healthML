@@ -43,7 +43,7 @@
 	<!--  메인페이지 레시피 -->
 	<select id='mainPageRecipe' resultType='RecipeVO'>
 		SELECT * FROM recipe
-		WHERE category = '건강식'
+		WHERE category = 'HealthyFood'
 		ORDER BY rand()
 		LIMIT 1;
 	</select>

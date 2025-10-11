@@ -200,18 +200,13 @@ public class RegistController {
     @ResponseBody
     @RequestMapping("newpassword")
     public String newpassword(UserVO user, HttpSession sess) {
-        // ✅ 세션에서 이메일 가져오기 (변경 필요!)
-        String email = (String) sess.getAttribute("email"); // ← 여기 주의!
+        String email = (String) sess.getAttribute("email");
 
         if (email == null) return "세션만료";
-
-        // ✅ 사용자 이메일 세팅
         user.setEmail(email);
 
-        // ❌ 비밀번호 암호화 제거 (평문 저장)
         // user.setPassword(passwordEncoder.encode(user.getPassword())); ← 제거
 
-        // ✅ DB 업데이트 실행
         userservice.passwordchange(user);
 
         return "변경성공";

@@ -55,13 +55,13 @@
 	                                        <text x="18" y="20.35" class="percentage">2500kcal</text>
 	                                    </svg>
 	                                </div>
-	                                <div class="chart-text">당신의 목표를 위한 기초대사량 입니다</div>
+	                                <div class="chart-text">This is your BMR based on your goal</div>
 	                            </div>
 	                            <!-- 차트 추가 끝 -->
 
 	                            <!--<div class="sign-in-single-fields">-->
 	                            <div class="sign-in-buttons">
-	                                <input type="submit" data-wait="Please wait..." class="sign-in-submit-button w-button" value="회원가입">
+	                                <input type="submit" data-wait="Please wait..." class="sign-in-submit-button w-button" value="Sign-in">
 	                            </div>
 	                        </form>
 	                        <div class="w-form-done">
@@ -86,7 +86,7 @@
 	    let goal;
 		
 		let userdata = JSON.parse(sessionStorage.getItem('formData'));
-		if(userdata.gender == "남자") {
+		if(userdata.gender == "Male") {
 			//기초대사량(BMR)
 			bmr = 88.362+(13.397*Number(userdata.weight))+(4.799*Number(userdata.height))-(5.677*Number(userdata.age));
 		}

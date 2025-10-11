@@ -48,11 +48,11 @@
 
 	                            <!-- Form Elements -->
 	                            <div class="centered">
-	                                <label for="goal-selection">당신의 평소 활동량은 어떤가요?</label>
-	                                <input type="button" class="goals-button" value="매우 활동적(주 6~7회 강한 운동)">
-	                                <input type="button" class="goals-button" value="활동적(주 3~5회 운동)">
-	                                <input type="button" class="goals-button" value="저활동적(주 1~3회 가벼운 운동)">
-	                                <input type="button" class="goals-button" value="비활동적(운동을 거의 하지않음)">
+	                                <label for="goal-selection">What is your typical activity level?</label>
+	                                <input type="button" class="goals-button" value="Very active (intense exercise 6–7 times per week)">
+	                                <input type="button" class="goals-button" value="Moderately active (exercise 3–5 times per week)">
+	                                <input type="button" class="goals-button" value="Lightly active (light exercise 1–3 times per week)">
+	                                <input type="button" class="goals-button" value="Sedentary (little to no exercise)">
 	                            </div>
 
 	                            <!-- Navigation Buttons -->

@@ -53,10 +53,10 @@
 
 	                            <!-- Form Elements -->
 	                            <div class="centered">
-	                                <!-- <label for="goal-selection">당신의 목표는 무엇인가요?</label>
-									<input type="button" class="goals-button" value="체중감량">				 
-									<input type="button" class="goals-button" value="근육증량">
-					                <input type="button" class="goals-button" value="체중유지">-->
+	                                <!-- <label for="goal-selection">What is your goal?</label>
+									<input type="button" class="goals-button" value="Weight loss">
+									<input type="button" class="goals-button" value="Muscle gain">
+					                <input type="button" class="goals-button" value="Maintain weight">-->
 	                            </div>
 
 	                            <!-- Navigation Buttons -->
@@ -65,7 +65,7 @@
 	                                <button type="button" class="nav-btn next">next &gt;</button>
 	                            </div>
 	                            <div class="progress">
-	                                <p>목표에 따라 3대 영양소 권장 섭취 비율이 다르게 표시 됩니다.</p>
+	                                <p>Your goal affects your ideal protein, fat, and carb intake</p>
 	                            </div>
 	                        </form>
 	                        <div class="w-form-done">
@@ -92,29 +92,29 @@
 		list = []
 		p = 0
 		v = 10
-		list[0] = $(`<label for="goal-selection">당신의 목표는 무엇인가요?</label>
-				<input type="button" class="goals-button" value="체중감량">				 
-				<input type="button" class="goals-button" value="근육증량">
-                <input type="button" class="goals-button" value="체중유지">`);
-		list[1] = $(`<label for="goal-selection">당신의 평소 활동량은 어떤가요?</label>
-				<input type="button" idx="4" class="goals-button" value="매우활동적(주 6~7회 강한 운동)">				 
-				<input type="button" idx="3" class="goals-button" value="활동적(주 3~5회 운동)">
-				<input type="button" idx="2" class="goals-button" value="저활동적(주 1~3회 가벼운 운동)">
-				<input type="button" idx="1" class="goals-button" value="비활동적(운동을 거의 하지않음)">`);
-		list[2] = $(`<label for="goal-selection">당신의 성별은?</label>
-					<input type="button"  class="goals-button" value="남자">				 
-					<input type="button"  class="goals-button" value="여자">`);
+		list[0] = $(`<label for="goal-selection">What is your goal?</label>
+				<input type="button" class="goals-button" value="Weight loss">
+				<input type="button" class="goals-button" value="Muscle gain">
+                <input type="button" class="goals-button" value="Maintain weight">`);
+		list[1] = $(`<label for="goal-selection">What is your typical activity level?</label>
+				<input type="button" idx="4" class="goals-button" value="Very active (intense exercise 6–7 times per week)">
+				<input type="button" idx="3" class="goals-button" value="Moderately active (exercise 3–5 times per week)">
+				<input type="button" idx="2" class="goals-button" value="Lightly active (light exercise 1–3 times per week)">
+				<input type="button" idx="1" class="goals-button" value="Sedentary (little to no exercise)">`);
+		list[2] = $(`<label for="goal-selection">What is your gender?</label>
+					<input type="button"  class="goals-button" value="Male">
+					<input type="button"  class="goals-button" value="Female">`);
 		list[3] = $(`<div class="input-group">	
-		                <label for="goal-selection">키를 입력해주세요&nbsp;&nbsp;&nbsp;&nbsp;</label>
+		                <label for="goal-selection">Enter your Height&nbsp;&nbsp;&nbsp;&nbsp;</label>
 						<input type="text" class="height-text" placeholder="200.5"/><span>cm</span>
 							</div>		
 							<div class="input-group">					
-						<label for="goal-selection">몸무게를 입력해주세요</label>
+						<label for="goal-selection">Enter your Weight</label>
 						<input type="text" class="weight-text" placeholder="120"/><span>kg</span>		 
 					</div>
 					<div class="input-group">					
-						<label for="goal-selection">나이를 입력해주세요</label>
-						<input type="text" class="age-text" placeholder="19"/><span>세</span> 
+						<label for="goal-selection">Enter your Age</label>
+						<input type="text" class="age-text" placeholder="19"/><span></span>
 						</div>`);
 					
 		$('div.progress-bar').empty();
