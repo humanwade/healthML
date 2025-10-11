@@ -112,7 +112,7 @@
                     alert("📰 Summary:\n\n" + res.summary);
                 },
                 error: function() {
-                    alert("요약 실패");
+                    alert("Exceeded API Quota");
                 }
             });
         });
