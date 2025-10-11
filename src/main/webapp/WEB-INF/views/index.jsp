@@ -66,7 +66,7 @@
                     <div id="w-node-d6d3953d-a5d0-8a89-62c1-6c31b64c5a30-7931478a" class="w-layout-cell about-row">
                         <a data-w-id="700b8ace-6395-ae52-faf8-a5babb050432" class="about-block w-inline-block">
                             <div class="about-infos">
-                                <h2 class="about-title">${user.username} <span class="main-welcome">님 환영합니다</span> </h2>
+                                <h2 class="about-title"><span class="main-welcome">Welcome </span>${user.username} </h2>
                                 <div class="exercise-options">
                                     <label for="exercise-type">Type:</label>
                                     <select id="exercise-type" class="exercise-select">
@@ -74,23 +74,23 @@
                                         <c:forEach items="${workcates}" var="workcate">
 											<option value="${workcate.workcatename}">${workcate.workcatename}</option>
 										</c:forEach>
-										<!--<option value="cardio">유산소 운동</option>
-                                        <option value="strength">근력 운동</option>
-                                        <option value="flexibility">유연성 운동</option>
-                                        <option value="balance">균형 운동</option>-->
+										<!--<option value="cardio">Walking</option>
+                                        <option value="strength">Running</option>
+                                        <option value="flexibility">Swimming</option>
+                                        <option value="balance">Yoga</option>-->
                                     </select>
                                 </div>
 
                                 <div class='exercise-input'>
                                     <input type="number" id="exercise-min" placeholder="minute">
-                                    <button class="scale-button" onclick="updateScale()">입력</button>
+                                    <button class="scale-button" onclick="updateScale()">Enter</button>
                                 </div>
 
 
                                 <div class="summary">
                                     <h3>Summary</h3>
-                                    <p id="totalDuration">총 운동 시간: ${workcal.worktime} &nbsp;분</p>
-									<p id="totalDistance">총 소모칼로리: ${workcal.workcal} &nbsp;kcal</p>
+                                    <p id="totalDuration">Total workout: ${workcal.worktime} &nbsp;min</p>
+									<p id="totalDistance">Consume Cals: ${workcal.workcal} &nbsp;kcal</p>
                                 </div>
                             </div>
                             <div class="about-bg-image"></div>
@@ -167,7 +167,7 @@
     </section>
     <div class="footer">
 		<div class="copyright-text">개인정보  이용약관 
-			<span id="openModal">이용가이드</span>
+			<span id="openModal">How To Use</span>
 			<div id="myModal" class="modal">
 			    <div class="modal-content">
 			        <span class="close">&times;</span>
@@ -182,14 +182,14 @@
 					<label class="checkbox-container">
 						    <input type="checkbox">
 					    <span class="checkmark"></span>
-					    7일간 보이지 않게 합니다.	
+					    Stop showing for 7 days
 					</label>
 					
-					<button class="help-shutdown">닫기</button>
+					<button class="help-shutdown">Close</button>
 			    </div>
 			</div>
 		</div>
-		<div class="copyright-text">Calories Cut  -  Innovatively Yours: © 2024  🌟  Powered by <a href="#" class="copyright-text">2조</a>
+		<div class="copyright-text">Calories Cut  -  Innovatively Yours: © 2025  🌟  Powered by <a href="#" class="copyright-text">Wade Jung</a>
 			<c:if test="${admin=='true'}">
 				<span class="admin-btn">관리자페이지</span>
 			</c:if>
@@ -223,8 +223,7 @@
 			});
         });
 		
-		
-		
+
 		// 건강식재료 차트
         var ctx2 = document.getElementById('chart2').getContext('2d');
         // 파스텔톤 색상
@@ -412,8 +411,6 @@
 		onYouTubePlayerAPIReady();
 		console.log('${work}');
 		
-		
-		
 		// 운동입력
 		const updateScale = function(){
 			if($('#exercise-type').val()!=null&&$('#exercise-min').val()!=""){
@@ -427,8 +424,8 @@
 						$('.summary').empty();
 						let a = '<div class="summary">'
 		                       + '<h3>Summary</h3>'
-		                       + '<p id="totalDuration">총 운동 시간: '+ result.worktime + '&nbsp;분</p>'
-		                       + '<p id="totalDistance">총 소모칼로리: '+ result.workcal.toFixed(1) + '&nbsp;kcal</p> </div>';
+		                       + '<p id="totalDuration">Total Workout: '+ result.worktime + '&nbsp;min</p>'
+		                       + '<p id="totalDistance">Consume Cals: '+ result.workcal.toFixed(1) + '&nbsp;kcal</p> </div>';
 						$('.summary').append(a);
 						$('#exercise-min').val("");
 						$('#exercise-type').val("");
@@ -440,6 +437,7 @@
 				});
 			}
 		};
+
 		// 운동시간 엔터로 입력
 		$('#exercise-min').keyup(function(evt){
 			if(evt.keyCode==13)

@@ -389,9 +389,9 @@
                                         <c:forEach items="${result[0]}" var="photo" varStatus="stat">
                                           <c:choose>
                                             <c:when test="${photo.photoid != null}">
-                                              <a href="<c:url value='/uploads/${photo.uploadname}'/>" data-fancybox="gallery1">
+                                              <a href="http://localhost:5000/uploads/${photo.uploadname}" data-fancybox="gallery1">
                                                 <c:if test="${stat.index == 0}">
-                                                  <img src="<c:url value='/uploads/${photo.uploadname}'/>"
+                                                  <img src="http://localhost:5000/uploads/${photo.uploadname}"
                                                        id="profilePicPreview1" alt="식사기록 사진" class="responsive-img">
                                                 </c:if>
                                               </a>
@@ -411,9 +411,9 @@
                                             <c:forEach items="${result[1]}" var="photo" varStatus="stat">
                                               <c:choose>
                                                 <c:when test="${photo.photoid != null}">
-                                                  <a href="<c:url value='/uploads/${photo.uploadname}'/>" data-fancybox="gallery2">
+                                                  <a href="http://localhost:5000/uploads/${photo.uploadname}" data-fancybox="gallery2">
                                                     <c:if test="${stat.index == 0}">
-                                                      <img src="<c:url value='/uploads/${photo.uploadname}'/>"
+                                                      <img src="http://localhost:5000/uploads/${photo.uploadname}"
                                                            id="profilePicPreview2" alt="식사기록 사진" class="responsive-img">
                                                     </c:if>
                                                   </a>
@@ -432,9 +432,9 @@
 	                                    <div class="photo-box" id="photoBox3">
                                             <c:forEach items="${result[2]}" var="photo" varStatus="stat">
                                                 <c:if test="${photo.photoid!=null}">
-                                                    <a href="<c:url value='/uploads/${photo.uploadname}'/>" data-fancybox="gallery3">
+                                                    <a href="http://localhost:5000/uploads/${photo.uploadname}" data-fancybox="gallery3">
                                                         <c:if test="${stat.index==0}">
-                                                            <img src="<c:url value='/uploads/${photo.uploadname}'/>" id="profilePicPreview3" alt="식사기록 사진" class="responsive-img" style="display: block;">
+                                                            <img src="http://localhost:5000/uploads/${photo.uploadname}" id="profilePicPreview3" alt="식사기록 사진" class="responsive-img" style="display: block;">
                                                         </c:if>
                                                     </a>
                                                 </c:if>
@@ -450,9 +450,9 @@
                                         <div class="photo-box" id="photoBox4">
                                             <c:forEach items="${result[3]}" var="photo" varStatus="stat">
                                                 <c:if test="${photo.photoid!=null}">
-                                                    <a href="<c:url value='/uploads/${photo.uploadname}'/>" data-fancybox="gallery4">
+                                                    <a href="http://localhost:5000/uploads/${photo.uploadname}" data-fancybox="gallery4">
                                                         <c:if test="${stat.index==0}">
-                                                            <img src="<c:url value='/uploads/${photo.uploadname}'/>"
+                                                            <img src="http://localhost:5000/uploads/${photo.uploadname}"
                                                                  id="profilePicPreview4" alt="식사기록 사진" class="responsive-img" style="display: block;">
                                                         </c:if>
                                                     </a>
@@ -510,7 +510,7 @@
       console.log("✅ JSP fatsum:", ${fatsum});
     </script>
     <div class="footer">
-       	<div class="copyright-text">Calories Cut  -  Innovatively Yours: © 2024  🌟  Powered by <a href="#" class="copyright-text">2조</a>
+       	<div class="copyright-text">Calories Cut  -  Innovatively Yours: © 2025  🌟  Powered by <a href="#" class="copyright-text">Wade Jung</a>
         </div>
     </div>
     <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=668501d6493a753e79314722" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>     
@@ -660,7 +660,7 @@
 		                }
 		            },
 		            error: function(request, status, error) {
-		                alert('인터넷상태가 올바르지 않습니다. 나중에 다시 시도해주세요.');
+		                alert('Networking is not working, Try it later!');
 		                console.error("Request status: ", status);
 		                console.error("Error: ", error);
 		                console.error("Request: ", request);
@@ -686,7 +686,7 @@
 		        processData: false,
 		        contentType: false,
 		        success: function(data) {
-		            //alert("사진저장완료");
+		            //alert("Successfully saved picture!");
 		            modal2.style.display = "none";
 		            location = "/diary?seldate=${seldate}";
 		        },

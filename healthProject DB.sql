@@ -143,6 +143,9 @@ CREATE TABLE news (
     nimgurl VARCHAR(500)
 );
 
+select * from news;
+delete from news where newsid between 3 and 12;
+
 
 -- 📌 레시피
 CREATE TABLE recipe (
@@ -166,6 +169,9 @@ CREATE TABLE workcate (
 );
 
 select * from workcate;
+UPDATE workcate
+SET catename = 'Swimming'
+WHERE catename = '수영';
 
 
 -- 📌 운동 (Workout)
@@ -185,6 +191,7 @@ CREATE TABLE workout (
         ON DELETE SET NULL
         ON UPDATE CASCADE
 );
+ALTER TABLE workout MODIFY workoutname VARCHAR(255);
 
 
 -- 📌 운동 일지 (WorkDiary)

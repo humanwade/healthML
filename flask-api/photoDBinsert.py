@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import os
 import mysql.connector
@@ -113,7 +113,8 @@ def upload_file():
         file.seek(0)
         file.save(photo_path)
 
-        photo_url = f"uploads/{upload_name}"
+        server_url = request.host_url.rstrip('/')
+        photo_url = f"{server_url}/uploads/{upload_name}"
 
         # saving in DB
         photoid = insert_image_info(photo_url, origin_name, upload_name)
@@ -128,6 +129,11 @@ def upload_file():
             "photoid": photoid
         }), 200
 
+@app.route('/uploads/<path:filename>')
+def serve_uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000)
+

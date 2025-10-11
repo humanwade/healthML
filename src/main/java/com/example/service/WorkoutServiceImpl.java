@@ -18,8 +18,8 @@ public class WorkoutServiceImpl implements WorkoutService {
 	private WorkoutDAO dao;
 
 	@Override
-	public List<WorkoutVO> getWorkoutList(Integer start, String search) {
-		return dao.getWorkoutList(start, search);
+	public List<WorkoutVO> getWorkoutList(Integer start, Integer limit, String search) {
+		return dao.getWorkoutList(start, limit, search);
 	}
 
 	@Override
@@ -51,5 +51,10 @@ public class WorkoutServiceImpl implements WorkoutService {
 	public WorkoutVO getWorkout(String exerciseno) {
 		return dao.getWorkout(exerciseno);
 	}
+
+    @Override
+    public int getTotalCount(String search) {
+        return dao.getTotalCount(search);
+    }
 
 }

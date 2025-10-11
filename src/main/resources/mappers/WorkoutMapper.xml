@@ -7,16 +7,15 @@
     <select id="getWorkoutList" resultType="WorkoutVO">
         SELECT *
         FROM workout
-        WHERE workoutname LIKE CONCAT('%', #{search}, '%')
-        OR catename LIKE CONCAT('%', #{search}, '%')
+        <where>
+            <if test="search != null and search != ''">
+                (workoutname LIKE CONCAT('%', #{search}, '%')
+                OR catename LIKE CONCAT('%', #{search}, '%'))
+            </if>
+        </where>
         ORDER BY workoutid
+        LIMIT 8 OFFSET #{start}
     </select>
-
-
-    <!-- 레시피 토탈페이지 수 -->
-	<select id="getTotalPage" resultType='int'>
-		SELECT CEIL(count(*)/9) FROM recipe
-	</select>
 	
 	<select id="mainworkout" resultType="WorkoutVO">
 		SELECT * FROM workout
@@ -64,6 +63,17 @@
         SELECT *
         FROM workout
         WHERE workoutid = #{exerciseno}
+    </select>
+
+    <select id="getTotalCount" resultType="int">
+        SELECT COUNT(*)
+        FROM workout
+        <where>
+            <if test="search != null and search != ''">
+                (workoutname LIKE CONCAT('%', #{search}, '%')
+                OR catename LIKE CONCAT('%', #{search}, '%'))
+            </if>
+        </where>
     </select>
 	
 </mapper>

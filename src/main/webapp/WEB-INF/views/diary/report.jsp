@@ -209,7 +209,7 @@
                         <h4 class="sitemap-title">REPORT</h4>
                     </div>
                     <div class="sitemap-info"><img src="../images/circle-blue_1circle-blue.png" loading="lazy" alt="" class="sitemap-dot">
-                        <div class="sitemap-text">다이어리 기록</div>
+                        <div class="sitemap-text">History</div>
                     </div>
                 </div>
                 <div class="blog-wrapper">
@@ -227,13 +227,13 @@
 										    </div>
 										    <div class="calendar-body">
 										        <div class="calendar-days">
-										            <div>일</div>
-										            <div>월</div>
-										            <div>화</div>
-										            <div>수</div>
-										            <div>목</div>
-										            <div>금</div>
-										            <div>토</div>
+										            <div>Sun</div>
+										            <div>Mon</div>
+										            <div>Tue</div>
+										            <div>Wed</div>
+										            <div>Thu</div>
+										            <div>Fri</div>
+										            <div>Sat</div>
 										        </div>
 										        <div class="calendar-dates"></div>
 										    </div>
@@ -243,7 +243,7 @@
 										            <div class="photo-box-report">
 														<span class="close">&times;</span>
 														<c:if test="${diary.uploadname!=null}">
-										                	<img src="${pageContext.request.contextPath}/uploads/${diary.uploadname}" alt="${diary.datano}">
+										                	<img src="http://192.168.2.23:5000/uploads/${diary.uploadname}" alt="${diary.datano}">
 														</c:if>
 														<c:if test="${diary.uploadname==null}">
 										                	<img src="/images/CClogo.png" alt="${diary.datano}">
@@ -251,7 +251,7 @@
 										            </div>
 										        </c:forEach>
 												<c:if test="${empty diaries}">
-													<div class="photo-box-report no-images">이미지 업로드시 확인 가능</div>
+													<div class="photo-box-report no-images">You can check it after upload picture</div>
 												</c:if>
 												<button class="prev">이전</button>
 												<button class="next">다음</button>	
@@ -261,7 +261,7 @@
                                 <div class="blog-item-div">
                                     <div class="content-container">
 										<div class="date-text-report">
-										    <button id="yearButton">평균칼로리보기</button>
+										    <button id="yearButton">Avg Cals</button>
 										</div>
                                         <div class="chart-container">
                                             <canvas id="chart1"></canvas>
@@ -276,7 +276,7 @@
         </div>
     </section>
     <div class="footer">
-        <div class="copyright-text">Calories Cut  -  Innovatively Yours: © 2024  🌟  Powered by <a href="#" class="copyright-text">2조</a>
+        <div class="copyright-text">Calories Cut  -  Innovatively Yours: © 2025  🌟  Powered by <a href="#" class="copyright-text">Wade Jung</a>
         </div>
     </div>
     <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=668501d6493a753e79314722" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -300,7 +300,7 @@
 								labels: ['1주차', '2주차', '3주차', '4주차', '5주차'],
 								    datasets: [
 									{
-									    label: '탄수화물',
+									    label: 'Cals',
 									    data: carbsum,
 									    backgroundColor: 'rgba(255, 153, 153, 0.1)', // 파스텔톤 빨강
 									    borderColor: 'rgba(255, 99, 132, 1)', // 선 색상
@@ -312,7 +312,7 @@
 									    fill: true
 									},
 									{
-									    label: '단백질',
+									    label: 'Protein',
 									    data: proteinsum,
 									    backgroundColor: 'rgba(153, 204, 255, 0.1)', // 파스텔톤 파랑
 									    borderColor: 'rgba(54, 162, 235, 1)',
@@ -324,7 +324,7 @@
 									    fill: true
 									},
 									{
-									    label: '지방',
+									    label: 'Fat',
 									    data: fatsum,
 									    backgroundColor: 'rgba(153, 255, 153, 0.1)', // 파스텔톤 초록
 									    borderColor: 'rgba(60, 255, 0, 1)',
@@ -346,7 +346,7 @@
 						            },
 						            title: {
 						                display: true,
-						                text: '평균탄단지'
+						                text: 'Avg cal/pro/fat'
 						            }
 						        }
 						    }
@@ -473,7 +473,7 @@
 				          const lastDayOfPrevMonth = new Date(year, month, 0).getDate();
 
 				          // 헤더에 년도와 월 설정
-				          monthYearElement.textContent = year+"년 "+ (month+1)+ "월";
+				          monthYearElement.textContent = year+" - "+ (month+1);
 
 				          // 이전의 날짜 목록을 모두 지움
 				          datesElement.innerHTML = '';
@@ -573,9 +573,9 @@
                                 + '<span class="close">&times;</span>'; // X 버튼 추가
 
                             if (item[i].img != '')
-                                aa += '<img src="' + contextPath + '/uploads/' + item[i].img + '" alt="' + item[i].diaryno + '">';
+                                aa += '<img src="http://192.168.2.23:5000/uploads/' + item[i].img + '" alt="' + item[i].diaryno + '">';
                             else
-                                aa += '<img src="' + contextPath + '/images/CClogo.png" alt="' + item[i].diaryno + '">';
+                                aa += '<img src="../images/CClogo.png" alt="' + item[i].diaryno + '">';
 
                             aa += '</div>';
                         }

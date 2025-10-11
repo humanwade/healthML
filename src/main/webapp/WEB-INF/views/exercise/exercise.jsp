@@ -36,7 +36,6 @@
 </head>
 
 <body class="body">
-	
     <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar-wrapper w-nav">
         <div class="main-container w-container">
             <div class="nav-wrapper">
@@ -79,40 +78,55 @@
 							<c:forEach items="${list}" var="workout" varStatus="stat">
 							    <div data-w-id="896831f0-9c76-54de-eebe-d8914b48a114" role="listitem" class="blog-item w-dyn-item w-col w-col-6">
 							        <div class="blog-item-div">
-							            <a href="exercise/detail?exerciseno=${workout.workid}" class="link-to-single-post w-inline-block">
-							                <img loading="lazy" src="https://i.ytimg.com/vi/${workout.workvideoid}/hqdefault.jpg" alt="${workout.workid}" sizes="(max-width: 479px) 70vw, (max-width: 767px) 81vw, (max-width: 1919px) 39vw, 586.609375px" class="blog-main-image2">
+							            <a href="exercise/detail?exerciseno=${workout.workoutid}" class="link-to-single-post w-inline-block">
+							                <img loading="lazy" src="https://i.ytimg.com/vi/${workout.workvideoid}/hqdefault.jpg" alt="${workout.workoutid}" sizes="(max-width: 479px) 70vw, (max-width: 767px) 81vw, (max-width: 1919px) 39vw, 586.609375px" class="blog-main-image2">
 							            </a>
-							            <a href="exercise/detail?exerciseno=${workout.workid}" class="link-to-single-post w-inline-block">
-							                <h3 class="blog-title">${workout.workname}</h3>
+							            <a href="exercise/detail?exerciseno=${workout.workoutid}" class="link-to-single-post w-inline-block">
+							                <h3 class="blog-title">${workout.workoutname}</h3>
 							            </a>
-							            <p class="blog-paragraph">${workout.workcategory}</p>
-							            <div class="blog-time">${workout.workcategory}</div>
+							            <p class="blog-paragraph">${workout.catename}</p>
+							            <div class="blog-time">${workout.catename}</div>
 							        </div>
 							    </div>
 							</c:forEach>
                         </div>
 						<div class="paging-container">
-						    <a href="exercise?page=${startPage-5}" class="page-link prev">&laquo; Previous</a>
-							<c:forEach var="pno" begin="${startPage}" end="${endPage}" varStatus="status">
-								<c:choose> 
-									<c:when test="${status.count == ((page-1)%5+1) }">
-										<a href="exercise?page=${pno}" class="page-link active">${pno}</a>
-									</c:when>
-									<c:otherwise>
-						    			<a href="exercise?page=${pno}" class="page-link">${pno}</a>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-						    <a href="exercise?page=${endPage+1}" class="page-link next">Next &raquo;</a>
-							<span></span>
-						</div>
+                            <c:choose>
+                                <c:when test="${page > 1}">
+                                    <a href="exercise?page=${page - 1}&search=${search}" class="page-link prev">&laquo; Previous</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="page-link prev disabled">&laquo; Previous</span>
+                                </c:otherwise>
+                            </c:choose>
+
+                            <c:forEach var="pno" begin="${startPage}" end="${endPage}" varStatus="status">
+                                <c:choose>
+                                    <c:when test="${pno == page}">
+                                        <a href="exercise?page=${pno}&search=${search}" class="page-link active">${pno}</a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="exercise?page=${pno}&search=${search}" class="page-link">${pno}</a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+
+                            <c:choose>
+                                <c:when test="${page < totalPages}">
+                                    <a href="exercise?page=${page + 1}&search=${search}" class="page-link next">Next &raquo;</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="page-link next disabled">Next &raquo;</span>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <div class="footer">
-        <div class="copyright-text">Calories Cut  -  Innovatively Yours: © 2024  🌟  Powered by <a href="#" class="copyright-text">2조</a>
+        <div class="copyright-text">Calories Cut  -  Innovatively Yours: © 2025  🌟  Powered by <a href="#" class="copyright-text">Wade Jung</a>
         </div>
     </div>
     <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=668501d6493a753e79314722" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
