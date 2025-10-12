@@ -19,14 +19,12 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
         // Flask 업로드 이미지 (유지)
-        registry
-                .addResourceHandler("/uploads/**")
-                .addResourceLocations("file:///C:/Users/wadeJung/Desktop/project/healthML/finalproject_py/uploads/");
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:///C:/Users/wade/IdeaProjects/healthML/flask-api/uploads/");
 
         // User profile 사진 (정확한 경로로 수정)
-        registry
-                .addResourceHandler("/userphotos/**")
-                .addResourceLocations("file:///C:/Users/wadeJung/IdeaProjects/healthProject/finalproject/src/main/resources/static/userphotos/");
+        registry.addResourceHandler("/userphotos/**")
+                .addResourceLocations("classpath:/static/userphotos/");
 
     }
 }

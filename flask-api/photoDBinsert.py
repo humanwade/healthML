@@ -23,8 +23,7 @@ db_config = {
     'user': 'wade',
     'password': 'password',
     'host': '192.168.2.23',
-    'database': 'healthProject'
-}
+    'database': 'healthProject'}
 
 # Set the image size and color space
 im_rows = 64
@@ -110,6 +109,7 @@ def upload_file():
 
         # Saving file path
         photo_path = os.path.join(app.config['UPLOAD_FOLDER'], upload_name)
+        print("Saving image to:", os.path.abspath(photo_path))
         file.seek(0)
         file.save(photo_path)
 

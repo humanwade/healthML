@@ -159,6 +159,7 @@
     </script>
     <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
     <link href="images/webclip.png" rel="apple-touch-icon">
+<c:set var="flaskBaseUrl" value="http://192.168.2.23:5000" />
 </head>
 
 <body class="body">
@@ -389,9 +390,9 @@
                                         <c:forEach items="${result[0]}" var="photo" varStatus="stat">
                                           <c:choose>
                                             <c:when test="${photo.photoid != null}">
-                                              <a href="http://localhost:5000/uploads/${photo.uploadname}" data-fancybox="gallery1">
+                                              <a href="${flaskBaseUrl}/uploads/${photo.uploadname}" data-fancybox="gallery1">
                                                 <c:if test="${stat.index == 0}">
-                                                  <img src="http://localhost:5000/uploads/${photo.uploadname}"
+                                                  <img src="${flaskBaseUrl}/uploads/${photo.uploadname}"
                                                        id="profilePicPreview1" alt="식사기록 사진" class="responsive-img">
                                                 </c:if>
                                               </a>
@@ -411,9 +412,9 @@
                                             <c:forEach items="${result[1]}" var="photo" varStatus="stat">
                                               <c:choose>
                                                 <c:when test="${photo.photoid != null}">
-                                                  <a href="http://localhost:5000/uploads/${photo.uploadname}" data-fancybox="gallery2">
+                                                  <a href="${flaskBaseUrl}/uploads/${photo.uploadname}" data-fancybox="gallery2">
                                                     <c:if test="${stat.index == 0}">
-                                                      <img src="http://localhost:5000/uploads/${photo.uploadname}"
+                                                      <img src="${flaskBaseUrl}/uploads/${photo.uploadname}"
                                                            id="profilePicPreview2" alt="식사기록 사진" class="responsive-img">
                                                     </c:if>
                                                   </a>
@@ -432,9 +433,9 @@
 	                                    <div class="photo-box" id="photoBox3">
                                             <c:forEach items="${result[2]}" var="photo" varStatus="stat">
                                                 <c:if test="${photo.photoid!=null}">
-                                                    <a href="http://localhost:5000/uploads/${photo.uploadname}" data-fancybox="gallery3">
+                                                    <a href="${flaskBaseUrl}/uploads/${photo.uploadname}" data-fancybox="gallery3">
                                                         <c:if test="${stat.index==0}">
-                                                            <img src="http://localhost:5000/uploads/${photo.uploadname}" id="profilePicPreview3" alt="식사기록 사진" class="responsive-img" style="display: block;">
+                                                            <img src="${flaskBaseUrl}/uploads/${photo.uploadname}" id="profilePicPreview3" alt="식사기록 사진" class="responsive-img" style="display: block;">
                                                         </c:if>
                                                     </a>
                                                 </c:if>
@@ -450,9 +451,9 @@
                                         <div class="photo-box" id="photoBox4">
                                             <c:forEach items="${result[3]}" var="photo" varStatus="stat">
                                                 <c:if test="${photo.photoid!=null}">
-                                                    <a href="http://localhost:5000/uploads/${photo.uploadname}" data-fancybox="gallery4">
+                                                    <a href="${flaskBaseUrl}/uploads/${photo.uploadname}" data-fancybox="gallery4">
                                                         <c:if test="${stat.index==0}">
-                                                            <img src="http://localhost:5000/uploads/${photo.uploadname}"
+                                                            <img src="${flaskBaseUrl}/uploads/${photo.uploadname}"
                                                                  id="profilePicPreview4" alt="식사기록 사진" class="responsive-img" style="display: block;">
                                                         </c:if>
                                                     </a>
@@ -633,6 +634,7 @@
 		        //아, 점, 저 ,간 지정
 		        formData.delete('history');
 		        formData.append('history', mealType);
+
 		        // 선택한 이미지 파이썬flask로 전송
 		        await $.ajax({
 		            type: 'POST',

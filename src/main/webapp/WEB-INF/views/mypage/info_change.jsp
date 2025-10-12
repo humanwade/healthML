@@ -44,7 +44,7 @@
                     <a href="../news" class="menu-item w-nav-link">news</a>
 					<a href="../exercise" aria-current="page" class="menu-item w-nav-link w--current">exercise</a>
                     <a href="../diary" class="menu-item w-nav-link">diary</a>
-					<a href='../mypage'><img src="/userphotos/${sessionScope.profile}" width="146" sizes="(max-width: 479px) 100vw, 146px" border-radius: 50%;  class="profile-img w-nav-link" ></a>
+					<a href='../mypage'><img src="${pageContext.request.contextPath}/userphotos/${sessionScope.profile}" width="146" sizes="(max-width: 479px) 100vw, 146px" border-radius: 50%;  class="profile-img w-nav-link" ></a>
 		        	  <div class="dropdown2">
 						<span class="dropdown-real-mypage"><a href="/mypage">Mypage</a></span>
 						<span class="dropdown-item"><a href="../diary/report">report</a></span>

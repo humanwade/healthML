@@ -422,7 +422,7 @@
 
 		// 버튼 클릭 이벤트 리스너
 		document.getElementById('yearButton').addEventListener('click', toggleChart);
-		
+
 		// JavaScript로 호버 이벤트 처리
 			      const profileImg = document.querySelector('.profile-img');
 			      const dropdown = document.querySelector('.dropdown2');
@@ -440,10 +440,10 @@
 			      // 드롭다운 메뉴에서 마우스가 벗어났을 때 드롭다운 숨기기
 			      dropdown.addEventListener('mouseout', () => {
 			          dropdown.style.display = 'none';
-			      }); 
-				  
-				  
-				  // 달력 
+			      });
+
+
+				  // 달력
 				  // 문서의 모든 내용이 로드된 후 실행
 				  document.addEventListener('DOMContentLoaded', function () {
 				      // 달력 요소를 선택
@@ -459,7 +459,7 @@
 
 				      // 현재 날짜를 저장
 				      let currentDate = new Date("${seldate}");
-					  
+
 				      // 달력을 렌더링하는 함수
 				      function renderCalendar(date) {
 				          // 현재 연도와 월을 가져옴
@@ -473,7 +473,7 @@
 				          const lastDayOfPrevMonth = new Date(year, month, 0).getDate();
 
 				          // 헤더에 년도와 월 설정
-				          monthYearElement.textContent = year+" - "+ (month+1);
+				          monthYearElement.textContent = year + "-" + (month+1);
 
 				          // 이전의 날짜 목록을 모두 지움
 				          datesElement.innerHTML = '';
@@ -525,17 +525,21 @@
 
 				      // 초기 달력 렌더링
 				      renderCalendar(currentDate);
-					  
+
 					  // 날짜 클릭시 선택 날짜 페이지
 	  				  $('.calendar-dates').on('click', 'div:not(.inactive)', function(){
-							var a = $('.month-year').text().split(' ');
-							var b = a[0].slice(0,-1)+"-"+("0"+a[1]).slice(-3).slice(0,-1);
-	  						let seldate = b+"-"+("0"+$(this).text()).slice(-2);
-							location = "report?seldate="+seldate;
-	  				  });
-					  
-				  }); // end dom loaded 이벤트 
-				  
+                          let text = $('.month-year').text().trim();
+                          text = text.replace(/\s+/g, '');
+                          const [year, month] = text.split('-');
+                          const day = ("0" + $(this).text()).slice(-2);
+                          const seldate = year + "-" + ("0" + month).slice(-2) + "-" + day;
+
+                          console.log("seldate:", seldate);
+                          location = "report?seldate=" + seldate;
+                      });
+
+				  }); // end dom loaded 이벤트
+
 				// 달력에 해당날짜 표시 (클래스추가 + css)
 				$(function(){
 					let d = Number('${seldate}'.slice(-2));
@@ -543,8 +547,8 @@
 					 return $(this).text()==d && !$(this).hasClass('inactive');
 					}).addClass('select-day');
 				});
-				
-				
+
+
 				let item = [];
 				let itemtotal = ${diaries.size()};
 				let pagetotal = Math.floor((itemtotal-1) / 3) + 1;
@@ -598,7 +602,7 @@
 		                //$(this).remove(); // X 버튼 클릭 시 해당 박스 제거
 		            });	*/
 		        });
-				
+
 				//updateSlides();  // 처음 페이지 로드 시 실행
 
 				$('.photos-report').on('click', '.next', function () {
