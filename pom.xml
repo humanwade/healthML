@@ -16,9 +16,8 @@
 
 
     <groupId>com.example</groupId>
-    <artifactId>eBoardRestful-1</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-
+    <artifactId>healthML</artifactId>
+    <version>0.0.1</version>
 
     <!-- JAR로 실행할 거니까 JAR -->
     <packaging>war</packaging>
