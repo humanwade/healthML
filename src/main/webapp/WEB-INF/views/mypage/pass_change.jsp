@@ -52,7 +52,7 @@
 		        	  <div class="dropdown2">
 						<span class="dropdown-real-mypage"><a href="/mypage">Mypage</a></span>
 						<span class="dropdown-item"><a href="../diary/report">report</a></span>
-						<span class="dropdown-mypage"><a href="../regist/start">Logout</a></span>
+						<span class="dropdown-mypage"><a href="/regist/logout">Logout</a></span>
 					  </div>
 					</nav>
                 <div class="menu-button w-nav-button">
@@ -69,7 +69,7 @@
                         <h4 class="sitemap-title">Change_Password</h4>
                     </div>
                     <div class="sitemap-info"><img src="../images/circle-blue_1circle-blue.png" loading="lazy" alt="" class="sitemap-dot">
-                        <div class="sitemap-text">비밀번호 변경</div>
+                        <div class="sitemap-text">Change password</div>
                     </div>
                 </div>
                 <div class="blog-wrapper">
@@ -79,12 +79,12 @@
                                 <div class="blog-item-div">
                                     <form id="passwordForm">
                                         <div class="sign-in-form-content-wrap">
-                                            <h3 class="sign-in-title2">현재 비밀번호를 입력해주세요</h3>
+                                            <h3 class="sign-in-title2">Enter the current password</h3>
                                         </div>
                                         <div class="sign-in-field-label">
                                             <div class="sign-in-single-field-wrap">
-                                                <label for="password" class="sign-in-field-label">비밀번호</label>
-                                                <input class="sign-in-field w-input" maxlength="256" name="password" data-name="Password" type="password" id="password"  placeholder="비밀번호를 입력해주세요">
+                                                <label for="password" class="sign-in-field-label">password</label>
+                                                <input class="sign-in-field w-input" maxlength="256" name="password" data-name="Password" type="password" id="password"  placeholder="Enter the password">
                                                 <div id="requirements">
                                                     <div id="length" class="invalid">• 8 characters</div>
                                                     <div id="letter" class="invalid">• Letter</div>

@@ -57,7 +57,7 @@
 		        	  <div class="dropdown2">
 						<span class="dropdown-real-mypage"><a href="mypage">Mypage</a></span>
 						<span class="dropdown-item"><a href="../diary/report">report</a></span>
-						<span class="dropdown-mypage"><a href="../regist/start">Logout</a></span>
+						<span class="dropdown-mypage"><a href="/regist/logout">Logout</a></span>
 					  </div>
 					</nav>
                 <div class="menu-button w-nav-button">

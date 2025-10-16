@@ -126,8 +126,7 @@
 			if( p>2 || $('.active').length!=0){		
 				switch(p){
 					case 0: data.goal=$('.active').val(); break;
-					case 1: data.activity=$('.active').val()
-								.slice(0,($('.active').val().indexOf('적')+1));break;
+					case 1: data.activity = $('.active').val().split('(')[0].trim(); break;
 					case 2: data.gender=$('.active').val(); break;
 					case 3: if($('.height-text').val()=='' || $('.weight-text').val() == '' 
 									|| $('.age-text').val() == '' ) return;

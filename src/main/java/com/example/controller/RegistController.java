@@ -18,6 +18,7 @@ import com.example.service.WeightService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping("/regist")
@@ -31,13 +32,20 @@ public class RegistController {
 	private EmailService emailservice;
 	@Autowired
     private JavaMailSender mailSender;
-	
-	@RequestMapping("/start")
-	public String home(HttpSession sess) {
-        System.out.println("🔥 /regist/start 진입");
-		sess.removeAttribute("user");
-		return "regist/regist_start";
-	}
+
+    @RequestMapping("/start")
+    public Object start(HttpSession sess) {
+        //System.out.println("[DEBUG] RegistController.start() 호출됨!");
+
+        if (sess.getAttribute("user") != null) {
+            //System.out.println("이미 로그인된 사용자 → /index로 리다이렉트");
+            return new RedirectView("/index");
+        }
+
+        //System.out.println("비로그인 상태 → regist_start.jsp로 이동");
+        return "regist/regist_start";
+    }
+
 	@RequestMapping("/goal")
 	public String goal() {
 		return "regist/regist_goal";
@@ -81,19 +89,19 @@ public class RegistController {
     @ResponseBody
     @RequestMapping("/emailDupleCheck")
     public String emailDupleCheck(String email) {
-        System.out.println("=== 이메일 중복 확인 디버깅 ===");
+        //System.out.println("=== 이메일 중복 확인 디버깅 ===");
 
         try {
             // 1. 서비스 자체가 null인지 확인
             if (userservice == null) {
-                System.out.println("ERROR: UserService is null");
+                //System.out.println("ERROR: UserService is null");
                 return "error";
             }
 
             // 2. getUser 메서드 호출 시도
-            System.out.println("Calling getUser with email: " + email);
+            //System.out.println("Calling getUser with email: " + email);
             UserVO user = userservice.getUser(email);
-            System.out.println("getUser result: " + user);
+            //System.out.println("getUser result: " + user);
 
             if(user == null) {
                 return "success";
@@ -101,7 +109,7 @@ public class RegistController {
                 return "fail";
             }
         } catch (Exception e) {
-            System.err.println("EXCEPTION in emailDupleCheck:");
+            //System.err.println("EXCEPTION in emailDupleCheck:");
             e.printStackTrace();
             return "error";
         }
@@ -122,6 +130,12 @@ public class RegistController {
 			return "redirect:/index";
 		return "regist/login";
 	}
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession sess) {
+        sess.invalidate();
+        return "redirect:/regist/start";
+    }
 	
 	@ResponseBody
 	@RequestMapping("/loginCheck")
@@ -147,9 +161,9 @@ public class RegistController {
     public String emailcheck(String email, HttpSession sess) {
         try {
             UserVO user = userservice.getUser(email);
-            System.out.println("이메일 확인 요청: " + email);
+            //System.out.println("이메일 확인 요청: " + email);
             if (user != null) {
-                System.out.println("사용자 있음: " + user.getEmail());
+                //System.out.println("사용자 있음: " + user.getEmail());
 
                 String subject = "비밀번호 변경시 필요한 인증번호입니다.";
                 String verify = emailservice.generateVerificationCode();
@@ -158,12 +172,12 @@ public class RegistController {
                 MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
 
                 helper.setTo(email);
-                helper.setFrom("dog8ayou@naver.com"); // ✅ 여기가 꼭 필요함!
+                helper.setFrom("dog8ayou@naver.com");
                 helper.setSubject(subject);
 
                 String html = "<html><body>" +
                         "<h1>" + verify + "</h1>" +
-                        "<p>위 인증번호를 정확히 입력해주세요.</p>" +
+                        "<p>Enter the verify code correctly</p>" +
                         "</body></html>";
                 helper.setText(html, true);
 
@@ -172,7 +186,7 @@ public class RegistController {
                 sess.setAttribute("email", email);
                 return "확인";
             } else {
-                System.out.println("사용자 없음");
+                //System.out.println("사용자 없음");
                 return "실패";
             }
         } catch (Exception e) {
@@ -180,7 +194,6 @@ public class RegistController {
             return "에러";
         }
     }
-
 
     @RequestMapping("/resetchk")
 	public String resetchk(HttpSession sess) {
@@ -205,13 +218,10 @@ public class RegistController {
         if (email == null) return "세션만료";
         user.setEmail(email);
 
-        // user.setPassword(passwordEncoder.encode(user.getPassword())); ← 제거
-
         userservice.passwordchange(user);
 
         return "변경성공";
     }
-
 
     // 마이페이지 비밀번호 체크
 	@ResponseBody

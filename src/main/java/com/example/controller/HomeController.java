@@ -3,11 +3,13 @@ package com.example.controller;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.domain.NewsVO;
@@ -26,6 +28,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class HomeController {
@@ -104,19 +107,65 @@ public class HomeController {
 
     // 운동입력
     @ResponseBody
-    @RequestMapping("workinput")
-    public HashMap workinput(HttpSession sess, WorkDiaryVO work) {
+    @RequestMapping(value = "workinput", method = RequestMethod.POST)
+    public Map<String, Object> workinput(HttpSession sess, WorkDiaryVO work) {
+        Map<String, Object> result = new HashMap<>();
 
-        if (sess.getAttribute("user") == null) {
-            HashMap<String, Object> response = new HashMap<>();
-            response.put("message", "세션만료");
-            return response;
+        Object sessUser = sess.getAttribute("user");
+        if (sessUser == null) {
+            result.put("message", "세션만료");
+            return result;
         }
-        work.setEmail((String) sess.getAttribute("user"));
-        workoutservice.insertWorkDiary(work);
-        HashMap workcal = workoutservice.workcal(work.getEmail(), now.toString());
-        return workcal;
+
+        try {
+            // 1) 세션에서 이메일 채우기
+            String email = (String) sessUser;
+            work.setEmail(email);
+
+            // 2) 입력값 검증(간단)
+            if (work.getWorkcatename() == null || work.getWorkcatename().trim().isEmpty()) {
+                result.put("error", "workcatename empty");
+                return result;
+            }
+            if (work.getWorktime() == null || work.getWorktime().trim().isEmpty()) {
+                result.put("error", "worktime empty");
+                return result;
+            }
+
+            // 3) DB에 삽입 (workdiary.workdiarydate는 mapper의 curdate() 사용)
+            workoutservice.insertWorkDiary(work);
+
+            // 4) 방금 삽입한 날짜 기준(오늘)으로 집계 조회
+            String seldate = java.time.LocalDate.now().toString(); // "YYYY-MM-DD"
+            Map<String, Object> workcal = workoutservice.workcal(email, seldate);
+            //System.out.println("workcal result: " + workcal);
+            //System.out.println("조회된 workcal: " + workcal);
+            //System.out.println("workcal 키들: " + workcal.keySet());
+            //System.out.println("workcal.get(\"workcal\") = " + workcal.get("workcal"));
+            //System.out.println("workcal.get(\"worktime\") = " + workcal.get("worktime"));
+
+            double time = 0;
+            double cal = 0;
+            if (workcal != null) {
+                Object wt = workcal.get("worktime");
+                Object wc = workcal.get("workcal");
+                if (wt != null) {
+                    try { time = Double.parseDouble(wt.toString()); } catch(Exception ignored){}
+                }
+                if (wc != null) {
+                    try { cal = Double.parseDouble(wc.toString()); } catch(Exception ignored){}
+                }
+            }
+
+            result.put("worktime", time);
+            result.put("workcal", cal);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("error", e.getMessage());
+        }
+        return result;
     }
+
 
     // 레시피전환
     @ResponseBody
@@ -130,9 +179,15 @@ public class HomeController {
         }
     }
 
-    @RequestMapping
-    public String first() {
-        return "redirect:/regist/start";
+    @RequestMapping("/")
+    public RedirectView first(HttpSession sess) {
+        if (sess.getAttribute("user") == null) {
+            //System.out.println("?? 세션 없음 → /regist/start 로 리다이렉트");
+            return new RedirectView("/regist/start");
+        } else {
+            //System.out.println("?? 로그인 상태 → /index 로 리다이렉트");
+            return new RedirectView("/index");
+        }
     }
 
     // 유튜브영상 자동재생 id값 받아오기

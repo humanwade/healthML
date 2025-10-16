@@ -17,4 +17,3 @@ public class TestApplication extends SpringBootServletInitializer {
         return builder.sources(TestApplication.class);
     }
 }
-

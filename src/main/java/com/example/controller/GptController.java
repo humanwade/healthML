@@ -50,7 +50,7 @@ public class GptController {
         HttpResponse<String> response = HttpClient.newHttpClient()
                 .send(request, HttpResponse.BodyHandlers.ofString());
 
-        System.out.println("OpenAI Response: " + response.body());
+        //System.out.println("OpenAI Response: " + response.body());
 
         // 6. JSON 파싱
         JSONObject json = new JSONObject(response.body());

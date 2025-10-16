@@ -159,7 +159,7 @@
     </script>
     <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
     <link href="images/webclip.png" rel="apple-touch-icon">
-<c:set var="flaskBaseUrl" value="http://192.168.2.23:5000" />
+<c:set var="flaskBaseUrl" value="http://132.145.108.97:5000" />
 </head>
 
 <body class="body">
@@ -182,7 +182,7 @@
 			        	  <div class="dropdown2">
 							<span class="dropdown-real-mypage"><a href="mypage">Mypage</a></span>
 							<span class="dropdown-item"><a href="diary/report">report</a></span>
-							<span class="dropdown-mypage"><a href="regist/start">Logout</a></span>
+							<span class="dropdown-mypage"><a href="/regist/logout">Logout</a></span>
 						  </div>
 					</nav>
                 <div class="menu-button w-nav-button">
@@ -602,11 +602,11 @@
 		        processData: false,
 		        contentType: false,
 		        success: function(data) {
-					alert(data);
-		            //alert("사진저장완료");
-		            $('#myModal4').css("display",'none');
-		            location = "/diary?seldate=${seldate}";
-		        },
+                    alert(data.message); // "Upload success"
+                    console.log("Flask 응답:", data);
+                    $('#myModal4').css("display",'none');
+                    location = "/diary?seldate=${seldate}";
+                },
 		        error: function(request, status, error) {
 		            alert('Upload failed22');
 		            console.error("Request status: ", status);
@@ -638,7 +638,7 @@
 		        // 선택한 이미지 파이썬flask로 전송
 		        await $.ajax({
 		            type: 'POST',
-		            url: 'http://192.168.2.23:5000/upload',
+		            url: 'http://132.145.108.97:5000/upload',
 		            data: formData,
 		            processData: false,
 		            contentType: false,

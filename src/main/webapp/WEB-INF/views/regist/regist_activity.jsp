@@ -53,6 +53,8 @@
 	                                <input type="button" class="goals-button" value="Moderately active (exercise 3–5 times per week)">
 	                                <input type="button" class="goals-button" value="Lightly active (light exercise 1–3 times per week)">
 	                                <input type="button" class="goals-button" value="Sedentary (little to no exercise)">
+
+	                                <input type="hidden" id="activityInput" name="activity">
 	                            </div>
 
 	                            <!-- Navigation Buttons -->
@@ -80,6 +82,20 @@
         // 이전 페이지로 이동합니다.
         window.history.back();
     }
+
+    function selectActivity(value) {
+    	    // 모든 버튼 스타일 초기화
+    	    document.querySelectorAll('.goals-button').forEach(btn => btn.style.backgroundColor = '#34b77f');
+    	    event.target.style.backgroundColor = '#f9a825'; // 선택 강조색
+
+    	    // sessionStorage에 저장
+    	    const data = JSON.parse(sessionStorage.getItem('formData') || '{}');
+    	    data.activity = value;
+    	    sessionStorage.setItem('formData', JSON.stringify(data));
+
+    	    // hidden input에도 저장
+    	    document.getElementById('activityInput').value = value;
+    	}
     </script>
 </body>
 

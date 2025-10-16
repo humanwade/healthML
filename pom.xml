@@ -3,7 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+
     <modelVersion>4.0.0</modelVersion>
+
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -12,19 +14,24 @@
         <relativePath/>
     </parent>
 
+
     <groupId>com.example</groupId>
     <artifactId>eBoardRestful-1</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
+
     <!-- JAR로 실행할 거니까 JAR -->
     <packaging>war</packaging>
+
 
     <name>eBoardRestful-1</name>
     <description>Demo project for Spring Boot</description>
 
+
     <properties>
         <java.version>17</java.version>
     </properties>
+
 
     <dependencies>
         <!-- 웹 MVC -->
@@ -33,12 +40,14 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+
         <!-- MyBatis -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>3.0.3</version>
         </dependency>
+
 
         <!-- 개발 편의성 -->
         <dependency>
@@ -48,6 +57,7 @@
             <optional>true</optional>
         </dependency>
 
+
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -55,12 +65,14 @@
             <optional>true</optional>
         </dependency>
 
+
         <!-- 톰캣 내장 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
         </dependency>
+
 
         <!-- JSP 렌더링 -->
         <dependency>
@@ -78,6 +90,7 @@
             <version>2.0.0</version>
         </dependency>
 
+
         <!-- MySQL -->
         <dependency>
             <groupId>com.mysql</groupId>
@@ -85,11 +98,13 @@
             <version>8.3.0</version>
         </dependency>
 
+
         <!-- 메일 서비스 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
+
 
         <!-- 테스트 -->
         <dependency>
@@ -104,12 +119,14 @@
             <scope>test</scope>
         </dependency>
 
+
         <!-- GPT -->
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>1.17.2</version>
         </dependency>
+
 
         <!-- ✅ JSON Parser (for JSONObject) -->
         <dependency>
@@ -118,6 +135,7 @@
             <version>20231013</version>
         </dependency>
     </dependencies>
+
 
     <build>
         <plugins>
@@ -136,4 +154,8 @@
         </plugins>
     </build>
 
+
 </project>
+
+
+

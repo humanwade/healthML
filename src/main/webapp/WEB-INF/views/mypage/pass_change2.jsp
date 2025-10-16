@@ -57,7 +57,7 @@
 		        	  <div class="dropdown2">
 						<span class="dropdown-real-mypage"><a href="/mypage">Mypage</a></span>
 						<span class="dropdown-item"><a href="../diary/report">report</a></span>
-						<span class="dropdown-mypage"><a href="../regist/start">Logout</a></span>
+						<span class="dropdown-mypage"><a href="/regist/logout">Logout</a></span>
 					  </div>    
 				</nav>
                 <div class="menu-button w-nav-button">
@@ -74,7 +74,7 @@
                         <h4 class="sitemap-title">Change_Password</h4>
                     </div>
                     <div class="sitemap-info"><img src="../images/circle-blue_1circle-blue.png" loading="lazy" alt="" class="sitemap-dot">
-                        <div class="sitemap-text">비밀번호 변경</div>
+                        <div class="sitemap-text">Change Password</div>
                     </div>
                 </div>
                 <div class="blog-wrapper">
@@ -83,13 +83,13 @@
                             <div data-w-id="896831f0-9c76-54de-eebe-d8914b48a114" role="listitem" class="blog-item1 w-dyn-item w-col w-col-6">
                                 <div class="blog-item-div">
                                     <div class="sign-in-form-content-wrap">
-                                        <h3 class="sign-in-title2">새로운 비밀번호를 입력해주세요</h3>
+                                        <h3 class="sign-in-title2">Enter the new password</h3>
                                     </div>
                                     <form id="passwordChangeForm"> <!-- 폼 추가 -->
                                         <div class="sign-in-field-label">
                                             <div class="sign-in-single-field-wrap">
-                                                <label for="password" class="sign-in-field-label">비밀번호</label>
-                                                <input class="sign-in-field w-input" maxlength="256" name="password" data-name="Password" type="password" id="password" required="" placeholder="비밀번호를 입력해주세요">
+                                                <label for="password" class="sign-in-field-label">password</label>
+                                                <input class="sign-in-field w-input" maxlength="256" name="password" data-name="Password" type="password" id="password" required="" placeholder="Enter your password">
                                                 <div id="requirements">
                                                     <div id="length" class="invalid">• 8 characters</div>
                                                     <div id="letter" class="invalid">• Letter</div>
@@ -100,12 +100,12 @@
                                         </div>
                                         <div class="sign-in-field-label">
                                             <div class="sign-in-single-field-wrap">
-                                                <label for="confirm-password" class="sign-in-field-label">비밀번호 확인</label>
-                                                <input class="checkpass w-input" maxlength="256" name="confirm-password" data-name="Confirm Password" type="password" id="confirm-password" required="" placeholder="비밀번호를 다시 입력해주세요" oninput="validateConfirmPassword()">
-                                                <div id="confirm-password-error" style="color: red; display: none;">비밀번호가 일치하지 않습니다.</div>
+                                                <label for="confirm-password" class="sign-in-field-label">Confrim password</label>
+                                                <input class="checkpass w-input" maxlength="256" name="confirm-password" data-name="Confirm Password" type="password" id="confirm-password" required="" placeholder="Confirm password" oninput="validateConfirmPassword()">
+                                                <div id="confirm-password-error" style="color: red; display: none;">Incorrect password</div>
                                             </div>
                                         </div>
-                                        <input type="submit" class="sign-in-submit-button4 w-button" value="다음">
+                                        <input type="submit" class="sign-in-submit-button4 w-button" value="Next">
                                     </form> <!-- 폼 종료 -->
                                 </div>
                             </div>

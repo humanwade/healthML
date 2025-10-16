@@ -9,21 +9,23 @@ import io
 import numpy as np
 from tensorflow.keras.models import load_model
 from mysql.connector import Error
+from config import Config
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
+app.config.from_object(Config)
 
 # Set the directory where uploaded file to save
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = Config.UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# Setting for DB connetion 
+# Setting for DB connetion
 db_config = {
-    'user': 'wade',
-    'password': 'password',
-    'host': '192.168.2.23',
-    'database': 'healthProject'}
+    'user': Config.DB_USER,
+    'password': Config.DB_PASSWORD,
+    'host': Config.DB_HOST,
+    'database': Config.DB_NAME}
 
 # Set the image size and color space
 im_rows = 64
@@ -135,5 +137,5 @@ def serve_uploaded_file(filename):
 
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000)
 

@@ -1,7 +1,6 @@
--- 데이터베이스 생성
+-- create database
 CREATE DATABASE healthProject CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- 사용자 계정 생성 (이미 있으면 생략 가능)
 CREATE USER 'wade'@'%' IDENTIFIED BY 'password';
 CREATE USER 'wade'@'127.0.0.1' IDENTIFIED BY 'password';
 CREATE USER 'wade'@'localhost' IDENTIFIED BY 'password';
@@ -11,7 +10,7 @@ ALTER USER 'wade'@'%' IDENTIFIED BY 'password';
 ALTER USER 'wade'@'127.0.0.1' IDENTIFIED BY 'password';
 FLUSH PRIVILEGES;
 
--- 권한 부여
+
 GRANT ALL PRIVILEGES ON healthProject.* TO 'wade'@'%';
 GRANT ALL PRIVILEGES ON healthproject.* TO 'wade'@'localhost';
 FLUSH PRIVILEGES;
@@ -20,10 +19,7 @@ SHOW VARIABLES LIKE 'pid_file';
 
 USE healthProject;
 
--- =========================
--- 1. 기존 테이블 제거 (순서 주의)
--- =========================
--- 자식 테이블부터 제거
+-- drop tables
 DROP TABLE IF EXISTS workdiary;
 DROP TABLE IF EXISTS workout;
 DROP TABLE IF EXISTS workcate;
@@ -36,26 +32,34 @@ DROP TABLE IF EXISTS userphoto;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS foodinfo;
 
--- 관리자 전용 테이블
+-- admin table
 DROP TABLE IF EXISTS adminexercise;
 DROP TABLE IF EXISTS adminrecipe;
 DROP TABLE IF EXISTS adminnews;
 DROP TABLE IF EXISTS adminuser;
 
 
--- =========================
--- 2. 테이블 생성
--- =========================
+-- create tables
 
--- 📌 유저 프로필 사진
+-- 1. foodinfo
+CREATE TABLE foodinfo (
+    foodname VARCHAR(100) PRIMARY KEY,
+    calories DECIMAL(7,2) NOT NULL,
+    carbohydrates DECIMAL(7,2) NOT NULL,
+    proteins DECIMAL(7,2) NOT NULL,
+    fats DECIMAL(7,2) NOT NULL,
+    INGREDIENTNAME VARCHAR(255)
+);
+
+-- 2. userphoto
 CREATE TABLE userphoto (
     profileid INT AUTO_INCREMENT PRIMARY KEY,
     profileurl VARCHAR(500),
     originname VARCHAR(255),
     uploadname VARCHAR(255)
 );
-select * from userphoto;
--- 📌 사용자 정보
+
+-- 3. users
 CREATE TABLE users (
     email VARCHAR(255) PRIMARY KEY,
     username VARCHAR(100) NOT NULL,
@@ -75,12 +79,7 @@ CREATE TABLE users (
         ON UPDATE CASCADE
 );
 
-select * from users;
-delete from users where email = 'image@hanmail.net';
-
-
-
--- 📌 사용자 체중 기록
+-- 4. weight
 CREATE TABLE weight (
     weightid INT AUTO_INCREMENT PRIMARY KEY,
     weight DECIMAL(5,2) NOT NULL,
@@ -92,10 +91,8 @@ CREATE TABLE weight (
         ON UPDATE CASCADE,
     UNIQUE (email, weightdate)
 );
-select * from weight;
 
-
--- 📌 사진 (Photos)
+-- 5. photos
 CREATE TABLE photos (
     photoid INT AUTO_INCREMENT PRIMARY KEY,
     photourl VARCHAR(500),
@@ -103,11 +100,48 @@ CREATE TABLE photos (
     uploadname VARCHAR(255)
 );
 
-select * from photos;
-delete from photos where photoid = '10';
+-- 6. workcate
+CREATE TABLE workcate (
+    catename VARCHAR(100) PRIMARY KEY,
+    mets DECIMAL(5,2) NOT NULL
+);
 
+-- 7. workout
+CREATE TABLE workout (
+    workoutid INT AUTO_INCREMENT PRIMARY KEY,
+    catename VARCHAR(100),
+    workoutname VARCHAR(255),
+    kcal DECIMAL(6,2),
+    photoid INT,
+    workvideoid VARCHAR(100),
+    CONSTRAINT fk_workout_catename FOREIGN KEY (catename)
+        REFERENCES workcate(catename)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT fk_workout_photo FOREIGN KEY (photoid)
+        REFERENCES photos(photoid)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+);
 
--- 📌 일기 (Diary)
+-- 8. workdiary
+CREATE TABLE workdiary (
+    workdiaryid INT AUTO_INCREMENT PRIMARY KEY,
+    workcatename VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    worktime DECIMAL(5,2) NOT NULL,
+    workdiarydate DATE DEFAULT (CURRENT_DATE),
+    CONSTRAINT fk_workdiary_catename FOREIGN KEY (workcatename)
+        REFERENCES workcate(catename)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT fk_workdiary_user FOREIGN KEY (email)
+        REFERENCES users(email)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+-- 9. diary
 CREATE TABLE diary (
     datano INT AUTO_INCREMENT PRIMARY KEY,
     diarydate DATE NOT NULL,
@@ -129,11 +163,7 @@ CREATE TABLE diary (
         ON UPDATE CASCADE
 );
 
-select * from diary;
-delete from diary where datano ='9';
-
-
--- 📌 뉴스
+-- 10. news
 CREATE TABLE news (
     newsid INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(300),
@@ -143,11 +173,7 @@ CREATE TABLE news (
     nimgurl VARCHAR(500)
 );
 
-select * from news;
-delete from news where newsid between 3 and 12;
-
-
--- 📌 레시피
+-- 11. recipe
 CREATE TABLE recipe (
     recipeno INT AUTO_INCREMENT PRIMARY KEY,
     menuname VARCHAR(200),
@@ -160,85 +186,10 @@ CREATE TABLE recipe (
     rfats FLOAT,
     category VARCHAR(100)
 );
-select * from recipe;
-delete from recipe where category ='건강식';
 
 
--- 📌 운동 카테고리
-CREATE TABLE workcate (
-    catename VARCHAR(100) PRIMARY KEY,
-    mets DECIMAL(5,2) NOT NULL
-);
 
-select * from workcate;
-UPDATE workcate
-SET catename = 'Swimming'
-WHERE catename = '수영';
-
-
--- 📌 운동 (Workout)
-CREATE TABLE workout (
-    workoutid INT AUTO_INCREMENT PRIMARY KEY,
-    catename VARCHAR(100),
-    workoutname VARCHAR(100),
-    kcal DECIMAL(6,2),
-    photoid INT,
-    workvideoid VARCHAR(100),
-    CONSTRAINT fk_workout_catename FOREIGN KEY (catename)
-        REFERENCES workcate(catename)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    CONSTRAINT fk_workout_photo FOREIGN KEY (photoid)
-        REFERENCES photos(photoid)
-        ON DELETE SET NULL
-        ON UPDATE CASCADE
-);
-ALTER TABLE workout MODIFY workoutname VARCHAR(255);
-
-select * from workout;
-delete from workout where catename = 'Running';
-SELECT * FROM workout ORDER BY workoutid DESC LIMIT 10;
--- 📌 운동 일지 (WorkDiary)
-CREATE TABLE workdiary (
-    workdiaryid INT AUTO_INCREMENT PRIMARY KEY,
-    workcatename VARCHAR(100) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    worktime DECIMAL(5,2) NOT NULL,
-    workdiarydate DATE DEFAULT (CURRENT_DATE),
-    CONSTRAINT fk_workdiary_catename FOREIGN KEY (workcatename)
-        REFERENCES workcate(catename)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    CONSTRAINT fk_workdiary_user FOREIGN KEY (email)
-        REFERENCES users(email)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
-select * from workdiary;
-
-
--- 📌 음식 영양 정보
-CREATE TABLE foodinfo (
-    foodname VARCHAR(100) PRIMARY KEY,
-    calories DECIMAL(7,2) NOT NULL,
-    carbohydrates DECIMAL(7,2) NOT NULL,
-    proteins DECIMAL(7,2) NOT NULL,
-    fats DECIMAL(7,2) NOT NULL
-);
-ALTER TABLE foodinfo
-ADD COLUMN INGREDIENTNAME VARCHAR(255);
-select * from foodinfo;
-
-UPDATE foodinfo
-SET foodname = 'KIMBAP'
-WHERE foodname = 'kimbob';
-
-
--- =========================
--- 3. 관리자(Admin) 테이블
--- =========================
-
--- 📌 관리자 계정
+-- admin table
 CREATE TABLE adminuser (
     adminid      INT AUTO_INCREMENT PRIMARY KEY,
     email        VARCHAR(100),
@@ -248,7 +199,6 @@ CREATE TABLE adminuser (
 select * from adminuser;
 
 
--- 📌 관리자 레시피 관리
 CREATE TABLE adminrecipe (
     id           INT AUTO_INCREMENT PRIMARY KEY,
     recipeno     INT,
@@ -257,7 +207,7 @@ CREATE TABLE adminrecipe (
     CONSTRAINT fk_adminrecipe_recipe FOREIGN KEY (recipeno) REFERENCES recipe(recipeno)
 );
 
--- 📌 관리자 뉴스 관리
+
 CREATE TABLE adminnews (
     id           INT AUTO_INCREMENT PRIMARY KEY,
     newsid       INT,
@@ -266,7 +216,7 @@ CREATE TABLE adminnews (
     CONSTRAINT fk_adminnews_news FOREIGN KEY (newsid) REFERENCES news(newsid)
 );
 
--- 📌 관리자 운동 관리
+
 CREATE TABLE adminexercise (
     id           INT AUTO_INCREMENT PRIMARY KEY,
     workoutid    INT,
@@ -276,7 +226,7 @@ CREATE TABLE adminexercise (
 );
 
 
-USE healthProject;
+
 
 -- 1️⃣ 프로필 이미지 기본값
 INSERT INTO userphoto (profileurl, originname, uploadname)
@@ -347,38 +297,3 @@ VALUES
 ('운동의 중요성', 'https://example.com/news1', '꾸준한 운동은 심혈관 건강에 도움이 됩니다.', '2025-10-01', '/uploads/news/news1.jpg'),
 ('단백질 섭취의 필요성', 'https://example.com/news2', '근육 회복에는 단백질이 필수입니다.', '2025-09-28', '/uploads/news/news2.jpg');
 
-
--- 로그인 테스트
-SELECT * FROM users ;
-
--- 메인페이지용
-SELECT * FROM recipe ORDER BY RAND() LIMIT 1;
-SELECT * FROM workout ORDER BY RAND() LIMIT 1;
-SELECT * FROM news ORDER BY RAND() LIMIT 1;
-
--- 다이어리 + 몸무게 차트 테스트
-SELECT * FROM diary WHERE email='as@as.as';
-SELECT * FROM weight WHERE email='as@as.as' ORDER BY weightdate DESC;
-DESC workdiary;
-ALTER TABLE workcate ADD COLUMN workcatename VARCHAR(100) GENERATED ALWAYS AS (catename) STORED;
-
-
- SELECT
-        u.email AS email,
-        u.username AS username,
-        u.password AS password,
-        u.joindate AS joindate,
-        u.goal AS goal,
-        u.goalsuccess AS goalsuccess,
-        u.height AS height,
-        u.age AS age,
-        u.gender AS gender,
-        u.activity AS activity,
-        u.photoid AS photoid,
-        u.successdate AS successdate
-        FROM users u
-        LEFT JOIN weight w ON u.email = w.email
-        LEFT JOIN userphoto up ON u.photoid = up.profileid
-        WHERE u.email = 'image@hanmail.net'
-        ORDER BY w.weightdate DESC
-        LIMIT 1;

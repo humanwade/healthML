@@ -48,7 +48,7 @@
 		        	  <div class="dropdown2">
 						<span class="dropdown-real-mypage"><a href="/mypage">Mypage</a></span>
 						<span class="dropdown-item"><a href="../diary/report">report</a></span>
-						<span class="dropdown-mypage"><a href="../regist/start">Logout</a></span>
+						<span class="dropdown-mypage"><a href="/regist/logout">Logout</a></span>
 					  </div>
 					</nav>
                 <div class="menu-button w-nav-button">
@@ -74,66 +74,66 @@
 	                        <div data-w-id="896831f0-9c76-54de-eebe-d8914b48a114" role="listitem" class="blog-item1 w-dyn-item w-col w-col-6">
 	                            <div class="container2">
 	                                <div class="container3">
-	                                    <h1>회원정보</h1>
+	                                    <h1>User Info</h1>
 	                                    <br />
 	                                    <div class="info-group2-inline">
 	                                        <div class="info-group2">
-	                                            <label style="margin-bottom:20px;">이름</label>
+	                                            <label style="margin-bottom:20px;">Name</label>
 	                                            <span style="margin-bottom:20px;">${user.username}</span>
 	                                        </div>
 	                                    </div>
 	                                    <div class="info-group2-inline">
 	                                        <div class="info-group2">
-	                                            <label style="margin-bottom:20px;">성별</label>
+	                                            <label style="margin-bottom:20px;">Gender</label>
 	                                            <span style="margin-bottom:20px;">${user.gender}</span>
 	                                        </div>
 	                                        <div class="info-group2">
-	                                            <label style="margin-bottom:20px;">나이</label>
+	                                            <label style="margin-bottom:20px;">Age</label>
 	                                            <span style="margin-bottom:20px;">${user.age}세</span>
 	                                        </div>
 	                                    </div>
 	                                    <div class="info-group2-inline">
 	                                        <div class="info-group2">
-	                                            <label style="margin-bottom:20px;">이메일</label>
+	                                            <label style="margin-bottom:20px;">Email</label>
 	                                            <span style="margin-bottom:20px;">${user.email}</span>
 	                                        </div>
 
 	                                        <div class="info-group2">
-	                                            <label style="margin-bottom:20px;">몸무게 (kg)</label>
+	                                            <label style="margin-bottom:20px;">Weight (kg)</label>
 	                                            <span style="margin-bottom:20px;">${user.weight}</span>
 	                                        </div>
 	                                    </div>
 	                                    <div class="info-group2-inline">
 	                                        <div class="info-group2">
-	                                            <label style="margin-bottom:20px;">키 (cm)</label>
+	                                            <label style="margin-bottom:20px;">Height (cm)</label>
 	                                            <input class='mypage-height' type="text" placeholder="${user.height}" style="margin-bottom:20px;">
 	                                        </div>
 	                                        <div class="info-group2">
-	                                            <label for="input-field">목표</label>
+	                                            <label for="input-field">Goal</label>
 	                                            <span class="mypage-goal">${user.goal}</span>
 	                                            <div class="input-with-dropdown">
 	                                                <select id="dropdown-menu-goal">
-	                                                    <option value="체중증량">체중증량</option>
-	                                                    <option value="체중감량">체중감량</option>
-	                                                    <option value="근육강화">근육강화</option>
+	                                                    <option value="Weight loss">Weight loss</option>
+	                                                    <option value="Maintain weight">Maintain weight</option>
+	                                                    <option value="Muscle gain">Muscle gain</option>
 	                                                </select>
 	                                            </div>
 	                                        </div>
 	                                        <div class="info-group2">
-	                                            <label for="input-field">활동량</label>
+	                                            <label for="input-field">Activity</label>
 	                                            <span class="mypage-activity">${user.activity}</span>
 	                                            <div class="input-with-dropdown">
 	                                                <select id="dropdown-menu-activity">
-	                                                    <option value="비활동적">비활동적</option>
-	                                                    <option value="저활동적">저활동적</option>
-	                                                    <option value="활동적">활동적</option>
-	                                                    <option value="매우활동적">매우활동</option>
+	                                                    <option value="Sedentary">Sedentary</option>
+	                                                    <option value="Lightly active">Lightly active</option>
+	                                                    <option value="Moderately active">Moderately active</option>
+	                                                    <option value="Very active">Very active</option>
 	                                                </select>
 	                                            </div>
 	                                        </div>
 	                                    </div>
 	                                    <div class="btn4">
-	                                        <button class="change-submit" style="margin-left:40%;">변경하기</button>
+	                                        <button class="change-submit" style="margin-left:40%;">Confirm</button>
 	                                    </div>
 	                                </div>
 	                            </div>

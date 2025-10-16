@@ -41,24 +41,25 @@
 	</insert>
 	
 	<!-- 운동 칼로리 소모량 -->
-    <select id="workcal" resultType="hashmap">
-        SELECT w.email, wd.workdiarydate,
-        ROUND(SUM(w.weight * wc.mets * (wd.worktime/60)), 1) AS workcal,
-        SUM(wd.worktime) AS worktime
+    <select id="workcal" parameterType="map" resultType="hashmap">
+        SELECT
+        IFNULL(ROUND(SUM(w.weight * wc.mets * (wd.worktime / 60)), 1), 0) AS workcal,
+        IFNULL(SUM(wd.worktime), 0) AS worktime
         FROM weight w
         JOIN workdiary wd ON wd.email = w.email
-        JOIN workcate wc ON wc.catename = wd.workcatename
+        JOIN workcate wc ON wc.workcatename = wd.workcatename
         WHERE w.email = #{email}
-        AND wd.workdiarydate = #{seldate}
+        AND DATE(wd.workdiarydate) = DATE(#{seldate})
         AND w.weightdate = (
         SELECT MAX(w2.weightdate)
         FROM weight w2
         WHERE w2.email = w.email
         )
-        GROUP BY w.email, wd.workdiarydate
     </select>
 
-	<!--   운동 상세페이지 운동불러오기  -->
+
+
+    <!--   운동 상세페이지 운동불러오기  -->
     <select id="getWorkout" resultType="WorkoutVO">
         SELECT *
         FROM workout

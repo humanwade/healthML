@@ -50,7 +50,7 @@
                     <div class="dropdown2">
 						<span class="dropdown-real-mypage"><a href="mypage">Mypage</a></span>
                         <span class="dropdown-item"><a href="diary/report">report</a></span>
-                        <span class="dropdown-mypage"><a href="regist/start">Logout</a></span>
+                        <span class="dropdown-mypage"><a href="/regist/logout">Logout</a></span>
                     </div>
                 </nav>
                 <div class="menu-button w-nav-button">
@@ -412,31 +412,57 @@
 		console.log('${work}');
 		
 		// 운동입력
-		const updateScale = function(){
-			if($('#exercise-type').val()!=null&&$('#exercise-min').val()!=""){
-				let workcatename = $('#exercise-type').val();
-				let worktime = $('#exercise-min').val();
-				$.ajax({
-					url : "workinput",
-					data : {"workcatename": workcatename, "worktime": worktime},
-					success : function(result){
-						if(result.message=='세션만료')location="regist/login"
-						$('.summary').empty();
-						let a = '<div class="summary">'
-		                       + '<h3>Summary</h3>'
-		                       + '<p id="totalDuration">Total Workout: '+ result.worktime + '&nbsp;min</p>'
-		                       + '<p id="totalDistance">Consume Cals: '+ result.workcal.toFixed(1) + '&nbsp;kcal</p> </div>';
-						$('.summary').append(a);
-						$('#exercise-min').val("");
-						$('#exercise-type').val("");
-					},
-					error : function(stat, err, c){
-						console.log(stat, err, c);
-						alert('실패');
-					}
-				});
-			}
-		};
+		function updateScale(){
+            var workcatename = $('#exercise-type').val();
+            var worktime = $('#exercise-min').val();
+
+            if (!workcatename || worktime === "") {
+                alert('운동종목과 시간을 입력하세요.');
+                return;
+            }
+
+            $.ajax({
+                url: 'workinput',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    workcatename: workcatename,
+                    worktime: worktime
+                },
+                success: function(res){
+                    console.log('서버 응답 :', res);
+                    if (res.message === '세션만료') {
+                        location = 'regist/login';
+                        return;
+                    }
+                    // 에러 처리
+                    if (res.error) {
+                        alert('서버 에러: ' + res.error);
+                        return;
+                    }
+
+                    // 값 표시 (숫자 포맷 안전 처리)
+                    var wt = (res.worktime !== undefined && res.worktime !== null) ? parseFloat(res.worktime).toFixed(2) : '0.00';
+                    var wc = (res.workcal !== undefined && res.workcal !== null) ? parseFloat(res.workcal).toFixed(1) : '0.0';
+
+                    var html = '<div class="summary">'
+                             + '<h3>Summary</h3>'
+                             + '<p id="totalDuration">Total workout: ' + wt + ' min</p>'
+                             + '<p id="totalDistance">Consume Cals: ' + wc + ' kcal</p>'
+                             + '</div>';
+
+                    $('.summary').replaceWith(html);
+
+                    // 입력 초기화
+                    $('#exercise-min').val('');
+                    $('#exercise-type').val('');
+                },
+                error: function(xhr, status, err){
+                    console.error('workinput error:', status, err, xhr.responseText);
+                    alert('업로드 실패, 콘솔을 확인하세요.');
+                }
+            });
+        }
 
 		// 운동시간 엔터로 입력
 		$('#exercise-min').keyup(function(evt){

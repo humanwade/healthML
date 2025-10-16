@@ -63,11 +63,11 @@ public class DiaryController {
         }
 
         // 다이어리 리스트 가져오기
-        System.out.println("📩 email = " + email);
-        System.out.println("📅 seldate = " + seldate);
+        //System.out.println("email = " + email);
+        //System.out.println("seldate = " + seldate);
 
         if (email == null || seldate == null) {
-            System.out.println("⚠️ email 또는 seldate가 null입니다.");
+            //System.out.println("email 또는 seldate가 null입니다.");
             return "redirect:/login";
         }
 
@@ -77,8 +77,8 @@ public class DiaryController {
             result[i] = new ArrayList();
         }
 
-        // 🔍 DB에서 가져온 전체 다이어리 데이터 콘솔 출력
-        System.out.println("📦 diarylist 내용 확인");
+        // DB에서 가져온 전체 다이어리 데이터 콘솔 출력
+       // System.out.println("diarylist 내용 확인");
         for (HashMap vo : diarylist) {
             System.out.println(vo);
 
@@ -87,12 +87,12 @@ public class DiaryController {
             if (vo.containsKey("PHOTOID")) vo.put("photoid", vo.get("PHOTOID"));
             if (vo.containsKey("FOODNAME")) vo.put("foodname", vo.get("FOODNAME"));
 
-            System.out.println("➡️ uploadname = " + vo.get("uploadname"));
+            //System.out.println("uploadname = " + vo.get("uploadname"));
 
             // ✅ HISTORY 기준으로 분류
             String history = (String) (vo.containsKey("HISTORY") ? vo.get("HISTORY") : vo.get("history"));
             if (history == null) {
-                System.out.println("⚠️ HISTORY가 null입니다. 스킵합니다.");
+                //System.out.println("HISTORY가 null입니다. 스킵합니다.");
                 continue;
             }
 
@@ -101,7 +101,7 @@ public class DiaryController {
                 case "점심": result[1].add(vo); break;
                 case "저녁": result[2].add(vo); break;
                 case "간식": result[3].add(vo); break;
-                default: System.out.println("⚠️ 예외적인 history: " + history); break;
+                default: System.out.println("예외적인 history: " + history); break;
             }
         }
 
@@ -112,12 +112,12 @@ public class DiaryController {
         List<WeightVO> weights = weightservice.getWeights(email, seldate);
         m.addAttribute("weights", weights);
 
-        // ✅ 차트 데이터 가져오기
+        // 차트 데이터 가져오기
         List<HashMap> chartdatas = diaryservice.getDiaryChartSum(email, seldate);
-        System.out.println("📊 getDiaryChartSum 결과: " + chartdatas);
+        //System.out.println("getDiaryChartSum 결과: " + chartdatas);
         m.addAttribute("chartdatas", chartdatas);
 
-        // ✅ JSP에서 직접 ${carbsum}, ${proteinsum}, ${fatsum}, ${calsum} 접근 가능하도록 별도 등록
+        // JSP에서 직접 ${carbsum}, ${proteinsum}, ${fatsum}, ${calsum} 접근 가능하도록 별도 등록
         if (chartdatas != null && !chartdatas.isEmpty()) {
             HashMap<String, Object> sum = chartdatas.get(0);
             m.addAttribute("calsum", sum.getOrDefault("Calsum", 0));
@@ -216,7 +216,7 @@ public class DiaryController {
         // DB 입력
         diaryservice.insertDiary(diary);
 
-        System.out.println("✅ Diary Saved: " + diary);
+        //System.out.println("Diary Saved: " + diary);
         return "success";
     }
 
@@ -226,8 +226,8 @@ public class DiaryController {
 	@RequestMapping("saveManualDiary")
 	public String saveMenualDiary(DiaryVO diary, HttpSession sess) {
 		if(sess.getAttribute("user") == null) return "세션만료";
-		System.out.println("호출");
-		System.out.println(diary);
+		//System.out.println("호출");
+		//System.out.println(diary);
 		diary.setEmail((String)sess.getAttribute("user"));
 		diaryservice.insertDiary(diary);
 		return "finish";
