@@ -157,7 +157,7 @@
             n.className += t + "js", ("ontouchstart" in o || o.DocumentTouch && c instanceof DocumentTouch) && (n.className += t + "touch")
         }(window, document);
     </script>
-    <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
+    <link href="images/wj-logo.png" rel="shortcut icon" type="image/x-icon">
     <link href="images/webclip.png" rel="apple-touch-icon">
 <c:set var="flaskBaseUrl" value="http://132.145.108.97:5000" />
 </head>

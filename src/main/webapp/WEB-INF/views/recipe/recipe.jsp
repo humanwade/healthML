@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Work</title>
+    <title>Recipe</title>
     <meta content="Work" property="og:title">
     <meta content="Work" property="twitter:title">
     <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -31,7 +31,7 @@
             n.className += t + "js", ("ontouchstart" in o || o.DocumentTouch && c instanceof DocumentTouch) && (n.className += t + "touch")
         }(window, document);
     </script>
-    <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
+    <link href="images/wj-logo.png" rel="shortcut icon" type="image/x-icon">
     <link href="images/webclip.png" rel="apple-touch-icon">
 </head>
 
