@@ -1,5 +1,5 @@
 # 🍱 Calories Cut – Web-Based Health Diary with AI Food Recognition  
-🔗 [Live Demo - Calories Cut](http://132.145.108.97:8080/)
+🔗 [Live Demo - Calories Cut](http://health.wadeverse.net/)
 
 ---
 
