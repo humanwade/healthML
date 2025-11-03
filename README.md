@@ -173,8 +173,67 @@ pip install -r requirements.txt
 python3 photoDBinsert.py
 ```
 
+## 🧩 System Architecture
+```mermaid
+flowchart TD
+  A[User_Browser] --> B[Spring_Boot_Backend]
+  B -->|Image_Upload_REST_API| C[ML_Inference_Service_Flask]
+  C -->|Prediction_Result_and_Path| D[(MySQL_Image_and_Log_Store)]
+  D --> B
+  B --> E[JSP_Frontend]
+  E -->|Render_Diary_Data| A
+```
 
+## 🌿 Workflow Overview  
 
+### 1️⃣ Data Pipeline  
+- Collected and cleaned **5,000+ labeled food images** manually from Google Images.  
+- Preprocessed using `OpenCV` (resizing, normalization) and `NumPy`.  
+- Trained a CNN-based food classifier (~4.9M parameters) with **TensorFlow/Keras**, using batch normalization and dropout for regularization.  
+- Evaluated model performance with an 80/20 validation split and exported the `.h5` model for production.  
+
+### 2️⃣ Model Deployment  
+- Served trained model through a lightweight **Flask REST API** for inference.  
+- Deployed on **Ubuntu (Oracle Cloud)** and **Raspberry Pi 5** for distributed testing.  
+- Managed uptime using **PM2** (auto-restart, log rotation, background execution).  
+- Enabled secure HTTPS routing and public accessibility via **Cloudflare Tunnel**.  
+
+### 3️⃣ System Integration  
+- **Spring Boot backend** consumes Flask API responses via REST calls for calorie prediction.  
+- Results stored in **MySQL**, linked to user accounts and food logs.  
+- Implemented **AJAX-based asynchronous requests** for responsive UI performance.  
+
+### 4️⃣ Monitoring & Versioning  
+- Used **PM2 logs** and monitoring tools to track uptime and API latency (~180–200 ms average).  
+- Created **shell scripts** for model retraining and automated service restarts.  
+
+---
+
+### 🧠 Future MLOps Goals  
+Model Retraining Enhancement
+- Currently, the model is trained and deployed manually with collected data.
+Future updates will support periodic retraining when new food images are added,
+allowing one-command model updates for faster iteration.
+- Improved Logging & Monitoring
+At present, server health is checked through PM2 logs.
+Planned upgrades include a simple web dashboard or lightweight visualization tool (e.g., Grafana-lite)
+to monitor inference requests and system status more intuitively.
+- Better Data Management
+Image data is currently stored in a single folder.
+Future versions will adopt a date-based folder structure or expanded DB schema
+to better organize image versions and training datasets.
+- Responsive UI Redesign
+The current interface is optimized for desktop only.
+Future improvements will include mobile responsiveness using Webflow or Tailwind CSS
+for a smoother user experience across devices.
+
+---
+
+### 🧩 Key Takeaways  
+This project simulates a small-scale **AI Platform**:  
+- Covers the full pipeline: **data → model → deployment → monitoring**  
+- Combines **software engineering (Spring Boot, MySQL)** with **ML infrastructure (Flask, PM2, Cloudflare)**  
+- Demonstrates practical **MLOps experience** — deploying, maintaining, and improving real AI services end-to-end.  
 
 
 
