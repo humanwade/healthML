@@ -64,7 +64,12 @@ jobs:
 
             # 5-2-3. Restart the PM2 process
             # Ensure 'healthML' is the correct PM2 process name on Pi
-            ssh pi@ssh.wadeverse.net "pm2 restart healthML" 
+            ssh pi@ssh.wadeverse.net "
+              # delete if there is previous version
+              rm -f ~/healthML-0.0.1.war
+              # PM2 restart
+              pm2 restart healthML
+            "
             
             # 5-2-4. Delete temporary file on VM
             rm ~/healthML.war_temp
