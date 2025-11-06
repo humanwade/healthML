@@ -54,7 +54,7 @@
                     </div>
                 </nav>
                 <div class="menu-button w-nav-button">
-                    <div class="icon w-icon-nav-menu">  </div>
+                    <div class="icon w-icon-nav-menu"></div>
                 </div>
             </div>
         </div>
