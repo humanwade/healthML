@@ -243,7 +243,7 @@
 										            <div class="photo-box-report">
 														<span class="close">&times;</span>
 														<c:if test="${diary.uploadname!=null}">
-										                	<img src="http://132.145.108.97:5000/uploads/${diary.uploadname}" alt="${diary.datano}">
+										                	<img src="https://health-api.wadeverse.net/uploads/${diary.uploadname}" alt="${diary.datano}">
 														</c:if>
 														<c:if test="${diary.uploadname==null}">
 										                	<img src="/images/CClogo.png" alt="${diary.datano}">
@@ -577,7 +577,7 @@
                                 + '<span class="close">&times;</span>'; // X 버튼 추가
 
                             if (item[i].img != '')
-                                aa += '<img src="http://132.145.108.97:5000/uploads/' + item[i].img + '" alt="' + item[i].diaryno + '">';
+                                aa += '<img src="https://health-api.wadeverse.net/uploads/' + item[i].img + '" alt="' + item[i].diaryno + '">';
                             else
                                 aa += '<img src="../images/CClogo.png" alt="' + item[i].diaryno + '">';
 

@@ -159,7 +159,7 @@
     </script>
     <link href="images/wj-logo.png" rel="shortcut icon" type="image/x-icon">
     <link href="images/webclip.png" rel="apple-touch-icon">
-<c:set var="flaskBaseUrl" value="http://132.145.108.97:5000" />
+<c:set var="flaskBaseUrl" value="https://health-api.wadeverse.net/" />
 </head>
 
 <body class="body">
@@ -621,57 +621,60 @@
 		    document.getElementById(inputId).click();
 		}
 		// 파일 선택 시 처리
-		async function handleFileSelect(event, previewId, photoBoxId, mealType) {
-		    var file = event.target.files[0]; // 선택된 파일 객체
-		    if (file) {
-		        var reader = new FileReader(); // 파일을 읽기 위한 FileReader 객체 생성
-		        reader.onload = function(e) {
-		            $('.photo-box-detail img').attr('src', e.target.result);
-		        };
-		        reader.readAsDataURL(file); // 파일을 읽어 data URL 형식으로 변환*/
-		        formData.delete('file');
-		        formData.append('file', file);
-		        //아, 점, 저 ,간 지정
-		        formData.delete('history');
-		        formData.append('history', mealType);
+        async function handleFileSelect(event, previewId, photoBoxId, mealType) {
+            const file = event.target.files[0];
+            if (!file) return;
 
-		        // 선택한 이미지 파이썬flask로 전송
-		        await $.ajax({
-		            type: 'POST',
-		            url: 'http://132.145.108.97:5000/upload',
-		            data: formData,
-		            processData: false,
-		            contentType: false,
-		            success: function(result) {
-		                if (result.foodname == "Error") {
-		                    alert('사진이 올바르지 않습니다');
-		                } else {
-		                    //alert('이미지분석완료');
-		                    $('#food-name').text(result.foodname);
-		                    $('#selected-value').text(result.foodname);
-		                    $('#options').val(result.foodname);
-		                    $('#photo-cal-no').text($('#options option:selected').attr('cal'));
-		                    //formData.append("foodname", data.foodname);
-		                    formData.delete('photoid');             // 혹시 기존 값 있으면 제거
-                            formData.append('photoid', result.photoid); // Flask 응답의 photoid 추가
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                $('.photo-box-detail img').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(file);
 
-                            console.log("📸 Flask photoid:", result.photoid);
+            formData.delete('file');
+            formData.append('file', file);
+            formData.delete('history');
+            formData.append('history', mealType);
 
-		                    //음식사진 이름확인 모달 열기
-		                    modal2.style.display = "block";
-		                }
-		            },
-		            error: function(request, status, error) {
-		                alert('Networking is not working, Try it later!');
-		                console.error("Request status: ", status);
-		                console.error("Error: ", error);
-		                console.error("Request: ", request);
-		            }
-		        });
-		    }
-			// 파일선택 초기화  => 같은 파일 선택시 이벤트처리가능
-			event.target.value="";
-		}
+            try {
+                const result = await $.ajax({
+                    type: 'POST',
+                    url: 'https://health-api.wadeverse.net/upload',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    crossDomain: true,
+                    xhrFields: { withCredentials: true },
+                    dataType: "json",
+                    timeout: 20000,
+                });
+
+                console.log("✅ Flask Response:", result);
+
+                if (result.foodname === "Error") {
+                    alert('사진이 올바르지 않습니다');
+                    return;
+                }
+
+                $('#food-name').text(result.foodname);
+                $('#selected-value').text(result.foodname);
+                $('#options').val(result.foodname);
+                $('#photo-cal-no').text($('#options option:selected').attr('cal'));
+
+                formData.delete('photoid');
+                formData.append('photoid', result.photoid);
+
+                console.log("📸 Flask photoid:", result.photoid);
+
+                modal2.style.display = "block";
+            } catch (error) {
+                console.error("🔥 Flask 업로드 실패:", error);
+                alert('Networking error, Try again later!');
+            } finally {
+                // 같은 파일 다시 선택 가능하도록 초기화
+                event.target.value = "";
+            }
+        }
 			
 		// 이미지분석 모달 확인버튼 클릭시 DB 사진저장 및 다이어리 저장
 		$('.photo_submit_btn').click(function() {

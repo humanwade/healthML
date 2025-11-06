@@ -33,18 +33,18 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/diary")
 public class DiaryController {
 
-	@Autowired
-	PhotoService photoservice;
-	@Autowired
-	UserService userservice;
-	@Autowired
-	DiaryService diaryservice;
-	@Autowired
-	WeightService weightservice;
-	@Autowired
-	WorkoutService workoutservice;
-	
-	@RequestMapping
+    @Autowired
+    PhotoService photoservice;
+    @Autowired
+    UserService userservice;
+    @Autowired
+    DiaryService diaryservice;
+    @Autowired
+    WeightService weightservice;
+    @Autowired
+    WorkoutService workoutservice;
+
+    @RequestMapping
     public String home(Model m, HttpSession sess, String seldate) {
         // 세션 로그인 검사
         if (sess.getAttribute("user") == null)
@@ -78,7 +78,7 @@ public class DiaryController {
         }
 
         // DB에서 가져온 전체 다이어리 데이터 콘솔 출력
-       // System.out.println("diarylist 내용 확인");
+        // System.out.println("diarylist 내용 확인");
         for (HashMap vo : diarylist) {
             System.out.println(vo);
 
@@ -97,11 +97,21 @@ public class DiaryController {
             }
 
             switch (history) {
-                case "아침": result[0].add(vo); break;
-                case "점심": result[1].add(vo); break;
-                case "저녁": result[2].add(vo); break;
-                case "간식": result[3].add(vo); break;
-                default: System.out.println("예외적인 history: " + history); break;
+                case "아침":
+                    result[0].add(vo);
+                    break;
+                case "점심":
+                    result[1].add(vo);
+                    break;
+                case "저녁":
+                    result[2].add(vo);
+                    break;
+                case "간식":
+                    result[3].add(vo);
+                    break;
+                default:
+                    System.out.println("예외적인 history: " + history);
+                    break;
             }
         }
 
@@ -140,53 +150,53 @@ public class DiaryController {
 
 
     //리포트페이지
-	@RequestMapping("report")
-	public String report(
-			Model m,
-			String seldate,
-			HttpSession sess) {
-		//diaryservice.getReportChart(year, month);
-		String email;
-		if(sess.getAttribute("user")==null)
-			return "redirect:/regist/login";
-		else 
-			email = (String)sess.getAttribute("user");
-		if(seldate==null)
-			seldate = LocalDate.now().toString();
-		// 날짜 년, 월 분리
-		String[] year_month = seldate.split("-");
-		// 차트 데이터 DB에서 가져오기
-		List<HashMap> reports = 
-				diaryservice.getReportChart(
-						email ,year_month[0], year_month[1]
-				);
-		
-		// 다이어리 데이터(사진) DB에서 가져오기
-		List<HashMap> diary = diaryservice.getDiary(email, seldate);
-		m.addAttribute("reports", reports);
-		m.addAttribute("seldate", seldate);
-		m.addAttribute("diaries", diary);
-		return "/diary/report";
-	}
-	
-	// 리포트페이지 사진 삭제
-	@Transactional
-	@RequestMapping("deleteDiary")
-	public String deleteDiary(String datano, String seldate) {
-		DiaryVO diary = diaryservice.getDeleteDiary(datano);
-		System.out.println(diary);
-		diaryservice.deleteDiary(diary);
-		diaryservice.deletePhoto(diary);
-		
-		//seldate가 null이면 오늘날짜입력
-		LocalDate now = LocalDate.now();
-		if(seldate==null || seldate.equals("")) {
-			seldate = now.toString();
-		}
-		return "redirect:/diary/report?seldate="+seldate;
-	}
-	
-	// 사진저장
+    @RequestMapping("report")
+    public String report(
+            Model m,
+            String seldate,
+            HttpSession sess) {
+        //diaryservice.getReportChart(year, month);
+        String email;
+        if (sess.getAttribute("user") == null)
+            return "redirect:/regist/login";
+        else
+            email = (String) sess.getAttribute("user");
+        if (seldate == null)
+            seldate = LocalDate.now().toString();
+        // 날짜 년, 월 분리
+        String[] year_month = seldate.split("-");
+        // 차트 데이터 DB에서 가져오기
+        List<HashMap> reports =
+                diaryservice.getReportChart(
+                        email, year_month[0], year_month[1]
+                );
+
+        // 다이어리 데이터(사진) DB에서 가져오기
+        List<HashMap> diary = diaryservice.getDiary(email, seldate);
+        m.addAttribute("reports", reports);
+        m.addAttribute("seldate", seldate);
+        m.addAttribute("diaries", diary);
+        return "/diary/report";
+    }
+
+    // 리포트페이지 사진 삭제
+    @Transactional
+    @RequestMapping("deleteDiary")
+    public String deleteDiary(String datano, String seldate) {
+        DiaryVO diary = diaryservice.getDeleteDiary(datano);
+        System.out.println(diary);
+        diaryservice.deleteDiary(diary);
+        diaryservice.deletePhoto(diary);
+
+        //seldate가 null이면 오늘날짜입력
+        LocalDate now = LocalDate.now();
+        if (seldate == null || seldate.equals("")) {
+            seldate = now.toString();
+        }
+        return "redirect:/diary/report?seldate=" + seldate;
+    }
+
+    // 사진저장
     // Flask 분석 결과를 받아 diary에 저장
     @ResponseBody
     @RequestMapping("savePhotoDiary")
@@ -222,41 +232,41 @@ public class DiaryController {
 
 
     //다이어리 메뉴얼 입력
-	@ResponseBody
-	@RequestMapping("saveManualDiary")
-	public String saveMenualDiary(DiaryVO diary, HttpSession sess) {
-		if(sess.getAttribute("user") == null) return "세션만료";
-		//System.out.println("호출");
-		//System.out.println(diary);
-		diary.setEmail((String)sess.getAttribute("user"));
-		diaryservice.insertDiary(diary);
-		return "finish";
-	}
-	
-	
-	@ResponseBody
-	@RequestMapping("saveWeight")
-	public String saveWeight(
-			HttpSession sess,
-			WeightVO weight) {
-		if(sess.getAttribute("user")==null) {
-			return "fail";
-		}
-		String email = (String)sess.getAttribute("user");
-		weight.setEmail(email);
-		WeightVO seldayweight = weightservice.seldayWeight(weight);
-		if(seldayweight!=null) {
-			weightservice.updateWeight(weight);
-		}else {
-			weight.setEmail((String)sess.getAttribute("user"));
-			weightservice.insertWeight(weight);
-		}
-		return "DB입력성공";
-	}
-	
-	@RequestMapping("photo")
-	public String photo() {
-		return "/diary/detail_photo";
-	}
+    @ResponseBody
+    @RequestMapping("saveManualDiary")
+    public String saveMenualDiary(DiaryVO diary, HttpSession sess) {
+        if (sess.getAttribute("user") == null) return "세션만료";
+        //System.out.println("호출");
+        //System.out.println(diary);
+        diary.setEmail((String) sess.getAttribute("user"));
+        diaryservice.insertDiary(diary);
+        return "finish";
+    }
+
+
+    @ResponseBody
+    @RequestMapping("saveWeight")
+    public String saveWeight(
+            HttpSession sess,
+            WeightVO weight) {
+        if (sess.getAttribute("user") == null) {
+            return "fail";
+        }
+        String email = (String) sess.getAttribute("user");
+        weight.setEmail(email);
+        WeightVO seldayweight = weightservice.seldayWeight(weight);
+        if (seldayweight != null) {
+            weightservice.updateWeight(weight);
+        } else {
+            weight.setEmail((String) sess.getAttribute("user"));
+            weightservice.insertWeight(weight);
+        }
+        return "DB입력성공";
+    }
+
+    @RequestMapping("photo")
+    public String photo() {
+        return "/diary/detail_photo";
+    }
 
 }
