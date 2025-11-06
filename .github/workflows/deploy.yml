@@ -1,64 +1,73 @@
-name: Deploy Calories Cut Project via Oracle VM
+name: Deploy Calories Cut Project via High-Speed Build
 
 on:
   push:
     branches:
-      - main # 
+      - main # Deployment trigger branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     
     steps:
-      # 1. checkout repo
+      # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2. Github Action to VM(Oracl) 
+      # 2. Set up Java Environment (on GA Runner for fast build)
+      # Setting up Java for Maven build on the high-speed runner.
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+          
+      # 3. Maven Build (Executed on the fast GA Runner)
+      - name: Build WAR file on Runner
+        run: mvn clean package -DskipTests
+        
+      # 4. Set up SSH Key for VM (GA to VM access)
       - name: Set up SSH Key for VM
         uses: webfactory/ssh-agent@v0.8.0
         with:
-          # use private key
+          # Use private key registered in GitHub Secrets for VM access
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           
-      # 3. connect to VM and deploy
-      - name: Deploy via Oracle VM to Raspberry Pi
+      # 5. WAR File Transfer and Pi Deployment (2-Hop Routing via VM)
+      - name: Transfer & Deploy via VM
         run: |
-          echo "Connecting to Oracle VM..."
-         
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            echo "Connected to Oracle VM"
+          echo "Transferring WAR file to Oracle VM (1st Hop)..."
+          
+          # 5-1. Send WAR file from GA Runner to Oracle VM (Temporary storage)
+          # Use ServerAliveInterval=15 for SSH Keep-Alive to prevent disconnects.
+          scp -o StrictHostKeyChecking=no target/healthML-0.0.1.war \
+          ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/healthML.war_temp
+          
+          echo "File successfully transferred to VM. Connecting to VM to finalize deployment..."
 
-            # 3-1. check the project and clone
-            PROJECT_DIR="~/calories_cut_project"
-            REPO_URL="https://github.com/${{ github.repository }}.git"
-           
-            if [ -d "$PROJECT_DIR" ]; then
-              echo "Project directory exists. Pulling latest changes..."
-              cd "$PROJECT_DIR"
-              git pull origin main
-            else
-              echo "Project directory not found. Cloning repository..."
-              git clone "$REPO_URL" "$PROJECT_DIR"
-              cd "$PROJECT_DIR"
-            fi
-            
-            # 3-2. Maven build
-            echo "Building project with Maven..."
-            mvn clean package -DskipTests
-            echo "Build completed in VM"
-            
-            # 3-3. send file to pi and restart PM2
-            echo "Transferring and restarting on Raspberry Pi..."
-            
+          # 5-2. SSH into Oracle VM to route the file to Pi and restart service
+          # VM is used only as a router.
+          ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=15 ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            echo "Connected to Oracle VM - Routing traffic..."
+
+            # 5-2-1. Load the Pi SSH key (github_actions_pi)
             eval "$(ssh-agent -s)" > /dev/null
             ssh-add ~/.ssh/github_actions_pi
             
-            # Through SCP, send WAR file to pi from VM
-            scp -o StrictHostKeyChecking=no target/healthML.war \
+            # 5-2-2. SCP from VM to Pi (2nd Hop & Rename)
+            echo "Transferring from VM to Pi and restarting PM2..."
+            
+            # Rename healthML.war_temp to healthML.war during transfer to Pi's home directory
+            scp -o StrictHostKeyChecking=no ~/healthML.war_temp \
             pi@ssh.wadeverse.net:~/healthML.war 
 
+            # 5-2-3. Restart the PM2 process
+            # Ensure 'healthML' is the correct PM2 process name on Pi
             ssh pi@ssh.wadeverse.net "pm2 restart healthML" 
+            
+            # 5-2-4. Delete temporary file on VM
+            rm ~/healthML.war_temp
             
             echo "Deployment to Raspberry Pi completed successfully!"
           EOF
