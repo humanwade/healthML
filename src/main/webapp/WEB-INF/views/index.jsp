@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Calories Cut</title>
+    <title>This is for test</title>
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <meta content="Webflow" name="generator">
     <link href="css/normalize.css" rel="stylesheet" type="text/css">
