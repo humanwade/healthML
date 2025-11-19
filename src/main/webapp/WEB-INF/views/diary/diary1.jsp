@@ -567,7 +567,7 @@
 			$('#myModal4').css('display', 'none');	
 		});
 		
-		// 매뉴얼 입력 카테고리 검색
+		// 매뉴얼 입력 카테고리검색
 		const searchingfood = () => {
 			let searchkey = $('.search-food').val();
 			let foodcal = foodinfo[searchkey];
