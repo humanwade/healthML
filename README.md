@@ -1,239 +1,173 @@
-# 🍱 Calories Cut – Web-Based Health Diary with AI Food Recognition  
-🔗 [Live Demo - Calories Cut](http://health.wadeverse.net/)
+# Calories Cut – AI-Powered Health Tracking Platform
+🔗 [Live Demo](https://health.wadeverse.net/) | 🔗 [API Service](https://health-api.wadeverse.net/)
+
+![Java](https://img.shields.io/badge/Java-Spring%20MVC-red)
+![Python](https://img.shields.io/badge/Python-Flask%20%7C%20TensorFlow-blue)
+![MySQL](https://img.shields.io/badge/Database-MySQL-orange)
+![DevOps](https://img.shields.io/badge/Infrastructure-Oracle%20Cloud%20%7C%20Raspberry%20Pi-green)
 
 ---
 
-## 🧩 Project Overview  
+## Project Overview
+**Calories Cut** is a full-stack web application designed to automate dietary tracking using Computer Vision.
+Unlike simple CRUD apps, this project focuses on **end-to-end system architecture**—integrating a Java Spring backend, a Python AI microservice, and a self-hosted Linux infrastructure.
 
-**Calories Cut** is a web-based health tracking platform that helps users log their meals, analyze dietary habits, and maintain fitness goals.  
-By uploading food images, users can automatically receive calorie and nutritional breakdowns thanks to a custom-trained AI model.  
-
-The platform combines **frontend design**, **backend architecture**, and **machine learning integration** to deliver a seamless user experience for health-conscious individuals.  
-
----
-
-## 🛠️ Tech Stack  
-
-| Area | Technologies Used | 
-|-----------|-----------|
-| **Frontend** | JSP, HTML/CSS, JavaScript, jQuery, Webflow |
-| **Backend** | Spring Boot, Spring MVC, MyBatis, JSP, Maven |
-| **Database** | MySQL |
-| **ML Server** | Python, Flask, TensorFlow (CNN-based model) |
-| **Deployment** | Ubuntu, Oracle Cloud (OCI), Nginx, SSL, SCP, nohup, Spring Boot WAR Deployment |
-| **Others** | AJAX, REST APIs, File Upload, Session Handling, Email Authentication |
+The goal was to build a **production-grade system** that handles real-time image inference, complex data relationships, and automated deployments.
 
 ---
 
-## ✨ Core Features  
+## System Architecture & Infrastructure
 
-### 👤 User Features  
-- Email verification-based sign-up  
-- Custom goal setting: lose, maintain, or gain weight  
-- Body & activity level registration  
-- Login / Logout / Password reset  
+This project implements a **Hybrid Cloud & Edge Architecture** to optimize cost and performance.
 
-### 🤖 AI-Powered Meal Logging  
-- Upload meal photo → AI model classifies the food item  
-- Calories and macronutrients (carbs, proteins, fats) automatically calculated  
-- Food records viewable per day, with edit/delete functionality  
+```mermaid
+flowchart TD
+    %% User Environment
+    subgraph Client_Side ["User Environment"]
+        User["User Browser"]
+        GitHub["GitHub Actions (CI/CD)"]
+    end
 
-### 📰 News & Recipes  
-- Health-related news crawling & summarization via external API  
-- Healthy recipe suggestions  
+    %% Oracle Cloud (Relay for Deployment only)
+    subgraph Cloud_Infrastructure ["Oracle Cloud (Deployment Relay)"]
+        VM["Oracle VM (SSH Jump Host)"]
+        note["Runs only during Deployment"]
+    end
 
-### 🧾 My Page  
-- Profile photo upload/change (with image storage and DB linkage)  
-- View/edit user goals & food history  
-- Visualized reports (includes infinite scroll implementation)  
+    %% Raspberry Pi (Actual Production Server)
+    subgraph Edge_Server ["Raspberry Pi 5 (Production Server)"]
+        Tunnel["Cloudflare Tunnel (Ingress)"]
+        Nginx["Nginx Reverse Proxy"]
+        Spring["Spring Boot Backend :8080"]
+        MySQL[("MySQL Database")]
+        Flask["Flask AI Service :5000"]
+    end
 
----
+    %% 1. User Traffic Flow (Solid Lines)
+    User ==>|"HTTPS (wadeverse.net)"| Tunnel
+    Tunnel ==>|"Secure Local Traffic"| Nginx
+    Nginx -->|"Proxy Pass"| Spring
+    Spring -->|"JDBC Read/Write"| MySQL
+    Spring -->|"REST API Call (Image)"| Flask
+    Flask -->|"Inference JSON"| Spring
 
-## 🧠 Machine Learning Model – CNN Food Classifier  
+    %% 2. Deployment Pipeline Flow (Dotted Lines)
+    GitHub -.->|"1. Build & SCP WAR"| VM
+    VM -.->|"2. Relay WAR (SSH Tunnel)"| Edge_Server
+    
+    %% Styling (Optional)
+    linkStyle 0,1 stroke-width:2px,fill:none,stroke:green;
+    linkStyle 6,7 stroke-width:2px,fill:none,stroke:red,stroke-dasharray: 5 5;
+```
 
-**Custom Dataset Collection**  
-- Manually crawled food images from Google  
-- Manually cleaned: removed irrelevant/broken images  
-
-**Model Training**  
-- Used a CNN-based classifier with 10 food categories  
-- Trained and evaluated using TensorFlow/Keras  
-- Deployed using a lightweight Flask API for real-time predictions  
-
-⚠️ **Limitations:**  
-Due to limited dataset and model scope, only 10 predefined food categories are supported.  
-However, the experience covered the full ML pipeline – data collection, cleaning, training, and API integration – all done independently.  
-
----
-
-## ☁️ Deployment Details  
-
-- WAR file packaged using Maven and deployed on Oracle Cloud (Ubuntu)  
-- **Spring Boot server:**  
-  ```bash
-  nohup java -jar healthML.war --spring.profiles.active=dev > spring.log 2>&1 &
-- **Spring Boot server:**
-  ```bash
-  nohup python3 photoDBinsert.py > flask.log 2>&1 &
-
-  
-## 🤞 Future Improvements  
-
-- 💻 **Responsive design:** Currently PC-optimized; planned redesign using Tailwind or Webflow  
-- 🍱 **Extend model classes:** Expand from 10 → 50+ food types  
-- 🧩 **Additional features:** Favorites, personalized meal plans, OCR for food labels  
+### Infrastructure Highlights
+* **Self-Hosted Server:** Configured a **Raspberry Pi 5** as a production server, managed via **SSH** and **Linux (Ubuntu)**.
+* **Network Security:** Implemented **Cloudflare Tunnel** to expose local services securely (HTTPS) without opening vulnerable ports on the router.
+* **Process Management:** Used **PM2** to ensure zero-downtime for Node.js and Python services, with automated log rotation.
+* **CI/CD Pipeline:** Automated deployment using **GitHub Actions**, pushing artifacts to Oracle VM and syncing with the Edge Server.
 
 ---
 
-## 🖼️ Screenshots  
+## Tech Stack
 
-### 🏠 Start Page  
+| Domain | Technologies |
+| :--- | :--- |
+| **Backend** | Java (Spring MVC), MyBatis, Maven |
+| **AI Microservice** | Python, Flask, TensorFlow/Keras, OpenCV |
+| **Database** | MySQL (Normalized Schema, Complex JOINs) |
+| **Frontend** | JSP, JSTL, jQuery (AJAX), Chart.js, Bootstrap |
+| **DevOps** | Linux (Ubuntu), Nginx, Cloudflare Tunnel, PM2, GitHub Actions |
+
+---
+
+## Key Features & Engineering
+
+### 1. Backend Architecture (Spring MVC)
+* **Modular Design:** Strictly followed `Controller` → `Service` → `DAO` layers to separate business logic from data access.
+* **Transaction Management:** Applied `@Transactional` annotations to ensure data integrity during multi-step processes (e.g., saving image metadata + updating user logs).
+* **Session Security:** Implemented `HttpSession` interceptors to protect sensitive routes and manage user authentication states.
+
+### 2. AI Integration (Flask + TensorFlow)
+* **Microservice Pattern:** Decoupled the heavy AI inference logic (Python) from the main web server (Java) to prevent blocking threads.
+* **Model Optimization:** Trained a custom CNN model on 3,200+ images and converted it to **TFLite** with XNNPACK delegates for faster inference on ARM architecture (Raspberry Pi).
+
+### 3. Database Modeling
+* Designed a relational schema with **7+ entities** (Users, Diaries, Images, Nutrition, Exercise, Goals, etc.).
+* Optimized SQL queries using **MyBatis Dynamic SQL** to handle complex filtering and aggregation (e.g., "Weekly Calorie Avg").
+
+---
+
+## Technical Challenges Solved
+
+### Issue 1: AI Model Accuracy & Overfitting
+* **Problem:** Initial model had <50% accuracy due to noisy dataset.
+* **Solution:** Applied **Data Augmentation** (rotation, zoom) and implemented **EarlyStopping** & **Dropout (0.5)** layers.
+* **Result:** Achieved **82.5% accuracy** on validation data.
+
+### Issue 2: Full-Stack Integration Mismatch
+* **Problem:** Passing `MultipartFile` images from Spring to Flask caused encoding errors.
+* **Solution:** Standardized JSON communication and implemented proper multipart-form handling in the Flask endpoint using `werkzeug`.
+
+### Issue 3: Deployment Reliability
+* **Problem:** The Python server would occasionally crash due to memory spikes.
+* **Solution:** Deployed the service using **PM2**, configuring auto-restart policies and memory limits to ensure 24/7 availability.
+
+---
+
+## Screenshots
+
+### Start Page
 <img width="300" height="300" alt="Start Page" src="https://github.com/user-attachments/assets/33b8f979-2545-4ffb-994c-407f969b1e66" />
 
-### 🧭 Main Page  
+### Main Page
 <img width="450" height="450" alt="Main Page" src="https://github.com/user-attachments/assets/10a6d772-5ead-499f-b8b9-823d19be96ae" />
 
-### 🍳 Recipe Page  
+### Recipe Page
 <img width="450" height="350" alt="Recipe Page" src="https://github.com/user-attachments/assets/05326154-7beb-46d9-8d42-cb16ff23f57c" />
 
-### 📖 Recipe Detail Page  
+### Recipe Detail Page
 <img width="450" height="350" alt="Recipe Detail Page" src="https://github.com/user-attachments/assets/84e86c3f-704e-4071-96f8-6360248a5c1a" />
 
-### 📰 News Page  
+### News Page
 <img width="460" height="450" alt="News Page" src="https://github.com/user-attachments/assets/cc3eeaab-bc44-48ce-b626-c45a6c4267b0" />
 
-### 🏋️ Exercise Page  
+### Exercise Page
 <img width="450" height="450" alt="Exercise Page" src="https://github.com/user-attachments/assets/b706f82e-e813-4afd-94dd-8dd08962e665" />
 
-### 📔 Diary Page  
-<img width="450" height="450" alt="Diary Page 1" src="https://github.com/user-attachments/assets/edf6dca2-fc73-48e1-ae53-2758b7011ae8" />  
+### Diary Page
+<img width="450" height="450" alt="Diary Page 1" src="https://github.com/user-attachments/assets/edf6dca2-fc73-48e1-ae53-2758b7011ae8" />
 <img width="450" height="600" alt="Diary Page 2" src="https://github.com/user-attachments/assets/7c2a4026-d3a0-487d-8bf5-b1c4cbdb0288" />
 
-### 🧠 Machine Learning Result  
+### Machine Learning Result
 <img width="450" height="450" alt="ML Result" src="https://github.com/user-attachments/assets/075e570f-b89b-4ff5-869f-13e240ad7203" />
 
-
-
-## 🚀 How to Run
-
-### ⚙️ Requirements
-
-- Java 17+
-- Maven 3.8+
-- MySQL 8.x
-- Python 3.10+
-- Flask
-- Oracle Cloud (or any Ubuntu-based server)
-- [Optional] IntelliJ or preferred IDE
-
 ---
 
-### 💻 Backend – Spring Boot (WAR deployment)
+## How to Run
 
-1. **Clone the repository**
+### Prerequisites
+* Java 17+, Maven, MySQL 8.0
+* Python 3.10+
+
+### Backend Setup
 ```bash
-git clone https://github.com/humanwade/healthML.git
+git clone [https://github.com/humanwade/healthML.git](https://github.com/humanwade/healthML.git)
 cd healthML
-```
-
-2. **Set your local database credentials**  
-Change the information in `src/main/resources/application-dev.properties`:
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/yourdb  
-spring.datasource.username=yourname  
-spring.datasource.password=yourpassword  
-```
-
-3. **Package as WAR**
-```bash
+# Configure src/main/resources/application-dev.properties
 mvn clean package
+java -jar target/healthML-0.0.1.war
 ```
 
-4. **Run locally (dev profile)**
-```bash
-java -jar target/healthML-0.0.1.war --spring.profiles.active=dev
-```
-
----
-
-### 🧠 Flask ML Server
-
-1. **Go to Flask directory**
+### AI Server Setup
 ```bash
 cd flask-api
-```
-
-2. **Install requirements**
-```bash
 pip install -r requirements.txt
-```
-
-3. **Run the server**
-```bash
 python3 photoDBinsert.py
 ```
 
-## 🧩 System Architecture
-```mermaid
-flowchart TD
-  A[User_Browser] --> B[Spring_Boot_Backend]
-  B -->|Image_Upload_REST_API| C[ML_Inference_Service_Flask]
-  C -->|Prediction_Result_and_Path| D[(MySQL_Image_and_Log_Store)]
-  D --> B
-  B --> E[JSP_Frontend]
-  E -->|Render_Diary_Data| A
-```
-
-## 🌿 Workflow Overview  
-
-### 1️⃣ Data Pipeline  
-- Collected and cleaned **5,000+ labeled food images** manually from Google Images.  
-- Preprocessed using `OpenCV` (resizing, normalization) and `NumPy`.  
-- Trained a CNN-based food classifier (~4.9M parameters) with **TensorFlow/Keras**, using batch normalization and dropout for regularization.  
-- Evaluated model performance with an 80/20 validation split and exported the `.h5` model for production.  
-
-### 2️⃣ Model Deployment  
-- Served trained model through a lightweight **Flask REST API** for inference.  
-- Deployed on **Ubuntu (Oracle Cloud)** and **Raspberry Pi 5** for distributed testing.  
-- Managed uptime using **PM2** (auto-restart, log rotation, background execution).  
-- Enabled secure HTTPS routing and public accessibility via **Cloudflare Tunnel**.  
-
-### 3️⃣ System Integration  
-- **Spring Boot backend** consumes Flask API responses via REST calls for calorie prediction.  
-- Results stored in **MySQL**, linked to user accounts and food logs.  
-- Implemented **AJAX-based asynchronous requests** for responsive UI performance.  
-
-### 4️⃣ Monitoring & Versioning  
-- Used **PM2 logs** and monitoring tools to track uptime and API latency (~180–200 ms average).  
-- Created **shell scripts** for model retraining and automated service restarts.  
-
 ---
 
-### 🧠 Future MLOps Goals  
-Model Retraining Enhancement
-- Currently, the model is trained and deployed manually with collected data.
-Future updates will support periodic retraining when new food images are added,
-allowing one-command model updates for faster iteration.
-- Improved Logging & Monitoring
-At present, server health is checked through PM2 logs.
-Planned upgrades include a simple web dashboard or lightweight visualization tool (e.g., Grafana-lite)
-to monitor inference requests and system status more intuitively.
-- Better Data Management
-Image data is currently stored in a single folder.
-Future versions will adopt a date-based folder structure or expanded DB schema
-to better organize image versions and training datasets.
-- Responsive UI Redesign
-The current interface is optimized for desktop only.
-Future improvements will include mobile responsiveness using Webflow or Tailwind CSS
-for a smoother user experience across devices.
-
----
-
-### 🧩 Key Takeaways  
-This project simulates a small-scale **AI Platform**:  
-- Covers the full pipeline: **data → model → deployment → monitoring**  
-- Combines **software engineering (Spring Boot, MySQL)** with **ML infrastructure (Flask, PM2, Cloudflare)**  
-- Demonstrates practical **MLOps experience** — deploying, maintaining, and improving real AI services end-to-end.  
-
-
-
+## Future Improvements
+* **Migration to Docker:** Containerize Spring and Flask apps for easier orchestration.
+* **Responsive UI:** Refactor frontend using **React** for a true SPA experience.
+* **Expanded Dataset:** Increase food categories from 12 to 50+.
