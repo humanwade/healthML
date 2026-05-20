@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Project docs (local archive) ###
+docs/CALORIES_CUT_TECHNICAL_ARCHIVE.md
